@@ -9,7 +9,7 @@ namespace Chatter.Domain.BusinessLogic.Enums
     enum UserGroupRole
     {
         Subscriber = 0,
-        Administrator,
-        Owner
+        Administrator = 1,
+        Owner = 2
     }
 }

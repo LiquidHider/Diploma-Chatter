@@ -13,8 +13,11 @@
         public DateTime LastActiveUtc { get; set; }
 
         public List<Photo> Photos { get; set; }
+
         public List<ChatUser> Contacts { get; set; }
+
         public bool IsBlocked { get; set; }
+
         public DateTime? BlockedUntilUtc { get; set; }
     }
 }
