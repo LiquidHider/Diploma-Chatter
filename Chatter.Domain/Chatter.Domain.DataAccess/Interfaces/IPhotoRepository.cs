@@ -1,5 +1,6 @@
 ﻿using Chatter.Domain.Common.Enums;
 using Chatter.Domain.DataAccess.Models;
+using Chatter.Domain.DataAccess.Models.Pagination;
 using Chatter.Domain.DataAccess.Models.Parameters;
 
 namespace Chatter.Domain.DataAccess.Interfaces
@@ -12,6 +13,6 @@ namespace Chatter.Domain.DataAccess.Interfaces
 
         Task<DeletionStatus> DeleteAsync(Photo item, CancellationToken cancellationToken);
 
-        Task<IList<Photo>> ListAsync(PhotosListParameters listParameters, CancellationToken cancellationToken);
+        Task<PaginatedResult<Photo, PhotoSort>> ListAsync(PhotosListParameters listParameters, CancellationToken cancellationToken);
     }
 }
