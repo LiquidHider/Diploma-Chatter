@@ -16,7 +16,7 @@ namespace Chatter.Domain.DataAccess.Repositories
 {
     internal class ReportRepository : IReportRepository
     {
-        private readonly ReportSQLQueryHelper _queryBuilder;
+        private readonly ReportSQLQueryHelper _queryHelper;
         private readonly DatabaseOptions _dbOptions;
         private readonly ILogger<ReportRepository> _logger;
 
@@ -24,7 +24,7 @@ namespace Chatter.Domain.DataAccess.Repositories
         {
             _dbOptions = dbOptions?.Value;
             _logger = logger;
-            _queryBuilder = new ReportSQLQueryHelper();
+            _queryHelper = new ReportSQLQueryHelper();
         }
 
         public async Task CreateAsync(Report item, CancellationToken cancellationToken)
@@ -79,12 +79,12 @@ namespace Chatter.Domain.DataAccess.Repositories
             parameters.Add("@PageSize", listParameters.PageSize);
             parameters.Add("@PageNumber", listParameters.PageNumber);
 
-            var sortBy = _queryBuilder.Where(listParameters.SortBy.ToString());
+            var sortBy = _queryHelper.Where(listParameters.SortBy.ToString());
 
-            var sortOrder = _queryBuilder.OrderBy(listParameters.SortOrder.ToString(),
+            var sortOrder = _queryHelper.OrderBy(listParameters.SortOrder.ToString(),
                 listParameters.SortBy.ToString());
 
-            var filterQueryPart = _queryBuilder.BuildFilters(listParameters, parameters);
+            var filterQueryPart = _queryHelper.BuildFilters(listParameters, parameters);
             var query = string.Format(ReportSQLQueryHelper.ListQuery, sortBy, filterQueryPart, sortOrder);
             query.Concat($"\n {ReportSQLQueryHelper.CountQuery}");
             
@@ -120,7 +120,7 @@ namespace Chatter.Domain.DataAccess.Repositories
         {
             var parameters = new DynamicParameters();
             parameters.Add("ID", id);
-            var filterQueryPart = _queryBuilder.Where($"ID = @ID");
+            var filterQueryPart = _queryHelper.Where($"ID = @ID");
             var query = string.Format(ReportSQLQueryHelper.GetOneQuery, filterQueryPart);
 
             using (IDbConnection db = new SqlConnection(_dbOptions.ChatterDbConnection)) 
