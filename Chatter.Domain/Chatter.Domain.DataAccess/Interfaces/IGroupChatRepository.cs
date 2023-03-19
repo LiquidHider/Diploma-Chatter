@@ -10,7 +10,7 @@ namespace Chatter.Domain.DataAccess.Interfaces
 
         Task CreateAsync(GroupChat item, CancellationToken cancellationToken);
 
-        Task UpdateAsync(UpdateGroupChat item, CancellationToken cancellationToken);
+        Task<bool> UpdateAsync(UpdateGroupChat item, CancellationToken cancellationToken);
 
         Task<DeletionStatus> DeleteAsync(GroupChat item, CancellationToken cancellationToken);
 
