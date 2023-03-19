@@ -1,5 +1,6 @@
 ﻿using Chatter.Domain.Common.Enums;
 using Chatter.Domain.DataAccess.Models;
+using Chatter.Domain.DataAccess.Models.Parameters;
 
 namespace Chatter.Domain.DataAccess.Interfaces
 {
@@ -13,6 +14,6 @@ namespace Chatter.Domain.DataAccess.Interfaces
 
         Task<DeletionStatus> DeleteAsync(GroupChat item, CancellationToken cancellationToken);
 
-        Task<IList<GroupChat>> ListAsync(CancellationToken cancellationToken);
+        Task<IList<GroupChat>> ListAsync(GroupChatListParameters listParameters, CancellationToken cancellationToken);
     }
 }
