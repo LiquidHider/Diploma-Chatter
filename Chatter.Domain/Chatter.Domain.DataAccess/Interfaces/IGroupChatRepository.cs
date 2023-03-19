@@ -13,6 +13,6 @@ namespace Chatter.Domain.DataAccess.Interfaces
 
         Task<DeletionStatus> DeleteAsync(GroupChat item, CancellationToken cancellationToken);
 
-        Task<IList<GroupChat>> GetAllASync(CancellationToken cancellationToken);
+        Task<IList<GroupChat>> ListAsync(CancellationToken cancellationToken);
     }
 }
