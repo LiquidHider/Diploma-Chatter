@@ -1,8 +1,6 @@
 ﻿using Dapper;
 using System.Reflection;
 using System.Text;
-using System.Xml.Linq;
-using static Dapper.SqlMapper;
 
 namespace Chatter.Domain.DataAccess.Utilities
 {
