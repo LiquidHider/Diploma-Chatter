@@ -1,12 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Dapper;
+using System.Reflection;
 using System.Text;
+using System.Xml.Linq;
+using static Dapper.SqlMapper;
 
 namespace Chatter.Domain.DataAccess.Utilities
 {
     internal abstract class SQLQueryHelper
     {
+        public string CreateQueryUpdateParameters<TModel>(TModel model, DynamicParameters parameters)
+        {
+            PropertyInfo[] modelProperties = model.GetType().GetProperties();
+            var builder = new StringBuilder();
+            foreach (PropertyInfo modelProperty in modelProperties)
+            {
+                var propertyValue = modelProperty.GetValue(model);
+                if (propertyValue != null && modelProperty.Name.ToUpper() != "ID") 
+                {
+                    var updateQueryPart = $"{modelProperty.Name} = @{modelProperty.Name}";
+                    builder.AppendLine(updateQueryPart);
+                    parameters.Add($"@{modelProperty.Name}", propertyValue);
+                }
+            }
+            return builder.ToString();
+        }
+
         public string Where(params string[] queryParts)
         {
             var builder = new StringBuilder();
