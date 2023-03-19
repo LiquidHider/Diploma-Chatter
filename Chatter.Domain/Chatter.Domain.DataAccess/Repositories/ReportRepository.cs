@@ -119,7 +119,7 @@ namespace Chatter.Domain.DataAccess.Repositories
         public async Task<Report> GetAsync(Guid id, CancellationToken cancellationToken)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("ID", id);
+            parameters.Add("@ID", id);
             var filterQueryPart = _queryHelper.Where($"ID = @ID");
             var query = string.Format(ReportSQLQueryHelper.GetOneQuery, filterQueryPart);
 
