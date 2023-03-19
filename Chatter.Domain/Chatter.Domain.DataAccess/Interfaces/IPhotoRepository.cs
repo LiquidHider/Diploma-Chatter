@@ -1,5 +1,6 @@
 ﻿using Chatter.Domain.Common.Enums;
 using Chatter.Domain.DataAccess.Models;
+using Chatter.Domain.DataAccess.Models.Parameters;
 
 namespace Chatter.Domain.DataAccess.Interfaces
 {
@@ -9,10 +10,8 @@ namespace Chatter.Domain.DataAccess.Interfaces
 
         Task CreateAsync(Photo item, CancellationToken cancellationToken);
 
-        Task UpdateAsync(Photo item, CancellationToken cancellationToken);
-
         Task<DeletionStatus> DeleteAsync(Photo item, CancellationToken cancellationToken);
 
-        Task<IList<Photo>> GetAllASync(CancellationToken cancellationToken);
+        Task<IList<Photo>> ListAsync(PhotosListParameters listParameters, CancellationToken cancellationToken);
     }
 }
