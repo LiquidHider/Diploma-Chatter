@@ -15,7 +15,7 @@ namespace Chatter.Domain.DataAccess.Utilities
 
         public const string GetOneQuery = @"
             SELECT TOP (1) *
-            FROM [chatter].[dbo].[GroupChats]
+            FROM [dbo].[GroupChats]
             {0}";
 
 

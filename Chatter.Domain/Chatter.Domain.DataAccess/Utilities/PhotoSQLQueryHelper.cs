@@ -20,7 +20,7 @@ namespace Chatter.Domain.DataAccess.Utilities
 
         public const string GetOneQuery = @"
             SELECT TOP (1) *
-            FROM [chatter].[dbo].[Photos]
+            FROM [dbo].[Photos]
             {0}";
         public const string ListQuery = @"
             SELECT *
