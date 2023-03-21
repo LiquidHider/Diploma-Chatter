@@ -18,10 +18,10 @@ namespace Chatter.Domain.DataAccess.Repositories
         private readonly DatabaseOptions _dbOptions;
         private readonly ILogger<ChatMessageRepository> _logger;
 
-        public ChatMessageRepository(DatabaseOptions dbOptions, ILogger<ChatMessageRepository> logger)
+        public ChatMessageRepository(IOptions<DatabaseOptions> dbOptions, ILogger<ChatMessageRepository> logger)
         {
             _queryHelper = new ChatMessageSQLQueryHelper();
-            _dbOptions = dbOptions;
+            _dbOptions = dbOptions?.Value;
             _logger = logger;
         }
 
