@@ -1,6 +1,6 @@
 ﻿namespace Chatter.Domain.DataAccess.Models
 {
-    internal class ChatMessage
+    public class ChatMessage
     {
         public Guid ID { get; set; }
 

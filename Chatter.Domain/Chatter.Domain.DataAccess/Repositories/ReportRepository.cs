@@ -14,7 +14,7 @@ using System.Data.SqlClient;
 
 namespace Chatter.Domain.DataAccess.Repositories
 {
-    internal class ReportRepository : IReportRepository
+    public class ReportRepository : IReportRepository
     {
         private readonly ReportSQLQueryHelper _queryHelper;
         private readonly DatabaseOptions _dbOptions;

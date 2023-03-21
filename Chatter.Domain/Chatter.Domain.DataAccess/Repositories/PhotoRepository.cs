@@ -13,7 +13,7 @@ using System.Data.SqlClient;
 
 namespace Chatter.Domain.DataAccess.Repositories
 {
-    internal class PhotoRepository : IPhotoRepository
+    public class PhotoRepository : IPhotoRepository
     {
         private readonly ILogger<PhotoRepository> _logger;
         private readonly DatabaseOptions _dbOptions;

@@ -11,7 +11,7 @@ using System.Data.SqlClient;
 
 namespace Chatter.Domain.DataAccess.Repositories
 {
-    internal class ChatMessageRepository : IChatMessageRepository
+    public class ChatMessageRepository : IChatMessageRepository
     {
         private readonly ChatMessageSQLQueryHelper _queryHelper;
         private readonly DatabaseOptions _dbOptions;

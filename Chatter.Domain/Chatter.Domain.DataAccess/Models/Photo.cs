@@ -1,6 +1,6 @@
 ﻿namespace Chatter.Domain.DataAccess.Models
 {
-    internal class Photo
+    public class Photo
     {
         public Guid ID { get; set; }
 

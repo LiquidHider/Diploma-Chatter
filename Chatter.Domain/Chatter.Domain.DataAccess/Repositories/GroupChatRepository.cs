@@ -11,7 +11,7 @@ using System.Data.SqlClient;
 
 namespace Chatter.Domain.DataAccess.Repositories
 {
-    internal class GroupChatRepository : IGroupChatRepository
+    public class GroupChatRepository : IGroupChatRepository
     {
 
         private readonly DatabaseOptions _dbOptions;

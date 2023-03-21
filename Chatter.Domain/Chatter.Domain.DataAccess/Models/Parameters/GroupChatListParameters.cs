@@ -2,7 +2,7 @@
 
 namespace Chatter.Domain.DataAccess.Models.Parameters
 {
-    internal class GroupChatListParameters
+    public class GroupChatListParameters
     {
         public SortOrder SortOrder { get; set; }
 

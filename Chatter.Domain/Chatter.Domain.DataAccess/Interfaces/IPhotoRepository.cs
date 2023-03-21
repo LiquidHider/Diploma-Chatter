@@ -5,7 +5,7 @@ using Chatter.Domain.DataAccess.Models.Parameters;
 
 namespace Chatter.Domain.DataAccess.Interfaces
 {
-    internal interface IPhotoRepository
+    public interface IPhotoRepository
     {
         Task<Photo> GetAsync(Guid id, CancellationToken cancellationToken);
 

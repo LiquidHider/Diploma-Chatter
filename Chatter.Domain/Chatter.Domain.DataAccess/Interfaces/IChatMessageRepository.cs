@@ -4,7 +4,7 @@ using Chatter.Domain.DataAccess.Models.Parameters;
 
 namespace Chatter.Domain.DataAccess.Interfaces
 {
-    internal interface IChatMessageRepository
+    public interface IChatMessageRepository
     {
         Task<ChatMessage> GetAsync(Guid id, CancellationToken cancellationToken);
 

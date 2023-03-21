@@ -5,7 +5,7 @@ using Chatter.Domain.DataAccess.Models.Parameters;
 
 namespace Chatter.Domain.DataAccess.Interfaces
 {
-    internal interface IReportRepository
+    public interface IReportRepository
     {
         Task<Report> GetAsync(Guid id, CancellationToken cancellationToken);
 

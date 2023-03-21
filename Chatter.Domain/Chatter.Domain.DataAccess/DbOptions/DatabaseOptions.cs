@@ -1,6 +1,6 @@
 ﻿namespace Chatter.Domain.DataAccess.DbOptions
 {
-    internal class DatabaseOptions
+    public class DatabaseOptions
     {
         public const string ConfigurationSectionName = "ConnectionStrings";
 
