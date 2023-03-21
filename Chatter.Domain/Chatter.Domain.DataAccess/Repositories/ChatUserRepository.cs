@@ -6,6 +6,7 @@ using Chatter.Domain.DataAccess.Models.Parameters;
 using Chatter.Domain.DataAccess.Utilities;
 using Dapper;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -17,11 +18,11 @@ namespace Chatter.Domain.DataAccess.Repositories
         private readonly ChatUserSQLQueryHelper _queryHelper;
         private readonly ILogger<ChatUserRepository> _logger;
 
-        public ChatUserRepository(DatabaseOptions dbOptions, ILogger<ChatUserRepository> logger)
+        public ChatUserRepository(IOptions<DatabaseOptions> dbOptions, ILogger<ChatUserRepository> logger)
         {
             _queryHelper = new ChatUserSQLQueryHelper();
             _logger = logger;
-            _dbOptions = dbOptions;
+            _dbOptions = dbOptions?.Value;
         }
 
         public async Task CreateAsync(ChatUserModel item, CancellationToken cancellationToken)

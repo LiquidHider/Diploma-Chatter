@@ -7,6 +7,7 @@ using Chatter.Domain.DataAccess.Models.Parameters;
 using Chatter.Domain.DataAccess.Utilities;
 using Dapper;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
@@ -19,10 +20,10 @@ namespace Chatter.Domain.DataAccess.Repositories
         private readonly DatabaseOptions _dbOptions;
         private readonly PhotoSQLQueryHelper _queryHelper;
 
-        public PhotoRepository(ILogger<PhotoRepository> logger, DatabaseOptions dbOptions)
+        public PhotoRepository(ILogger<PhotoRepository> logger, IOptions<DatabaseOptions> dbOptions)
         {
             _logger = logger;
-            _dbOptions = dbOptions;
+            _dbOptions = dbOptions?.Value;
             _queryHelper = new PhotoSQLQueryHelper();
         }
 

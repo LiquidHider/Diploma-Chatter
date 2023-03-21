@@ -6,6 +6,7 @@ using Chatter.Domain.DataAccess.Models.Parameters;
 using Chatter.Domain.DataAccess.Utilities;
 using Dapper;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System.Data;
 using System.Data.SqlClient;
 

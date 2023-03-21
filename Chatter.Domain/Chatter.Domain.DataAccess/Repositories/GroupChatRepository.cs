@@ -6,6 +6,7 @@ using Chatter.Domain.DataAccess.Models.Parameters;
 using Chatter.Domain.DataAccess.Utilities;
 using Dapper;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -18,9 +19,9 @@ namespace Chatter.Domain.DataAccess.Repositories
         private readonly GroupChatSQLQueryHelper _queryHelper;
         private readonly ILogger<GroupChatRepository> _logger;
 
-        public GroupChatRepository(DatabaseOptions dbOptions, ILogger<GroupChatRepository> logger)
+        public GroupChatRepository(IOptions<DatabaseOptions> dbOptions, ILogger<GroupChatRepository> logger)
         {
-            _dbOptions = dbOptions;
+            _dbOptions = dbOptions?.Value;
             _queryHelper = new GroupChatSQLQueryHelper();
             _logger = logger;
         }
