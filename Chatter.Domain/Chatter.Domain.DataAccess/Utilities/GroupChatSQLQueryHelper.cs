@@ -1,7 +1,4 @@
-﻿using Chatter.Domain.DataAccess.Models;
-using Dapper;
-
-namespace Chatter.Domain.DataAccess.Utilities
+﻿namespace Chatter.Domain.DataAccess.Utilities
 {
     internal class GroupChatSQLQueryHelper : SQLQueryHelper
     {

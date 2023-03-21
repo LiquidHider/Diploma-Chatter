@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-namespace Chatter.Domain.DataAccess.Models
+﻿namespace Chatter.Domain.DataAccess.Models
 {
     internal class UpdateChatUser
     {

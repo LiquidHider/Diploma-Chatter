@@ -1,6 +1,5 @@
 ﻿using Chatter.Domain.DataAccess.Models;
 using Dapper;
-using System.Text;
 
 namespace Chatter.Domain.DataAccess.Utilities
 {
