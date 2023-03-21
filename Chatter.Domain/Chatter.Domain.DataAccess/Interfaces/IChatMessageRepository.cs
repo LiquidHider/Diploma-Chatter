@@ -6,14 +6,14 @@ namespace Chatter.Domain.DataAccess.Interfaces
 {
     public interface IChatMessageRepository
     {
-        Task<ChatMessage> GetAsync(Guid id, CancellationToken cancellationToken);
+        Task<ChatMessageModel> GetAsync(Guid id, CancellationToken cancellationToken);
 
-        Task CreateAsync(ChatMessage item, CancellationToken cancellationToken);
+        Task CreateAsync(ChatMessageModel item, CancellationToken cancellationToken);
 
-        Task<bool> UpdateAsync(UpdateChatMessage item, CancellationToken cancellationToken);
+        Task<bool> UpdateAsync(UpdateChatMessageModel item, CancellationToken cancellationToken);
 
-        Task<DeletionStatus> DeleteAsync(ChatMessage item, CancellationToken cancellationToken);
+        Task<DeletionStatus> DeleteAsync(ChatMessageModel item, CancellationToken cancellationToken);
 
-        Task<IList<ChatMessage>> ListAsync(ChatMessageListParameters listParameters, CancellationToken cancellationToken);
+        Task<IList<ChatMessageModel>> ListAsync(ChatMessageListParameters listParameters, CancellationToken cancellationToken);
     }
 }

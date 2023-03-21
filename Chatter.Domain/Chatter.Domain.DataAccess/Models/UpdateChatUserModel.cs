@@ -1,6 +1,6 @@
 ﻿namespace Chatter.Domain.DataAccess.Models
 {
-    internal class UpdateChatUser
+    internal class UpdateChatUserModel
     {
         public Guid ID { get; set; }
         public string? LastName { get; set; }

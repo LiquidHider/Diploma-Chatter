@@ -31,7 +31,7 @@ namespace Chatter.Domain.DataAccess.Utilities
             SET {0}
             WHERE ID = @ID";
 
-        public void DefineRecipientToQuery(ChatMessage item, DynamicParameters parameters) 
+        public void DefineRecipientToQuery(ChatMessageModel item, DynamicParameters parameters) 
         {
             if (item.RecipientUserId != null) 
             {

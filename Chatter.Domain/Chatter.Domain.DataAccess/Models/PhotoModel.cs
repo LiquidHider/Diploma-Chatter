@@ -1,6 +1,6 @@
 ﻿namespace Chatter.Domain.DataAccess.Models
 {
-    public class Photo
+    public class PhotoModel
     {
         public Guid ID { get; set; }
 

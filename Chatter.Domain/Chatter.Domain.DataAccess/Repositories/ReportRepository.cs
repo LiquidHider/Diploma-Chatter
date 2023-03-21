@@ -27,7 +27,7 @@ namespace Chatter.Domain.DataAccess.Repositories
             _queryHelper = new ReportSQLQueryHelper();
         }
 
-        public async Task CreateAsync(Report item, CancellationToken cancellationToken)
+        public async Task CreateAsync(ReportModel item, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Making SQL query(Create new Report).");
             var parameters = new DynamicParameters();
@@ -45,7 +45,7 @@ namespace Chatter.Domain.DataAccess.Repositories
             _logger.LogInformation("SQL query (Create new report) created and executed successfully.");
         }
 
-        public async Task<DeletionStatus> DeleteAsync(Report item, CancellationToken cancellationToken)
+        public async Task<DeletionStatus> DeleteAsync(ReportModel item, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Making SQL query(Delete Report).");
             var parameters = new DynamicParameters();
@@ -68,7 +68,7 @@ namespace Chatter.Domain.DataAccess.Repositories
             return DeletionStatus.Deleted;
         }
 
-        public async Task<PaginatedResult<Report, ReportSort>> ListASync(ReportsListParameters listParameters, CancellationToken cancellationToken)
+        public async Task<PaginatedResult<ReportModel, ReportSort>> ListASync(ReportsListParameters listParameters, CancellationToken cancellationToken)
         {
             if (listParameters == null) 
             {
@@ -96,12 +96,12 @@ namespace Chatter.Domain.DataAccess.Repositories
                 var command = new CommandDefinition(query,parameters,cancellationToken: cancellationToken);
                 var queryResult = await db.QueryMultipleAsync(command);
 
-                var entities = await queryResult.ReadAsync<Report>();
+                var entities = await queryResult.ReadAsync<ReportModel>();
                 var totalCount = await queryResult.ReadSingleAsync<int>();
 
                 var totalPages = (int)Math.Ceiling(totalCount / (double)listParameters.PageSize);
 
-                var result = new PaginatedResult<Report, ReportSort> 
+                var result = new PaginatedResult<ReportModel, ReportSort> 
                 {
                     TotalCount = totalCount,
                     TotalPages = totalPages,
@@ -116,7 +116,7 @@ namespace Chatter.Domain.DataAccess.Repositories
             }
         }
 
-        public async Task<Report> GetAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<ReportModel> GetAsync(Guid id, CancellationToken cancellationToken)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@ID", id);
@@ -126,7 +126,7 @@ namespace Chatter.Domain.DataAccess.Repositories
             using (IDbConnection db = new SqlConnection(_dbOptions.ChatterDbConnection)) 
             {
                 var command = new CommandDefinition(query,parameters, cancellationToken: cancellationToken);
-                var result = await db.QuerySingleAsync<Report>(command);
+                var result = await db.QuerySingleAsync<ReportModel>(command);
 
                 return result;
             }

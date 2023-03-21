@@ -26,7 +26,7 @@ namespace Chatter.Domain.DataAccess.Repositories
             _queryHelper = new PhotoSQLQueryHelper();
         }
 
-        public async Task CreateAsync(Photo item, CancellationToken cancellationToken)
+        public async Task CreateAsync(PhotoModel item, CancellationToken cancellationToken)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@ID",item.ID);
@@ -43,7 +43,7 @@ namespace Chatter.Domain.DataAccess.Repositories
             }
         }
 
-        public async Task<DeletionStatus> DeleteAsync(Photo item, CancellationToken cancellationToken)
+        public async Task<DeletionStatus> DeleteAsync(PhotoModel item, CancellationToken cancellationToken)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@ID",item.ID);
@@ -63,7 +63,7 @@ namespace Chatter.Domain.DataAccess.Repositories
             return DeletionStatus.Deleted;
         }
 
-        public async Task<PaginatedResult<Photo,PhotoSort>> ListAsync(PhotosListParameters listParameters, CancellationToken cancellationToken)
+        public async Task<PaginatedResult<PhotoModel,PhotoSort>> ListAsync(PhotosListParameters listParameters, CancellationToken cancellationToken)
         {
             if (listParameters == null) 
             {
@@ -86,12 +86,12 @@ namespace Chatter.Domain.DataAccess.Repositories
                 var command = new CommandDefinition(query, parameters, cancellationToken: cancellationToken);
                 var queryResult = await db.QueryMultipleAsync(command);
                 
-                var entities = await queryResult.ReadAsync<Photo>();
+                var entities = await queryResult.ReadAsync<PhotoModel>();
                 var totalCount = await queryResult.ReadSingleAsync<int>();
 
                 var totalPages = (int)Math.Ceiling(totalCount / (double)listParameters.PageSize);
 
-                var result = new PaginatedResult<Photo, PhotoSort>
+                var result = new PaginatedResult<PhotoModel, PhotoSort>
                 {
                     TotalCount = totalCount,
                     TotalPages = totalPages,
@@ -106,7 +106,7 @@ namespace Chatter.Domain.DataAccess.Repositories
             }
         }
 
-        public async Task<Photo> GetAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<PhotoModel> GetAsync(Guid id, CancellationToken cancellationToken)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@ID",id);
@@ -116,7 +116,7 @@ namespace Chatter.Domain.DataAccess.Repositories
             using (IDbConnection db = new SqlConnection(_dbOptions.ChatterDbConnection)) 
             {
                 var command = new CommandDefinition(query, parameters, cancellationToken: cancellationToken);
-                var result = await db.QuerySingleAsync<Photo>(query);
+                var result = await db.QuerySingleAsync<PhotoModel>(query);
 
                 return result;
             }

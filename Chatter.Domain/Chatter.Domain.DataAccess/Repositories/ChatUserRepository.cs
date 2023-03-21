@@ -24,7 +24,7 @@ namespace Chatter.Domain.DataAccess.Repositories
             _dbOptions = dbOptions;
         }
 
-        public async Task CreateAsync(ChatUser item, CancellationToken cancellationToken)
+        public async Task CreateAsync(ChatUserModel item, CancellationToken cancellationToken)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@ID", item.ID);
@@ -48,7 +48,7 @@ namespace Chatter.Domain.DataAccess.Repositories
             }
         }
 
-        public async Task<DeletionStatus> DeleteAsync(ChatUser item, CancellationToken cancellationToken)
+        public async Task<DeletionStatus> DeleteAsync(ChatUserModel item, CancellationToken cancellationToken)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@ID", item.ID);
@@ -68,7 +68,7 @@ namespace Chatter.Domain.DataAccess.Repositories
             return DeletionStatus.Deleted;
         }
 
-        public async Task<IList<ChatUser>> ListAsync(ChatUserListParameters listParameters, CancellationToken cancellationToken)
+        public async Task<IList<ChatUserModel>> ListAsync(ChatUserListParameters listParameters, CancellationToken cancellationToken)
         {
             if (listParameters == null)
             {
@@ -85,13 +85,13 @@ namespace Chatter.Domain.DataAccess.Repositories
 
             using (IDbConnection db = new SqlConnection(_dbOptions.ChatterDbConnection))
             {
-                var result = await db.QueryAsync<ChatUser>(command);
+                var result = await db.QueryAsync<ChatUserModel>(command);
 
                 return result.ToList();
             }
         }
 
-        public async Task<ChatUser> GetAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<ChatUserModel> GetAsync(Guid id, CancellationToken cancellationToken)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@ID", id);
@@ -101,13 +101,13 @@ namespace Chatter.Domain.DataAccess.Repositories
             using (IDbConnection db = new SqlConnection(_dbOptions.ChatterDbConnection))
             {
                 var command = new CommandDefinition(query, parameters, cancellationToken: cancellationToken);
-                var result = await db.QuerySingleAsync<ChatUser>(query);
+                var result = await db.QuerySingleAsync<ChatUserModel>(query);
 
                 return result;
             }
         }
 
-        public async Task<bool> UpdateAsync(ChatUser item, CancellationToken cancellationToken)
+        public async Task<bool> UpdateAsync(ChatUserModel item, CancellationToken cancellationToken)
         {
             var parameters = new DynamicParameters();
 

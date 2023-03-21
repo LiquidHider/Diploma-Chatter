@@ -7,12 +7,12 @@ namespace Chatter.Domain.DataAccess.Interfaces
 {
     public interface IPhotoRepository
     {
-        Task<Photo> GetAsync(Guid id, CancellationToken cancellationToken);
+        Task<PhotoModel> GetAsync(Guid id, CancellationToken cancellationToken);
 
-        Task CreateAsync(Photo item, CancellationToken cancellationToken);
+        Task CreateAsync(PhotoModel item, CancellationToken cancellationToken);
 
-        Task<DeletionStatus> DeleteAsync(Photo item, CancellationToken cancellationToken);
+        Task<DeletionStatus> DeleteAsync(PhotoModel item, CancellationToken cancellationToken);
 
-        Task<PaginatedResult<Photo, PhotoSort>> ListAsync(PhotosListParameters listParameters, CancellationToken cancellationToken);
+        Task<PaginatedResult<PhotoModel, PhotoSort>> ListAsync(PhotosListParameters listParameters, CancellationToken cancellationToken);
     }
 }
