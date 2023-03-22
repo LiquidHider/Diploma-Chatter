@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chatter.Domain.DataAccess",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chatter.Domain.API", "Chatter.Domain.API\Chatter.Domain.API.csproj", "{13278B8F-FAC3-48A8-BCF4-3AD38FA357CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chatter.Domain.Common", "Chatter.Domain.Common\Chatter.Domain.Common.csproj", "{046324ED-345A-4481-8641-251E8D2AB521}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chatter.Domain.Common", "Chatter.Domain.Common\Chatter.Domain.Common.csproj", "{046324ED-345A-4481-8641-251E8D2AB521}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chatter.Domain.Tests.IntegrationTests", "Chatter.Domain.Tests.IntegrationTests\Chatter.Domain.Tests.IntegrationTests.csproj", "{58274630-1A04-402A-A3D5-5DF81E444D37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,14 @@ Global
 		{046324ED-345A-4481-8641-251E8D2AB521}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{046324ED-345A-4481-8641-251E8D2AB521}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{046324ED-345A-4481-8641-251E8D2AB521}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8280B9A-3994-44DD-AD6A-9857BEE60891}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8280B9A-3994-44DD-AD6A-9857BEE60891}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8280B9A-3994-44DD-AD6A-9857BEE60891}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8280B9A-3994-44DD-AD6A-9857BEE60891}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58274630-1A04-402A-A3D5-5DF81E444D37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58274630-1A04-402A-A3D5-5DF81E444D37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58274630-1A04-402A-A3D5-5DF81E444D37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58274630-1A04-402A-A3D5-5DF81E444D37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
