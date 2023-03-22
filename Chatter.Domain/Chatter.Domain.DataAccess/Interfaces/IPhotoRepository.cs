@@ -11,7 +11,7 @@ namespace Chatter.Domain.DataAccess.Interfaces
 
         Task CreateAsync(PhotoModel item, CancellationToken cancellationToken);
 
-        Task<DeletionStatus> DeleteAsync(PhotoModel item, CancellationToken cancellationToken);
+        Task<DeletionStatus> DeleteAsync(Guid id, CancellationToken cancellationToken);
 
         Task<PaginatedResult<PhotoModel, PhotoSort>> ListAsync(PhotosListParameters listParameters, CancellationToken cancellationToken);
     }

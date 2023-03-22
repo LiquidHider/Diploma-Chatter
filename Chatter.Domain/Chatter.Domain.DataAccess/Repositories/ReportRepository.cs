@@ -45,11 +45,11 @@ namespace Chatter.Domain.DataAccess.Repositories
             _logger.LogInformation("SQL query (Create new report) created and executed successfully.");
         }
 
-        public async Task<DeletionStatus> DeleteAsync(ReportModel item, CancellationToken cancellationToken)
+        public async Task<DeletionStatus> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Making SQL query(Delete Report).");
             var parameters = new DynamicParameters();
-            parameters.Add("@ID", item.ID);
+            parameters.Add("@ID", id);
             int deletedRows = 0;
 
             using (IDbConnection db = new SqlConnection(_dbOptions.ChatterDbConnection))

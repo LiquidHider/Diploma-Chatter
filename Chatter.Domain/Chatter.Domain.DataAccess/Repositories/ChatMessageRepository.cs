@@ -45,10 +45,10 @@ namespace Chatter.Domain.DataAccess.Repositories
             }
         }
 
-        public async Task<DeletionStatus> DeleteAsync(ChatMessageModel item, CancellationToken cancellationToken)
+        public async Task<DeletionStatus> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@ID", item.ID);
+            parameters.Add("@ID", id);
 
             var deletedRows = 0;
 

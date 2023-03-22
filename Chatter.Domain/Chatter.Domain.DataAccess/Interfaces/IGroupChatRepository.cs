@@ -12,7 +12,7 @@ namespace Chatter.Domain.DataAccess.Interfaces
 
         Task<bool> UpdateAsync(UpdateGroupChatModel item, CancellationToken cancellationToken);
 
-        Task<DeletionStatus> DeleteAsync(GroupChatModel item, CancellationToken cancellationToken);
+        Task<DeletionStatus> DeleteAsync(Guid id, CancellationToken cancellationToken);
 
         Task<IList<GroupChatModel>> ListAsync(GroupChatListParameters listParameters, CancellationToken cancellationToken);
     }

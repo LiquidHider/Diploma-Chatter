@@ -11,7 +11,7 @@ namespace Chatter.Domain.DataAccess.Interfaces
 
         Task CreateAsync(ReportModel item, CancellationToken cancellationToken);
 
-        Task<DeletionStatus> DeleteAsync(ReportModel item, CancellationToken cancellationToken);
+        Task<DeletionStatus> DeleteAsync(Guid id, CancellationToken cancellationToken);
 
         Task<PaginatedResult<ReportModel,ReportSort>> ListASync(ReportsListParameters listParameters, CancellationToken cancellationToken);
     }

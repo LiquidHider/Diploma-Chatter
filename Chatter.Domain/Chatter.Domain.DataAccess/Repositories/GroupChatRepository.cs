@@ -41,10 +41,10 @@ namespace Chatter.Domain.DataAccess.Repositories
             }
         }
 
-        public async Task<DeletionStatus> DeleteAsync(GroupChatModel item, CancellationToken cancellationToken)
+        public async Task<DeletionStatus> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@ID",item.ID);
+            parameters.Add("@ID", id);
             int deletedRows = 0;
 
             using (IDbConnection db = new SqlConnection(_dbOptions.ChatterDbConnection)) 
