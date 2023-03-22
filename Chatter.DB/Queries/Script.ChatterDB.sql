@@ -1,11 +1,11 @@
 PRINT 'Chatter data base build...'
 BEGIN TRAN BUILD_CHATTER_DB
 BEGIN TRY
-:r  D:\Repos\Chatter\Chatter.DB\Queries\Script.CreateDB.sql
+:r  D:\Repos\Chatter\Chatter.DB\Queries\CreateDB.sql
 
-:r  D:\Repos\Chatter\Chatter.DB\Queries\Script.CreateDBAdmin.sql
+:r  D:\Repos\Chatter\Chatter.DB\Queries\CreateDBAdmin.sql
 
-:r  D:\Repos\Chatter\Chatter.DB\Queries\Script.CreateTables.sql
+:r  D:\Repos\Chatter\Chatter.DB\Queries\CreateTables.sql
 COMMIT TRAN BUILD_CHATTER_DB
 END TRY
 BEGIN CATCH
