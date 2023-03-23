@@ -56,7 +56,7 @@ namespace Chatter.Domain.DataAccess.Repositories
 
             using (IDbConnection db = new SqlConnection(_dbOptions.ChatterDbConnection))
             {
-                var command = new CommandDefinition(ChatMessageSQLQueryHelper.DeleteQuery, parameters, cancellationToken: cancellationToken);
+                var command = new CommandDefinition(ChatUserSQLQueryHelper.DeleteQuery, parameters, cancellationToken: cancellationToken);
                 deletedRows = await db.ExecuteAsync(command);
             }
 
