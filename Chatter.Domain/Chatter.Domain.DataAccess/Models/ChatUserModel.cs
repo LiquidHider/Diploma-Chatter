@@ -10,8 +10,6 @@
 
         public string Patronymic { get; set; }
 
-        public string? UserTag { get; set; }
-
         public string Email { get; set; }
 
         public string? UniversityName { get; set; }

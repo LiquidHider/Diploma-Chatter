@@ -32,7 +32,6 @@ namespace Chatter.Domain.DataAccess.Repositories
             parameters.Add("@LastName", item.LastName);
             parameters.Add("@FirstName", item.FirstName);
             parameters.Add("@Patronymic", item.Patronymic);
-            parameters.Add("@UserTag", item.UserTag);
             parameters.Add("@Email", item.Email);
             parameters.Add("@UniversityName", item.UniversityName);
             parameters.Add("@UniversityFaculty", item.UniversityFaculty);
