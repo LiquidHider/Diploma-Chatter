@@ -68,7 +68,7 @@ namespace Chatter.Domain.DataAccess.Repositories
             return DeletionStatus.Deleted;
         }
 
-        public async Task<PaginatedResult<ReportModel, ReportSort>> ListASync(ReportsListParameters listParameters, CancellationToken cancellationToken)
+        public async Task<PaginatedResult<ReportModel, ReportSort>> ListAsync(ReportsListParameters listParameters, CancellationToken cancellationToken)
         {
             if (listParameters == null) 
             {
@@ -79,14 +79,18 @@ namespace Chatter.Domain.DataAccess.Repositories
             parameters.Add("@PageSize", listParameters.PageSize);
             parameters.Add("@PageNumber", listParameters.PageNumber);
 
-            var sortBy = _queryHelper.Where(listParameters.SortBy.ToString());
+
+
+            var whereQueryPart = listParameters.ReportedUsersIDs != null && listParameters.ReportedUsersIDs.Count > 0 ?
+                _queryHelper.Where(listParameters.ReportedUsersIDs.Select(x => x.ToString()).ToArray()) 
+                : string.Empty;
 
             var sortOrder = _queryHelper.OrderBy(listParameters.SortOrder.ToString(),
                 listParameters.SortBy.ToString());
 
             var filterQueryPart = _queryHelper.BuildFilters(listParameters, parameters);
-            var query = string.Format(ReportSQLQueryHelper.ListQuery, sortBy, filterQueryPart, sortOrder);
-            query.Concat($"\n {ReportSQLQueryHelper.CountQuery}");
+            var query = string.Format(ReportSQLQueryHelper.ListQuery, whereQueryPart, filterQueryPart, sortOrder);
+            query += $"\n {string.Format(ReportSQLQueryHelper.CountQuery, whereQueryPart)}";
             
             _logger.LogDebug("Dynamic Parameters: {@parameters}", 
                 new { DynamicParameters = parameters, Query = query });

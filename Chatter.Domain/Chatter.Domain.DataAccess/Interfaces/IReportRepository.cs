@@ -13,6 +13,6 @@ namespace Chatter.Domain.DataAccess.Interfaces
 
         Task<DeletionStatus> DeleteAsync(Guid id, CancellationToken cancellationToken);
 
-        Task<PaginatedResult<ReportModel,ReportSort>> ListASync(ReportsListParameters listParameters, CancellationToken cancellationToken);
+        Task<PaginatedResult<ReportModel,ReportSort>> ListAsync(ReportsListParameters listParameters, CancellationToken cancellationToken);
     }
 }
