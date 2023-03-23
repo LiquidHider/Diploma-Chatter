@@ -6,28 +6,28 @@ namespace Chatter.Domain.DataAccess.Utilities
     internal class ChatMessageSQLQueryHelper : SQLQueryHelper
     {
         public const string CreateQuery = @"
-            INSERT INTO [dbo].[ChatMessages] ([ID],[Body],[IsEdited],[Sent],[IsRead],[Sender],[RecipientUser],[RecipientGroup])
+            INSERT INTO [dbo].[Messages] ([ID],[Body],[IsEdited],[Sent],[IsRead],[Sender],[RecipientUser],[RecipientGroup])
             VALUES (@ID, @Body, @IsEdited, @Sent, @IsRead, @Sender, @RecipientUser, @RecipientGroup)
         ";
 
         public const string DeleteQuery = @"
-        DELETE FROM [dbo].[ChatMessages]
+        DELETE FROM [dbo].[Messages]
         WHERE [ID] = @ID";
 
         public const string GetOneQuery = @"
             SELECT TOP (1) *
-            FROM [chatter].[dbo].[ChatMessages]
+            FROM [chatter].[dbo].[Messages]
             {0}";
 
 
         public const string ListQuery = @"
             SELECT *
-            FROM [dbo].[ChatMessages] 
+            FROM [dbo].[Messages] 
             {0}
             {1}";
 
         public const string UpdateQuery = @"
-            UPDATE [dbo].[ChatMessages]
+            UPDATE [dbo].[Messages]
             SET {0}
             WHERE ID = @ID";
 

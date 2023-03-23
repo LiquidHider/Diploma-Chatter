@@ -14,8 +14,8 @@
             [LastActive],
             [IsBlocked],
             [BlockedUntil])
-            VALUES (@ID, @LastName, @FirstName, @Patronymic, @UserTag, @UniversityName, @UniversityFaculty, 
-            @JoinedUtc, @LastActive, @IsBlocked, @BlockedUntil)
+            VALUES (@ID, @LastName, @FirstName, @Patronymic, @UniversityName, @UniversityFaculty, 
+            @JoinedUtc, @LastActiveUtc, @IsBlocked, @BlockedUntilUtc)
         ";
 
         public const string DeleteQuery = @"
