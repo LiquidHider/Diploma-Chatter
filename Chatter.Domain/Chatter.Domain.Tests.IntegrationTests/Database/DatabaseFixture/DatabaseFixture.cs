@@ -126,7 +126,23 @@ namespace Chatter.Domain.IntegrationTests.Database.DatabaseFixture
 
             return string.Join(";", connectionArgs);
         }
-    
+        public void ClearDatabase() 
+        {
+            var commands = DataHelper.TableNameMap.Select(x =>
+            {
+                var tableSchemaPair = x.Split(".");
+                return new CommandDefinition($"DELETE FROM[{tableSchemaPair[0]}].[{tableSchemaPair[1]}]");
+            }).Reverse();
+            using (IDbConnection db = new SqlConnection(dbOptions.ChatterDbConnection))
+            {
+                foreach (var command in commands)
+                {
+                    db.Execute(command);
+                }
+            }
+        }
+
+
         public void PopulateDatabase() 
         {
             string populateDbQuery = @"..\..\..\..\..\Chatter.DB\Queries\PopulateDatabase.sql";
