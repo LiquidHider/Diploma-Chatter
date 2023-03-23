@@ -1,10 +1,10 @@
 ﻿using Chatter.Domain.DataAccess.DbOptions;
 using Chatter.Domain.Tests.IntegrationTests.Database;
+using Chatter.Domain.Tests.IntegrationTests.Helper;
 using Dapper;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text.Json;
-using System.Xml.Linq;
 
 namespace Chatter.Domain.IntegrationTests.Database.DatabaseFixture
 {
@@ -13,6 +13,18 @@ namespace Chatter.Domain.IntegrationTests.Database.DatabaseFixture
         public readonly DatabaseOptions dbOptions;
 
         private readonly ConnectionOptions connectionOptions;
+        private const string VerifyDbExistsSql = @"
+                SELECT
+                CASE WHEN EXISTS 
+                (
+                    SELECT * 
+                    FROM INFORMATION_SCHEMA.TABLES 
+                    WHERE TABLE_SCHEMA = @Schema
+                    AND  TABLE_NAME = @TableName
+                )
+                    THEN 1
+                    ELSE 0
+                END";
 
         public DatabaseFixture()
         {
@@ -22,14 +34,46 @@ namespace Chatter.Domain.IntegrationTests.Database.DatabaseFixture
                 ChatterDbConnection = CreateConnectionString(false)
             };
         }
+
+        public bool IsDatabaseCreated() 
+        {
+            using (IDbConnection db = new SqlConnection(CreateConnectionString(false)))
+            {
+               var commands = DataHelper.TableNameMap
+               .Select(x =>
+               {
+                   var tableSchemaPair = x.Split(".");
+                   return new { TableName = x, Command = new CommandDefinition(VerifyDbExistsSql, new { Schema = tableSchemaPair[0], TableName = tableSchemaPair[1] }) };
+               });
+               foreach (var item in commands)
+               {
+                   var tableExists = db.ExecuteScalar<int>(item.Command);
+               
+                   if (tableExists != 1)
+                   {
+                       throw new Exception($"Table was not created: {item.TableName}");
+                   }
+               }
+            }
+
+            return true;
+        }
+
         public void EnsureCreated(bool createEmptyDb = true)
         {
+            if (IsDatabaseCreated() is true) 
+            {
+                return;
+            }
+
             string queriesPath = @"..\..\..\..\..\Chatter.DB\Queries\Tables";
             string createDbQuery = $"CREATE DATABASE [{connectionOptions.InitialCatalog}]";
-            string populateDbQuery = @"..\..\..\..\..\Chatter.DB\Queries\PopulateDatabase.sql";
+            
             var sqlCreateTablesQueriesPaths = Directory.EnumerateFiles(queriesPath);
+            
 
-            //connection to create database
+
+            //connection to create database using master db
             using (IDbConnection db = new SqlConnection(CreateConnectionString(true)))
             {
                 db.Execute(new CommandDefinition(createDbQuery));
@@ -46,9 +90,9 @@ namespace Chatter.Domain.IntegrationTests.Database.DatabaseFixture
                     db.Execute(new CommandDefinition(query));
                 }
 
-                if (createEmptyDb is true)
+                if (createEmptyDb is false)
                 {
-                    db.Execute(new CommandDefinition(File.ReadAllText(populateDbQuery)));
+                    PopulateDatabase();
                 }
                 db.Close();
             }
@@ -60,6 +104,7 @@ namespace Chatter.Domain.IntegrationTests.Database.DatabaseFixture
             var json = File.ReadAllText(OptionsFilename);
             return JsonSerializer.Deserialize<ConnectionOptions>(json);
         }
+
         private string CreateConnectionString(bool useMaster)
         {
             var connectionArgs = new List<string>();
@@ -82,10 +127,14 @@ namespace Chatter.Domain.IntegrationTests.Database.DatabaseFixture
             return string.Join(";", connectionArgs);
         }
     
-
-        public void EnsureDeleted() 
+        public void PopulateDatabase() 
         {
-            
+            string populateDbQuery = @"..\..\..\..\..\Chatter.DB\Queries\PopulateDatabase.sql";
+
+            using (IDbConnection db = new SqlConnection(dbOptions.ChatterDbConnection))
+            {
+                db.Execute(new CommandDefinition(File.ReadAllText(populateDbQuery)));
+            }
         }
     }
 }
