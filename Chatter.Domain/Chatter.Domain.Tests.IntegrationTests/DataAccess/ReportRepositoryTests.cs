@@ -58,7 +58,7 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
 
             //Act
             var actual = await _reportRepository.GetAsync(reportModel.ID, token);
-            _databaseFixture.ClearDatabase();
+            await _databaseFixture.ClearDatabaseAsync();
             //Assert
             actual.Should().NotBeNull();
             actual.Should().BeEquivalentTo(reportModel);
@@ -96,7 +96,7 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
             // Act
 
             var actual = await _reportRepository.DeleteAsync(reportModel.ID, token);
-            _databaseFixture.ClearDatabase();
+            await _databaseFixture.ClearDatabaseAsync();
             // Assert
             actual.Should().Be(expectedStatus);
         }
@@ -127,7 +127,7 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
         }
 
         [Fact]
-        public async void ListAsync_GetOnePage_PaginatedResultParametersMatchesWithReportsListParameters()
+        public async void ListAsync_GetFirstPage_PaginatedResultParametersMatchesExpectedListParameters()
         {
             CancellationToken token = default;
             var totalReportsCount = 5;
@@ -158,7 +158,7 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
             //Act
             var actualPaginatedResult = await _reportRepository.ListAsync(listParameters, token);
 
-            _databaseFixture.ClearDatabase();
+            await _databaseFixture.ClearDatabaseAsync();
 
             //Assert
             actualPaginatedResult.Should().BeEquivalentTo(expectedPaginatedResult);
@@ -189,7 +189,7 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
             //Act
             var actualReportsList = await _reportRepository.ListAsync(expectedListParameters, token);
 
-            _databaseFixture.ClearDatabase();
+            await _databaseFixture.ClearDatabaseAsync();
 
             var expextedReportedUsersIdsSequence = expectedReportsList.Select(x => x.Value).TakeLast(2).ToList();
             var actualReportedUsersIdsSequence = actualReportsList.Entities.Select(x => x.ReportedUserID);
@@ -222,7 +222,7 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
             //Act
             var actualReportsList = await _reportRepository.ListAsync(expectedListParameters, token);
 
-            _databaseFixture.ClearDatabase();
+            await _databaseFixture.ClearDatabaseAsync();
 
             var expextedReportedUsersIdsSequence = expectedReportsList.Select(x => x.Value).Take(3).ToList();
             var actualReportedUsersIdsSequence = actualReportsList.Entities.Select(x => x.ReportedUserID);
@@ -255,7 +255,7 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
             //Act
             var actualReportsList = await _reportRepository.ListAsync(expectedListParameters, token);
 
-            _databaseFixture.ClearDatabase();
+            await _databaseFixture.ClearDatabaseAsync();
 
             var actualListParameters = new ReportsListParameters()
             {
@@ -297,7 +297,7 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
             //Act
             var actualReportsList = await _reportRepository.ListAsync(expectedListParameters, token);
 
-            _databaseFixture.ClearDatabase();
+            await _databaseFixture.ClearDatabaseAsync();
 
             var actualListParameters = new ReportsListParameters()
             {

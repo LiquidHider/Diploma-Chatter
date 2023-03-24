@@ -126,7 +126,7 @@ namespace Chatter.Domain.IntegrationTests.Database.DatabaseFixture
 
             return string.Join(";", connectionArgs);
         }
-        public void ClearDatabase() 
+        public async Task ClearDatabaseAsync() 
         {
             var commands = DataHelper.TableNameMap.Select(x =>
             {
@@ -137,7 +137,7 @@ namespace Chatter.Domain.IntegrationTests.Database.DatabaseFixture
             {
                 foreach (var command in commands)
                 {
-                    db.Execute(command);
+                    await db.ExecuteAsync(command);
                 }
             }
         }
