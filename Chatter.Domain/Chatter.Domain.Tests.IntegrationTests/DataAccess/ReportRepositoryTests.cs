@@ -315,8 +315,60 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
             Assert.True(actualReportedUsersIdsSequence.SequenceEqual(expextedReportedUsersIdsSequence));
         }
 
-      
-       
+        [Fact]
+        public async void ListAsync_GetExistedReportssWithSpecificReportedUsersIDs_ReturnsExpectedPaginatedResult() 
+        {
+            //Arrange
+            CancellationToken token = default;
+            var reportedUsers = _chatUserFixtureHelper.CreateRandomUsersList(5);
+            var expectedPhotosCount = 6;
+            var listParameters = new ReportsListParameters()
+            {
+                PageNumber = 1,
+                PageSize = 10,
+                SortOrder = SortOrder.Desc,
+                SortBy = ReportSort.ReportedUserID,
+                ReportedUsersIDs = new List<Guid>()
+                {
+                    reportedUsers[0].ID,
+                    reportedUsers[1].ID,
+                },
+            };
+
+            var reports = _reportFixtureHelper.CreateRandomReportsList(reportedUsers);
+
+            for (int i = 0; i < 2; i++)
+            {
+                reports.Add(_reportFixtureHelper.CreateRandomReport(reportedUsers[0]));
+                reports.Add(_reportFixtureHelper.CreateRandomReport(reportedUsers[1]));
+            }
+
+            await AddReportsAndUsersToDatabase(reportedUsers, reports, token);
+
+            //Act
+            var actualPaginatedResult = await _reportRepository.ListAsync(listParameters, token);
+
+            await _databaseFixture.ClearDatabaseAsync();
+
+            var expectedPaginatedResult = new PaginatedResult<ReportModel, ReportSort>() 
+            {
+                TotalCount = expectedPhotosCount,
+                TotalPages = 1,
+                PageNumber = 1,
+                PageSize = 10,
+                SortOrder = SortOrder.Desc,
+                SortBy = ReportSort.ReportedUserID,
+                Entities = reports.Where(x => x.ReportedUserID == reportedUsers[0].ID || x.ReportedUserID == reportedUsers[1].ID)
+                .OrderByDescending(x => new SqlGuid(x.ReportedUserID)).ToList(),
+            };
+
+            var expextedReportedUsersIdsSequence = expectedPaginatedResult.Entities.Select(x => x.ReportedUserID).ToList();
+            var actualReportedUsersIdsSequence = actualPaginatedResult.Entities.Select(x => x.ReportedUserID).ToList();
+
+            //Assert
+            actualPaginatedResult.Should().BeEquivalentTo(expectedPaginatedResult, o => o.Excluding(x => x.Entities));
+            Assert.True(actualReportedUsersIdsSequence.SequenceEqual(expextedReportedUsersIdsSequence));
+        }
 
         private async Task AddReportsAndUsersToDatabase(List<ChatUserModel> users, List<ReportModel> reports, CancellationToken token)
         {

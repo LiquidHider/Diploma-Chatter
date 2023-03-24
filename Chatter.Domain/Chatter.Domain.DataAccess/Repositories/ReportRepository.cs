@@ -82,14 +82,13 @@ namespace Chatter.Domain.DataAccess.Repositories
 
 
             var whereQueryPart = listParameters.ReportedUsersIDs != null && listParameters.ReportedUsersIDs.Count > 0 ?
-                _queryHelper.Where(listParameters.ReportedUsersIDs.Select(x => x.ToString()).ToArray()) 
+                _queryHelper.Where(listParameters.ReportedUsersIDs.Select(x => $"ReportedUserID = \'{x}\'").ToArray()) 
                 : string.Empty;
 
             var sortOrder = _queryHelper.OrderBy(listParameters.SortOrder.ToString(),
                 listParameters.SortBy.ToString());
 
-            var filterQueryPart = _queryHelper.BuildFilters(listParameters, parameters);
-            var query = string.Format(ReportSQLQueryHelper.ListQuery, whereQueryPart, filterQueryPart, sortOrder);
+            var query = string.Format(ReportSQLQueryHelper.ListQuery, whereQueryPart, sortOrder);
             query += $"\n {string.Format(ReportSQLQueryHelper.CountQuery, whereQueryPart)}";
             
             _logger.LogDebug("Dynamic Parameters: {@parameters}", 

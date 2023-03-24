@@ -25,7 +25,6 @@ namespace Chatter.Domain.DataAccess.Utilities
             FROM [dbo].[Reports] 
             {0}
             {1} 
-            {2}
             OFFSET @PageSize * (@PageNumber - 1) ROWS 
             FETCH NEXT @PageSize ROWS ONLY";
 
@@ -38,27 +37,5 @@ namespace Chatter.Domain.DataAccess.Utilities
 
         private const string SearchTemplate = "ReportedUserID = @Search";
         
-        public string BuildFilters(ReportsListParameters listParameters, DynamicParameters dynamicParameters) 
-        {
-            if (listParameters == null) 
-            {
-                return string.Empty;
-            }
-            
-            var builder = new StringBuilder();
-
-            if (listParameters.ReportedUsersIDs != null && listParameters.ReportedUsersIDs.Count > 0) 
-            {
-                builder.AppendLine(string.Format(FilterTemplate, "ReportedUsersIDs", "@ReportedUsersIDs"));
-                dynamicParameters.Add("@ReportedUsersIDs", listParameters.ReportedUsersIDs.ToArray());
-            }
-
-            if (listParameters.Search != null) 
-            {
-                builder.AppendLine(SearchTemplate);
-                dynamicParameters.Add("Search",$"\"{listParameters.Search}*\"");
-            }
-            return builder.ToString();
-        }
     }
 }
