@@ -30,7 +30,7 @@ namespace Chatter.Domain.DataAccess.Utilities
             builder.AppendLine(queryParts.First());
             foreach (var part in queryParts.Where(x => x != queryParts.First()))
             {
-                builder.AppendLine($"AND {part}");
+                builder.AppendLine($"OR {part}");
             }
 
             return builder.ToString();

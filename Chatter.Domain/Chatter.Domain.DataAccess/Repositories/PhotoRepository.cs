@@ -76,13 +76,12 @@ namespace Chatter.Domain.DataAccess.Repositories
             parameters.Add("@PageNumber", listParameters.PageNumber);
 
             var whereQueryPart = listParameters.UsersIDs != null && listParameters.UsersIDs.Count > 0 ?
-                _queryHelper.Where(listParameters.UsersIDs.Select(x => x.ToString()).ToArray())
+                _queryHelper.Where(listParameters.UsersIDs.Select(x => $"UserID = \'{x}\'").ToArray())
                 : string.Empty;
 
             var sortOrder = _queryHelper.OrderBy(listParameters.SortOrder.ToString(),listParameters.SortBy.ToString());
-            var filterQueryPart = _queryHelper.BuildFilters(listParameters, parameters);
 
-            var query = string.Format(PhotoSQLQueryHelper.ListQuery, whereQueryPart, filterQueryPart, sortOrder);
+            var query = string.Format(PhotoSQLQueryHelper.ListQuery, whereQueryPart, sortOrder);
             query += $"\n {string.Format(PhotoSQLQueryHelper.CountQuery, whereQueryPart)}";
 
             using (DbConnection db = new SqlConnection(_dbOptions.ChatterDbConnection)) 

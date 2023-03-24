@@ -23,7 +23,6 @@ namespace Chatter.Domain.DataAccess.Utilities
             FROM [dbo].[Photos] 
             {0}
             {1} 
-            {2}
             OFFSET @PageSize * (@PageNumber - 1) ROWS 
             FETCH NEXT @PageSize ROWS ONLY";
 
@@ -31,24 +30,5 @@ namespace Chatter.Domain.DataAccess.Utilities
                 SELECT COUNT(*)
                 FROM [dbo].[Photos]
                 {0}";
-
-        private const string FilterTemplate = "AND {0} IN ( {1} )";
-
-        public string BuildFilters(PhotosListParameters listParameters, DynamicParameters dynamicParameters)
-        {
-            if (listParameters == null)
-            {
-                return string.Empty;
-            }
-
-            var builder = new StringBuilder();
-
-            if (listParameters.UsersIDs != null && listParameters.UsersIDs.Count > 0)
-            {
-                builder.AppendLine(string.Format(FilterTemplate, "ReportedUsersIDs", "@ReportedUsersIDs"));
-                dynamicParameters.Add("@UsersIDs", listParameters.UsersIDs.ToArray());
-            }
-            return builder.ToString();
-        }
     }
 }
