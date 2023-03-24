@@ -37,26 +37,11 @@ namespace Chatter.Domain.IntegrationTests.Database.DatabaseFixture
 
         public bool IsDatabaseCreated() 
         {
-            using (IDbConnection db = new SqlConnection(CreateConnectionString(false)))
+            using (IDbConnection db = new SqlConnection(CreateConnectionString(true)))
             {
-               var commands = DataHelper.TableNameMap
-               .Select(x =>
-               {
-                   var tableSchemaPair = x.Split(".");
-                   return new { TableName = x, Command = new CommandDefinition(VerifyDbExistsSql, new { Schema = tableSchemaPair[0], TableName = tableSchemaPair[1] }) };
-               });
-               foreach (var item in commands)
-               {
-                   var tableExists = db.ExecuteScalar<int>(item.Command);
-               
-                   if (tableExists != 1)
-                   {
-                       throw new Exception($"Table was not created: {item.TableName}");
-                   }
-               }
+                var query = $"IF DB_ID('{connectionOptions.InitialCatalog}') IS NOT NULL BEGIN SELECT 1 END ELSE BEGIN SELECT 0 END";
+                return db.ExecuteScalar<int>(new CommandDefinition(query)) == 1;
             }
-
-            return true;
         }
 
         public void EnsureCreated(bool createEmptyDb = true)
