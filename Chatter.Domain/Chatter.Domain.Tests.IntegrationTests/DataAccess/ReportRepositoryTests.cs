@@ -19,7 +19,6 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
     {
         private readonly ReportRepository _reportRepository;
         private readonly ChatUserRepository _chatUserRepository;
-        private readonly Fixture _fixture;
         private readonly DatabaseFixture _databaseFixture;
         private readonly ChatUserFixtureHelper _chatUserFixtureHelper;
         private readonly ReportFixtureHelper _reportFixtureHelper;
@@ -36,8 +35,6 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
             var optionsMock = new Mock<IOptions<DatabaseOptions>>();
             optionsMock.Setup(x => x.Value)
             .Returns(_databaseFixture.dbOptions);
-
-            _fixture = new Fixture();
 
             _reportRepository = new ReportRepository(optionsMock.Object, reportRepoLoggerMock.Object);
             _chatUserRepository = new ChatUserRepository(optionsMock.Object, chatUserRepoLoggerMock.Object);
@@ -115,6 +112,18 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
 
             // Assert
             actual.Should().Be(expectedStatus);
+        }
+
+        [Fact]
+        public async void ListAsync_SendNullListParameters_ThrowsArgumentNullException() 
+        {
+            //Arrange
+            CancellationToken token = default;
+            ReportsListParameters listParameters = null;
+
+            //Assert
+            Assert.ThrowsAsync<ArgumentNullException>(
+                () =>  _reportRepository.ListAsync(listParameters, token));
         }
 
         [Fact]
