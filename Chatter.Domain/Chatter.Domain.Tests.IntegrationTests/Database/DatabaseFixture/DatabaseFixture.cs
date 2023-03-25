@@ -35,6 +35,18 @@ namespace Chatter.Domain.IntegrationTests.Database.DatabaseFixture
             };
         }
 
+        public async Task<IEnumerable<T>> QueryAsync<T>(CommandDefinition command)
+        {
+            IEnumerable<T> entities;
+
+            using (IDbConnection db = new SqlConnection(dbOptions.ChatterDbConnection))
+            {
+                entities = await db.QueryAsync<T>(command);
+            }
+
+            return entities;
+        }
+
         public bool IsDatabaseCreated() 
         {
             using (IDbConnection db = new SqlConnection(CreateConnectionString(true)))

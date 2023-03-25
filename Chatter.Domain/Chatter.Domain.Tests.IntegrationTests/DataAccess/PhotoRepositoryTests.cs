@@ -11,7 +11,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using System.Data.SqlTypes;
-using Xunit;
 
 namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
 {
