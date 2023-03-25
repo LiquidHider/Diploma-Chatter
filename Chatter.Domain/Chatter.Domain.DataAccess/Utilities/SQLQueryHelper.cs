@@ -13,9 +13,10 @@ namespace Chatter.Domain.DataAccess.Utilities
             foreach (PropertyInfo modelProperty in modelProperties)
             {
                 var propertyValue = modelProperty.GetValue(model);
+                bool isPropertyLast = modelProperty.Name == modelProperties.Last().Name;
                 if (propertyValue != null && modelProperty.Name.ToUpper() != "ID") 
                 {
-                    var updateQueryPart = $"{modelProperty.Name} = @{modelProperty.Name}";
+                    var updateQueryPart = $"[{modelProperty.Name}] = @{modelProperty.Name}" + (isPropertyLast ? string.Empty : ",");
                     builder.AppendLine(updateQueryPart);
                     parameters.Add($"@{modelProperty.Name}", propertyValue);
                 }

@@ -7,5 +7,7 @@ namespace Chatter.Domain.DataAccess.Models.Parameters
         public SortOrder SortOrder { get; set; }
 
         public GroupChatSort SortBy { get; set; }
+
+        public Guid? UserId { get; set; }
     }
 }

@@ -8,6 +8,10 @@ namespace Chatter.Domain.DataAccess.Models.Parameters
 
         public ChatMessageSort SortBy { get; set; }
 
-        public Guid? Recipient { get; set; }
+        public bool RecipientIsGroup { get; set; }
+
+        public Guid Sender { get; set; }
+
+        public Guid Recipient { get; set; }
     }
 }
