@@ -4,7 +4,7 @@ namespace Chatter.Domain.DataAccess.Models.Parameters
 {
     public class ChatMessageListParameters
     {
-        public SortOrder SortOrder { get; set; }
+        public SortOrder SortOrder { get; set; } 
 
         public ChatMessageSort SortBy { get; set; }
 

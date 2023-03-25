@@ -16,7 +16,7 @@ namespace Chatter.Domain.DataAccess.Utilities
 
         public const string GetOneQuery = @"
             SELECT TOP (1) *
-            FROM [chatter].[dbo].[Messages]
+            FROM [dbo].[Messages]
             {0}";
 
 
@@ -33,17 +33,17 @@ namespace Chatter.Domain.DataAccess.Utilities
 
         public void DefineRecipientToQuery(ChatMessageModel item, DynamicParameters parameters) 
         {
-            if (item.RecipientUserId != null) 
+            if (item.RecipientUser != null) 
             {
-                parameters.Add("@RecipientUser", item.RecipientUserId);
+                parameters.Add("@RecipientUser", item.RecipientUser);
                 parameters.Add("@RecipientGroup", null);
                 return;
             }
 
-            if (item.RecipientGroupId != null) 
+            if (item.RecipientGroup != null) 
             {
                 parameters.Add("@RecipientUser", null);
-                parameters.Add("@RecipientGroup", item.RecipientGroupId);
+                parameters.Add("@RecipientGroup", item.RecipientGroup);
                 return;
             }
 

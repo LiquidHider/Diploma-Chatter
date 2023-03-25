@@ -12,10 +12,10 @@
 
         public bool IsRead { get; set; }
 
-        public Guid SenderId { get; set; }
+        public Guid Sender { get; set; }
 
-        public Guid? RecipientUserId { get; set; }
+        public Guid? RecipientUser { get; set; }
 
-        public Guid? RecipientGroupId { get; set; }
+        public Guid? RecipientGroup { get; set; }
     }
 }
