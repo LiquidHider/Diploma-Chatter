@@ -28,7 +28,7 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
         public GroupChatRepositoryTests()
         {
             _databaseFixture = new DatabaseFixture();
-            _databaseFixture.EnsureCreated(false);
+            _databaseFixture.EnsureCreated(true);
             _groupChatFixtureHelper = new GroupChatFixtureHelper();
             _chatUserFixtureHelper = new ChatUserFixtureHelper();
             var groupCharRepoLoggerMock = new Mock<ILogger<GroupChatRepository>>();

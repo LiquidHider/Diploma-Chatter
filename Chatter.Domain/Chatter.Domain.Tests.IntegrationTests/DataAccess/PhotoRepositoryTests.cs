@@ -26,17 +26,17 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
         public PhotoRepositoryTests()
         {
             _databaseFixture = new DatabaseFixture();
-            _databaseFixture.EnsureCreated(false);
+            _databaseFixture.EnsureCreated(true);
             _photoFixtureHelper = new PhotoFixtureHelper();
             _chatUserFixtureHelper = new ChatUserFixtureHelper();
-            var reportRepoLoggerMock = new Mock<ILogger<PhotoRepository>>();
+            var photoRepoLoggerMock = new Mock<ILogger<PhotoRepository>>();
             var chatUserRepoLoggerMock = new Mock<ILogger<ChatUserRepository>>();
 
             var optionsMock = new Mock<IOptions<DatabaseOptions>>();
             optionsMock.Setup(x => x.Value)
             .Returns(_databaseFixture.dbOptions);
 
-            _photoRepository = new PhotoRepository(reportRepoLoggerMock.Object, optionsMock.Object);
+            _photoRepository = new PhotoRepository(photoRepoLoggerMock.Object, optionsMock.Object);
             _chatUserRepository = new ChatUserRepository(optionsMock.Object, chatUserRepoLoggerMock.Object);
         }
 

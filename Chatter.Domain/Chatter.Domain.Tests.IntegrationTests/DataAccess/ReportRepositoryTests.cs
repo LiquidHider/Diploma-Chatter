@@ -26,7 +26,7 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
         public ReportRepositoryTests()
         {
             _databaseFixture = new DatabaseFixture();
-            _databaseFixture.EnsureCreated(false);
+            _databaseFixture.EnsureCreated(true);
             _chatUserFixtureHelper = new ChatUserFixtureHelper();
             _reportFixtureHelper = new ReportFixtureHelper();
             var reportRepoLoggerMock = new Mock<ILogger<ReportRepository>>();
