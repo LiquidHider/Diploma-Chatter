@@ -10,18 +10,16 @@
 
         public string Patronymic { get; set; }
 
-        public string Email { get; set; }
-
         public string? UniversityName { get; set; }
 
         public string? UniversityFaculty { get; set; }
 
         public DateTime JoinedUtc { get; set; }
 
-        public DateTime LastActiveUtc { get; set; }
+        public DateTime LastActive { get; set; }
 
         public bool IsBlocked { get; set; }
 
-        public DateTime? BlockedUntilUtc { get; set; }
+        public DateTime? BlockedUntil { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using Chatter.Domain.DataAccess.DbOptions;
 using Chatter.Domain.DataAccess.Interfaces;
 using Chatter.Domain.DataAccess.Models;
+using Chatter.Domain.DataAccess.Models.Pagination;
 using Chatter.Domain.DataAccess.Models.Parameters;
 using Chatter.Domain.DataAccess.Utilities;
 using Dapper;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Data;
 using System.Data.SqlClient;
+using System.Text;
 
 namespace Chatter.Domain.DataAccess.Repositories
 {
@@ -32,13 +34,12 @@ namespace Chatter.Domain.DataAccess.Repositories
             parameters.Add("@LastName", item.LastName);
             parameters.Add("@FirstName", item.FirstName);
             parameters.Add("@Patronymic", item.Patronymic);
-            parameters.Add("@Email", item.Email);
             parameters.Add("@UniversityName", item.UniversityName);
             parameters.Add("@UniversityFaculty", item.UniversityFaculty);
             parameters.Add("@JoinedUtc", item.JoinedUtc);
-            parameters.Add("@LastActiveUtc", item.LastActiveUtc);
+            parameters.Add("@LastActiveUtc", item.LastActive);
             parameters.Add("@IsBlocked", item.IsBlocked);
-            parameters.Add("@BlockedUntilUtc", item.BlockedUntilUtc);
+            parameters.Add("@BlockedUntilUtc", item.BlockedUntil);
 
             using (IDbConnection db = new SqlConnection(_dbOptions.ChatterDbConnection))
             {
@@ -68,26 +69,56 @@ namespace Chatter.Domain.DataAccess.Repositories
             return DeletionStatus.Deleted;
         }
 
-        public async Task<IList<ChatUserModel>> ListAsync(ChatUserListParameters listParameters, CancellationToken cancellationToken)
+        public async Task<PaginatedResult<ChatUserModel,ChatUserSort>> ListAsync(ChatUserListParameters listParameters, CancellationToken cancellationToken)
         {
             if (listParameters == null)
             {
                 throw new ArgumentException(nameof(listParameters));
             }
-
             var parameters = new DynamicParameters();
-            var sortBy = _queryHelper.Where(listParameters.SortBy.ToString());
-            var sortOrder = _queryHelper.OrderBy(listParameters.SortOrder.ToString());
+            parameters.Add("@PageSize", listParameters.PageSize);
+            parameters.Add("@PageNumber", listParameters.PageNumber);
 
-            var query = string.Format(ChatUserSQLQueryHelper.ListQuery, sortBy, sortOrder);
+            var filtersList = new List<string>();
+            if (listParameters.UniversitiesNames != null) 
+            {
+                filtersList = filtersList.Concat(listParameters.UniversitiesNames.Select(x => $"[UniversityName] = '{x}'")).ToList();
+            }
+            if (listParameters.UniversitiesFaculties != null)
+            {
+                filtersList = filtersList.Concat(listParameters.UniversitiesFaculties.Select(x => $"[UniversityFaculty] = '{x}'")).ToList();
+            }
+
+            var filter = filtersList.Count > 0 ? _queryHelper.Where(filtersList.ToArray()) : string.Empty;
+
+            var sortOrder = _queryHelper.OrderBy(listParameters.SortOrder.ToString(), listParameters.SortBy.ToString());
+
+            var query = string.Format(ChatUserSQLQueryHelper.ListQuery, filter, sortOrder);
+            query += $"\n {string.Format(ChatUserSQLQueryHelper.CountQuery, filter)}";
 
             var command = new CommandDefinition(query, parameters, cancellationToken: cancellationToken);
 
             using (IDbConnection db = new SqlConnection(_dbOptions.ChatterDbConnection))
             {
-                var result = await db.QueryAsync<ChatUserModel>(command);
+                var queryResult = await db.QueryMultipleAsync(command);
 
-                return result.ToList();
+                var entities = await queryResult.ReadAsync<ChatUserModel>();
+                var totalCount = await queryResult.ReadSingleAsync<int>();
+
+                var totalPages = (int)Math.Ceiling(totalCount / (double)listParameters.PageSize);
+
+                var result = new PaginatedResult<ChatUserModel, ChatUserSort>
+                {
+                    TotalCount = totalCount,
+                    TotalPages = totalPages,
+                    PageNumber = listParameters.PageNumber,
+                    PageSize = listParameters.PageSize,
+                    SortOrder = listParameters.SortOrder,
+                    SortBy = listParameters.SortBy,
+                    Entities = entities.ToList()
+                };
+
+                return result;
             }
         }
 
@@ -107,10 +138,10 @@ namespace Chatter.Domain.DataAccess.Repositories
             }
         }
 
-        public async Task<bool> UpdateAsync(ChatUserModel item, CancellationToken cancellationToken)
+        public async Task<bool> UpdateAsync(UpdateChatUserModel item, CancellationToken cancellationToken)
         {
             var parameters = new DynamicParameters();
-
+            parameters.Add("@ID", item.ID);
             var changeParameters = _queryHelper.CreateQueryUpdateParameters(item, parameters);
             var query = string.Format(ChatUserSQLQueryHelper.UpdateQuery, changeParameters);
 

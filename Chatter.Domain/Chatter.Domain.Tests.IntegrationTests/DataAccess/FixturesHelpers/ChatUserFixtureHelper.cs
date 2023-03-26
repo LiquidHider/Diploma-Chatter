@@ -13,19 +13,21 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess.FixturesHelpers
 
         public ChatUserModel CreateRandomChatUser()
         {
+            var formatedJoined = _fixture.Create<DateTime>().ToString("yyyy-MM-dd HH:mm:ss.ff");
+            var formatedLastActive = _fixture.Create<DateTime>().ToString("yyyy-MM-dd HH:mm:ss.ff");
+            var formatedBlockedUntil = _fixture.Create<DateTime>().ToString("yyyy-MM-dd HH:mm:ss.ff");
             return new ChatUserModel()
             {
                 ID = Guid.NewGuid(),
                 LastName = _fixture.Create<string>().Substring(0, 20),
                 FirstName = _fixture.Create<string>().Substring(0, 20),
                 Patronymic = _fixture.Create<string>().Substring(0, 20),
-                Email = _fixture.Create<string>().Substring(0, 20),
                 UniversityName = _fixture.Create<string>().Substring(0, 20),
                 UniversityFaculty = _fixture.Create<string>().Substring(0, 20),
-                JoinedUtc = _fixture.Create<DateTime>(),
-                LastActiveUtc = _fixture.Create<DateTime>(),
+                JoinedUtc = DateTime.Parse(formatedJoined),
+                LastActive = DateTime.Parse(formatedLastActive),
                 IsBlocked = _fixture.Create<bool>(),
-                BlockedUntilUtc = _fixture.Create<DateTime>()
+                BlockedUntil = DateTime.Parse(formatedBlockedUntil)
             };
         }
         public List<ChatUserModel> CreateRandomUsersList(int count)

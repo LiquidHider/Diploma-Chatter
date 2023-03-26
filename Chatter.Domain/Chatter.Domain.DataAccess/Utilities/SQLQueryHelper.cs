@@ -8,7 +8,7 @@ namespace Chatter.Domain.DataAccess.Utilities
     {
         public string CreateQueryUpdateParameters<TModel>(TModel model, DynamicParameters parameters)
         {
-            PropertyInfo[] modelProperties = model.GetType().GetProperties();
+            PropertyInfo[] modelProperties = model.GetType().GetProperties().Where(x => x.GetValue(model) != null).ToArray();
             var builder = new StringBuilder();
             foreach (PropertyInfo modelProperty in modelProperties)
             {

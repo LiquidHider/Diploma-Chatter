@@ -24,7 +24,7 @@
 
         public const string GetOneQuery = @"
             SELECT TOP (1) *
-            FROM [chatter].[dbo].[ChatUsers]
+            FROM [dbo].[ChatUsers]
             {0}";
 
 
@@ -32,11 +32,18 @@
             SELECT *
             FROM [dbo].[ChatUsers] 
             {0}
-            {1}";
+            {1}
+            OFFSET @PageSize * (@PageNumber - 1) ROWS 
+            FETCH NEXT @PageSize ROWS ONLY";
 
         public const string UpdateQuery = @"
             UPDATE [dbo].[ChatUsers]
             SET {0}
             WHERE ID = @ID";
+
+        public const string CountQuery = @"  
+                SELECT COUNT(*)
+                FROM [dbo].[ChatUsers]
+                {0}";
     }
 }

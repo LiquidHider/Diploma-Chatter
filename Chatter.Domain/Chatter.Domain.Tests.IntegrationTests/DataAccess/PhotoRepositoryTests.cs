@@ -258,12 +258,10 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
             var actualPaginatedResult = await _photoRepository.ListAsync(listParameters, token);
 
             await _databaseFixture.ClearDatabaseAsync();
-            var expectedIsMainFieldSequence = expectedPaginatedResult.Entities.Select(x => x.IsMain);
-            var actualIsMainFieldSequence = actualPaginatedResult.Entities.Select(x => x.IsMain);
 
             //Assert
             actualPaginatedResult.Should().BeEquivalentTo(expectedPaginatedResult, o => o.Excluding(x => x.Entities));
-            actualIsMainFieldSequence.Should().BeEquivalentTo(expectedIsMainFieldSequence);
+            actualPaginatedResult.Entities.Count.Should().Be(0);
         }
 
         [Fact]

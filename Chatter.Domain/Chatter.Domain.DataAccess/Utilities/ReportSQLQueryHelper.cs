@@ -1,8 +1,4 @@
-﻿using Chatter.Domain.DataAccess.Models.Parameters;
-using Dapper;
-using System.Text;
-
-namespace Chatter.Domain.DataAccess.Utilities
+﻿namespace Chatter.Domain.DataAccess.Utilities
 {
     internal class ReportSQLQueryHelper : SQLQueryHelper
     {
