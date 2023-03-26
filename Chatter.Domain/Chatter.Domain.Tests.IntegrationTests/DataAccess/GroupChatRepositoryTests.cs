@@ -60,15 +60,19 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
 
         }
 
+
+
         [Fact]
-        public async void GetGroupChatAsync_GetInexistentPhotoInDb_ThrowsInvalidOperationException()
+        public async void GetGroupChatAsync_GetInexistentGroupChatInDb_ReturnsNull()
         {
             //Arrange
             CancellationToken token = default;
 
+            //Act
+            var actual = await _groupChatRepository.GetGroupChatAsync(Guid.NewGuid(), token);
+
             //Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(
-                 () => _groupChatRepository.GetGroupChatAsync(Guid.NewGuid(), token));
+            actual.Should().BeNull();
         }
 
         [Fact]

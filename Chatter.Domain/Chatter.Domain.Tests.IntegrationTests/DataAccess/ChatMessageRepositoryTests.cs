@@ -70,15 +70,18 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
             actual.Should().BeEquivalentTo(expected);
         }
 
+
         [Fact]
-        public async void GetAsync_GetInexistentMessageInDb_ThrowsInvalidOperationExeption()
+        public async void GetAsync_GetInexistentMessageInDb_ReturnsNull()
         {
             //Arrange
             CancellationToken token = default;
 
+            //Act
+            var actual = await _chatMessageRepository.GetAsync(Guid.NewGuid(), token);
+
             //Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(
-                 () => _chatMessageRepository.GetAsync(Guid.NewGuid(), token));
+            actual.Should().BeNull();
         }
 
         [Fact]

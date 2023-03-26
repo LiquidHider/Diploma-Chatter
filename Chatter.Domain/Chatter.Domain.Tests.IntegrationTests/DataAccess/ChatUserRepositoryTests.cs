@@ -1,6 +1,5 @@
 ﻿using Chatter.Domain.Common.Enums;
 using Chatter.Domain.DataAccess.DbOptions;
-using Chatter.Domain.DataAccess.Interfaces;
 using Chatter.Domain.DataAccess.Models;
 using Chatter.Domain.DataAccess.Models.Pagination;
 using Chatter.Domain.DataAccess.Models.Parameters;
@@ -11,7 +10,6 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
-using Xunit.Sdk;
 
 namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
 {
@@ -58,14 +56,16 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
         }
 
         [Fact]
-        public async void GetAsync_GetInexistentChatUserInDb_ThrowsInvalidOperationExeption()
+        public async void GetAsync_GetInexistentChatUserInDb_ReturnsNull()
         {
             //Arrange
             CancellationToken token = default;
 
+            //Act
+            var actual = await _chatUserRepository.GetAsync(Guid.NewGuid(), token);
+
             //Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(
-                 () => _chatUserRepository.GetAsync(Guid.NewGuid(), token));
+            actual.Should().BeNull();
         }
 
         [Fact]

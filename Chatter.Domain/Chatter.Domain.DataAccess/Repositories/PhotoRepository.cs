@@ -119,7 +119,7 @@ namespace Chatter.Domain.DataAccess.Repositories
             using (IDbConnection db = new SqlConnection(_dbOptions.ChatterDbConnection)) 
             {
                 var command = new CommandDefinition(query, parameters, cancellationToken: cancellationToken);
-                var result = await db.QuerySingleAsync<PhotoModel>(command);
+                var result = await db.QueryFirstOrDefaultAsync<PhotoModel>(command);
 
                 return result;
             }

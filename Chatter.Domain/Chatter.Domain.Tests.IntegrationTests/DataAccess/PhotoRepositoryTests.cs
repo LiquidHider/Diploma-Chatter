@@ -61,14 +61,16 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
         }
 
         [Fact]
-        public async void GetAsync_GetInexistentPhotoInDb_ThrowsInvalidOperationException()
+        public async void GetAsync_GetInexistentPhotoInDb_ReturnsNull()
         {
             //Arrange
             CancellationToken token = default;
 
+            //Act
+            var actual = await _photoRepository.GetAsync(Guid.NewGuid(), token);
+
             //Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(
-                 () => _photoRepository.GetAsync(Guid.NewGuid(), token));
+            actual.Should().BeNull();
         }
 
         [Fact]

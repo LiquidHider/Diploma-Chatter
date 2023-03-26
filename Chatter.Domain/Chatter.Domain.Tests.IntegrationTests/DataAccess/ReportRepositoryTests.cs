@@ -65,15 +65,18 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
         }
 
         [Fact]
-        public async void GetAsync_GetInexistentReportInDb_ThrowsInvalidOperationExeption()
+        public async void GetAsync_GetInexistentReportInDb_ReturnsNull()
         {
             //Arrange
             CancellationToken token = default;
 
+            //Act
+            var actual = await _reportRepository.GetAsync(Guid.NewGuid(), token);
+
             //Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(
-                 () => _reportRepository.GetAsync(Guid.NewGuid(), token));
+            actual.Should().BeNull();
         }
+
 
         [Fact]
         public async void DeleteAsync_DeleteExistedReportModelFromDb_DeletionStatusIsDeleted()
