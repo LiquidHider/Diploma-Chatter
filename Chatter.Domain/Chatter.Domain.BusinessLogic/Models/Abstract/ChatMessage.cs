@@ -1,6 +1,6 @@
 ﻿namespace Chatter.Domain.BusinessLogic.Models.Abstract
 {
-    internal abstract class ChatMessage
+    public abstract class ChatMessage
     {
         public Guid ID { get; set; }
 

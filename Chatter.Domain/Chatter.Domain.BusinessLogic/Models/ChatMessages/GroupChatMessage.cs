@@ -3,7 +3,7 @@ using Chatter.Domain.BusinessLogic.Models.Chats;
 
 namespace Chatter.Domain.BusinessLogic.Models.ChatMessages
 {
-    internal class GroupChatMessage : ChatMessage
+    public class GroupChatMessage : ChatMessage
     {
         public GroupChat Recipient { get; set; }
     }

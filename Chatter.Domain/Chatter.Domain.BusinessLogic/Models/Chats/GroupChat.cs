@@ -1,9 +1,9 @@
-﻿using Chatter.Domain.BusinessLogic.Enums;
+﻿using Chatter.Domain.Common.Enums;
 using Chatter.Domain.BusinessLogic.Models.Abstract;
 
 namespace Chatter.Domain.BusinessLogic.Models.Chats
 {
-    internal class GroupChat
+    public class GroupChat
     {
         public Guid ID { get; set; }
 
@@ -11,7 +11,7 @@ namespace Chatter.Domain.BusinessLogic.Models.Chats
 
         public string Description { get; set; }
 
-        public Dictionary<ChatUser, UserGroupRole> Participants { get; set; }
+        public Dictionary<ChatUser, GroupUserRole> Participants { get; set; }
 
         public List<ChatUser> BlockedUsers { get; set; }
 

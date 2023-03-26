@@ -3,7 +3,7 @@ using Chatter.Domain.BusinessLogic.Models.Abstract;
 
 namespace Chatter.Domain.BusinessLogic.Models.Chats
 {
-    internal class PrivateChat
+    public class PrivateChat
     {
         public User Member1 { get; set; }
 

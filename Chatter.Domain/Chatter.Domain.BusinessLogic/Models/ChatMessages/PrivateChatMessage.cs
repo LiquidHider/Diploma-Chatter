@@ -2,7 +2,7 @@
 
 namespace Chatter.Domain.BusinessLogic.Models.ChatMessages
 {
-    internal class PrivateChatMessage : ChatMessage
+    public class PrivateChatMessage : ChatMessage
     {
         public ChatUser Recipient { get; set; }
     }

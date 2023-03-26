@@ -2,11 +2,11 @@
 
 namespace Chatter.Domain.BusinessLogic.Models
 {
-    internal class Report
+    public class Report
     {
         public Guid ID { get; set; }
 
-        public User ReportedUser { get; set; }
+        public ChatUser ReportedUser { get; set; }
 
         public string Title { get; set; }
 
