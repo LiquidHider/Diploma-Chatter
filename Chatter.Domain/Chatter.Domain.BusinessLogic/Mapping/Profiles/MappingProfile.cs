@@ -9,8 +9,7 @@ namespace Chatter.Domain.BusinessLogic.Mapping.Profiles
         public MappingProfile()
         {
 
-            CreateMap<Report, ReportModel>()
-                .ForMember(dest => dest.ReportedUserID, opt => opt.MapFrom(src => src.ReportedUser.ID));
+            CreateMap<Report, ReportModel>();
 
             CreateMap<ChatUser, ChatUserModel>();
         }

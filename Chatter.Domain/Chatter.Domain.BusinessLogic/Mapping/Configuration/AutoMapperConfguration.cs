@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Chatter.Domain.BusinessLogic.Mapping.Profiles;
-using Chatter.Domain.DataAccess.Interfaces;
 
 namespace Chatter.Domain.BusinessLogic.Mapping.Configuration
 {
