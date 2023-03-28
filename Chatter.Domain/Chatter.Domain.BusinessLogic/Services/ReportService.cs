@@ -18,10 +18,11 @@ namespace Chatter.Domain.BusinessLogic.Services
         private readonly ILogger<ReportService> _logger;
         private readonly IMapper _mapper;
 
-        public ReportService(IReportRepository reportRepository, IChatUserRepository chatUserRepository)
+        public ReportService(IReportRepository reportRepository, IChatUserRepository chatUserRepository, ILogger<ReportService> logger)
         {
             _reportRepository = reportRepository;
             _chatUserRepository = chatUserRepository;
+            _logger = logger;
             _mapper = new AutoMapperConfguration()
                     .Configure()
                     .CreateMapper();
@@ -46,8 +47,7 @@ namespace Chatter.Domain.BusinessLogic.Services
                     ID = new Guid(),
                     Title = createReportModel.Title,
                     Message = createReportModel.Message,
-                    ReportedUser = _mapper.Map<ChatUserModel, ChatUser>(reportedUser),
-                    SentUtc = DateTime.UtcNow,
+                    ReportedUserID = createReportModel.ReportedUserID,
                 };
                 var mappedReport = _mapper.Map<ReportModel>(report);
                 await _reportRepository.CreateAsync(mappedReport, cancellationToken);
@@ -90,6 +90,14 @@ namespace Chatter.Domain.BusinessLogic.Services
             var result = new ValueServiceResult<Guid>();
             try
             {
+                var reportedUser = await _chatUserRepository.GetAsync(report.ReportedUserID, cancellationToken);
+
+                if (reportedUser == null)
+                {
+                    _logger.LogInformation("User being reported does not exist. {@Details}", new { report.ReportedUserID });
+                    return result.WithBusinessError(ReportServiceMessagesContainer.UserNotExist);
+                }
+
                 _logger.LogInformation("SendReport : {@details}", new { Class = nameof(ReportService), Method = nameof(SendReport) });
                 var mappedReport = _mapper.Map<ReportModel>(report);
                 await _reportRepository.CreateAsync(mappedReport, cancellationToken);
