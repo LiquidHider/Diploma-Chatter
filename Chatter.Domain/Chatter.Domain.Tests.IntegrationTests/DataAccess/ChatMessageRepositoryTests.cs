@@ -186,6 +186,7 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
             var userRecipient = _chatUserFixtureHelper.CreateRandomChatUser();
             var otherUser = _chatUserFixtureHelper.CreateRandomChatUser();
             var messages = _chatMessageFixtureHelper.CreateRandomChatMessagesList(5,sender, userRecipient);
+            var messages2 = _chatMessageFixtureHelper.CreateRandomChatMessagesList(5, userRecipient, sender);
             var otherMessage = _chatMessageFixtureHelper.CreateRandomChatMessage(sender, otherUser);
             var listParameters = new ChatMessageListParameters()
             {
@@ -204,7 +205,11 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
             {
                 await _chatMessageRepository.CreateAsync(message, token);
             }
-            var expected = messages.OrderBy(x => x.Sent).ToList();
+            foreach (var message in messages2)
+            {
+                await _chatMessageRepository.CreateAsync(message, token);
+            }
+            var expected = messages.Concat(messages2).OrderBy(x => x.Sent).ToList();
 
             //Act
             var actual = await _chatMessageRepository.ListAsync(listParameters,token);
