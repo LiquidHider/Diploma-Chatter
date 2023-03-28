@@ -10,6 +10,7 @@ namespace Chatter.Domain.BusinessLogic.Mapping.Profiles
         {
 
             CreateMap<Report, ReportModel>();
+            CreateMap<ReportModel, Report>();
 
             CreateMap<ChatUser, ChatUserModel>();
         }

@@ -5,6 +5,8 @@ using Chatter.Domain.BusinessLogic.Services;
 using Chatter.Domain.Common.Enums;
 using Chatter.Domain.DataAccess.Interfaces;
 using Chatter.Domain.DataAccess.Models;
+using Chatter.Domain.DataAccess.Models.Pagination;
+using Chatter.Domain.DataAccess.Models.Parameters;
 using Chatter.Domain.Tests.Common;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
@@ -19,13 +21,16 @@ namespace Chatter.Domain.Tests.UnitTests
         private readonly Mock<IChatUserRepository> _chatUserRepositoryMock;
         private readonly Mock<IReportRepository> _reportRepositoryMock;
         private readonly ChatUserFixtureHelper _chatUserFixtureHelper;
+        private readonly ReportFixtureHelper _reportFixtureHelper;
 
         public ReportServiceTests()
         {
             var reportServiceLoggerMock = new Mock<ILogger<ReportService>>();
             _reportRepositoryMock = new Mock<IReportRepository>();
             _chatUserRepositoryMock = new Mock<IChatUserRepository>();
+
             _chatUserFixtureHelper = new ChatUserFixtureHelper();
+            _reportFixtureHelper = new ReportFixtureHelper();
 
             _reportService = new ReportService(_reportRepositoryMock.Object,
                 _chatUserRepositoryMock.Object,
@@ -188,6 +193,43 @@ namespace Chatter.Domain.Tests.UnitTests
             actual.Error.Type.Should().Be(BusinessLogic.Enums.ErrorType.BusinessError);
         }
 
+        [Fact]
+        public async void GetReportsListAsync_GetFirstPageOfFiveReports_ReturnsServiceResultWithPaginatedResult()
+        {
+            //Arrange
+            CancellationToken token = default;
+            var totalReportsCount = 3;
+            var listParameters = new ReportsListParameters()
+            {
+                PageNumber = 1,
+                PageSize = 3,
+                SortOrder = _fixture.Create<SortOrder>(),
+                SortBy = _fixture.Create<ReportSort>()
+            };
 
+            var paginatedResultFromDb = new PaginatedResult<ReportModel, ReportSort>()
+            {
+                TotalCount = 5,
+                TotalPages = 2,
+                PageNumber = listParameters.PageNumber,
+                PageSize = listParameters.PageSize,
+                SortOrder = listParameters.SortOrder,
+                SortBy = listParameters.SortBy,
+                Entities = _reportFixtureHelper.CreateRandomReportsList(_chatUserFixtureHelper.CreateRandomUsersList(totalReportsCount))
+            };
+
+            _reportRepositoryMock.Setup(x => x.ListAsync(It.IsAny<ReportsListParameters>(), token))
+            .Returns(Task.FromResult(paginatedResultFromDb));
+
+            //Act
+            var actual = await _reportService.GetReportsListAsync(listParameters, token);
+
+            //Assert
+            actual.IsSuccessful.Should().BeTrue();
+            actual.Value.Should().NotBeNull();
+            actual.Value.Entities.Count.Should().Be(listParameters.PageSize);
+            actual.Value.Entities.Should().NotBeEmpty();
+            actual.Value.Entities.Should().NotContainNulls();
+        }
     }
 }

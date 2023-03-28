@@ -9,6 +9,7 @@ using Chatter.Domain.Common.Enums;
 using Chatter.Domain.DataAccess.Interfaces;
 using Chatter.Domain.DataAccess.Models;
 using Chatter.Domain.DataAccess.Models.Pagination;
+using Chatter.Domain.DataAccess.Models.Parameters;
 using Microsoft.Extensions.Logging;
 
 namespace Chatter.Domain.BusinessLogic.Services
@@ -35,7 +36,7 @@ namespace Chatter.Domain.BusinessLogic.Services
             var result = new ValueServiceResult<Report>();
             try
             {
-                _logger.LogInformation("CreateReport : {@details}", new { Class = nameof(ReportService), Method = nameof(CreateReportAsync) });
+                _logger.LogInformation("CreateReport : {@Details}", new { Class = nameof(ReportService), Method = nameof(CreateReportAsync) });
                 var reportedUser = await _chatUserRepository.GetAsync(createReportModel.ReportedUserID, cancellationToken);
 
                 if (reportedUser == null)
@@ -69,16 +70,50 @@ namespace Chatter.Domain.BusinessLogic.Services
 
             try
             {
-                _logger.LogInformation("RemoveReport : {@details}", new { Class = nameof(ReportService), Method = nameof(RemoveReportAsync) });
+                _logger.LogInformation("RemoveReport : {@Details}", new { Class = nameof(ReportService), Method = nameof(RemoveReportAsync) });
                 var deletionStatus = await _reportRepository.DeleteAsync(id, cancellationToken);
 
-                if (deletionStatus == Common.Enums.DeletionStatus.NotExisted)
+                if (deletionStatus == DeletionStatus.NotExisted)
                 {
                     _logger.LogInformation("Report with id {@Details} does not exist.", new { ReportId = id });
                     return result.WithBusinessError(ReportServiceMessagesContainer.ReportNotExist);
                 }
                 _logger.LogInformation("Report deleted. {@Details}", new { ReportId = id });
                 return result.WithValue(id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return result.WithException(ex.Message);
+            }
+        }
+
+        public async Task<ValueServiceResult<PaginatedResult<Report, ReportSort>>> GetReportsListAsync(
+            ReportsListParameters listParameters, CancellationToken cancellationToken) 
+        {
+            ValueServiceResult<PaginatedResult<Report, ReportSort>> result = new();
+            try
+            {
+                _logger.LogInformation("GetReportsList : {@Details}", new
+                {
+                    Class = nameof(ReportService),
+                    Method = nameof(GetReportsListAsync),
+                    ListParameters = listParameters
+                });
+               
+                var dbResult = await _reportRepository.ListAsync(listParameters, cancellationToken);
+
+                var mappedResult = new PaginatedResult<Report, ReportSort>()
+                {
+                    TotalCount = dbResult.TotalCount,
+                    TotalPages = dbResult.TotalPages,
+                    PageNumber = dbResult.PageNumber,
+                    SortOrder = dbResult.SortOrder,
+                    SortBy = dbResult.SortBy,
+                    Entities = dbResult.Entities.Select(x => _mapper.Map<Report>(x)).ToList()
+                };
+
+                return result.WithValue(mappedResult);
             }
             catch (Exception ex)
             {
@@ -100,7 +135,7 @@ namespace Chatter.Domain.BusinessLogic.Services
                     return result.WithBusinessError(ReportServiceMessagesContainer.UserNotExist);
                 }
 
-                _logger.LogInformation("SendReport : {@details}", new { Class = nameof(ReportService), Method = nameof(SendReportAsync) });
+                _logger.LogInformation("SendReport : {@Details}", new { Class = nameof(ReportService), Method = nameof(SendReportAsync) });
                 var mappedReport = _mapper.Map<ReportModel>(report);
                 await _reportRepository.CreateAsync(mappedReport, cancellationToken);
                 _logger.LogInformation("Report sent. {@Details}", new { ReportId = mappedReport.ID });
