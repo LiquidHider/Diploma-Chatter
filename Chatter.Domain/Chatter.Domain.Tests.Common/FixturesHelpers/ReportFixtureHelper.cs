@@ -1,9 +1,9 @@
 ﻿using AutoFixture;
 using Chatter.Domain.DataAccess.Models;
 
-namespace Chatter.Domain.Tests.IntegrationTests.DataAccess.FixturesHelpers
+namespace Chatter.Domain.Tests.Common
 {
-    internal class ReportFixtureHelper
+    public class ReportFixtureHelper
     {
         private Fixture _fixture;
 

@@ -1,4 +1,3 @@
-using AutoFixture;
 using Chatter.Domain.Common.Enums;
 using Chatter.Domain.DataAccess.DbOptions;
 using Chatter.Domain.DataAccess.Models;
@@ -6,7 +5,7 @@ using Chatter.Domain.DataAccess.Models.Pagination;
 using Chatter.Domain.DataAccess.Models.Parameters;
 using Chatter.Domain.DataAccess.Repositories;
 using Chatter.Domain.IntegrationTests.Database.DatabaseFixture;
-using Chatter.Domain.Tests.IntegrationTests.DataAccess.FixturesHelpers;
+using Chatter.Domain.Tests.Common;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
