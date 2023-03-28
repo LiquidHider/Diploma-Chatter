@@ -54,7 +54,7 @@ namespace Chatter.Domain.Tests.UnitTests
             createModel.ReportedUserID = userID;
 
             //Act
-            var actual = await _reportService.CreateReport(createModel, token);
+            var actual = await _reportService.CreateReportAsync(createModel, token);
             var expected = new Report()
             {
                 ID = actual.Value.ID,
@@ -83,13 +83,28 @@ namespace Chatter.Domain.Tests.UnitTests
             };
 
             //Act
-            var actual = await _reportService.CreateReport(createModel, token);
+            var actual = await _reportService.CreateReportAsync(createModel, token);
 
             //Assert
             actual.IsSuccessful.Should().BeFalse();
             actual.Value.Should().BeNull();
             actual.IsEmpty.Should().BeTrue();
             actual.Error.Type.Should().Be(BusinessLogic.Enums.ErrorType.BusinessError);
+        }
+
+        [Fact]
+        public async void CreateReport_CreateNewReportWithExistedUser_ReturnsServiseResultWithException()
+        {
+            //Arrange
+            CancellationToken token = default;
+
+            //Act
+            var actual = await _reportService.CreateReportAsync(null, token);
+
+            //Assert
+            actual.IsSuccessful.Should().BeFalse();
+            actual.Value.Should().BeNull();
+            actual.IsEmpty.Should().BeTrue();
         }
 
         [Fact]
@@ -102,7 +117,7 @@ namespace Chatter.Domain.Tests.UnitTests
              .Returns(Task.FromResult(DeletionStatus.Deleted));
 
             //Act
-            var actual = await _reportService.RemoveReport(reportId, token);
+            var actual = await _reportService.RemoveReportAsync(reportId, token);
 
             //Assert
             actual.IsSuccessful.Should().BeTrue();
@@ -120,7 +135,7 @@ namespace Chatter.Domain.Tests.UnitTests
              .Returns(Task.FromResult(DeletionStatus.NotExisted));
 
             //Act
-            var actual = await _reportService.RemoveReport(reportId, token);
+            var actual = await _reportService.RemoveReportAsync(reportId, token);
 
             //Assert
             actual.IsSuccessful.Should().BeFalse();
@@ -149,7 +164,7 @@ namespace Chatter.Domain.Tests.UnitTests
             .Returns(Task.FromResult(userModel));
 
             //Act
-            var actual = await _reportService.SendReport(report, token);
+            var actual = await _reportService.SendReportAsync(report, token);
             var expected = report.ID;
 
             //Assert
@@ -166,11 +181,13 @@ namespace Chatter.Domain.Tests.UnitTests
             var report = _fixture.Create<Report>();
 
             //Act
-            var actual = await _reportService.SendReport(report, token);
+            var actual = await _reportService.SendReportAsync(report, token);
 
             //Assert
             actual.IsSuccessful.Should().BeFalse();
             actual.Error.Type.Should().Be(BusinessLogic.Enums.ErrorType.BusinessError);
         }
+
+
     }
 }

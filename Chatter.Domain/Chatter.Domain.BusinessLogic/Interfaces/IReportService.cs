@@ -5,10 +5,10 @@ namespace Chatter.Domain.BusinessLogic.Interfaces
 {
     public interface IReportService
     {
-        Task<ValueServiceResult<Guid>> SendReport(Report report, CancellationToken cancellationToken);
+        Task<ValueServiceResult<Guid>> SendReportAsync(Report report, CancellationToken cancellationToken);
 
-        Task<ValueServiceResult<Report>> CreateReport(CreateReport createReportModel, CancellationToken cancellationToken);
+        Task<ValueServiceResult<Report>> CreateReportAsync(CreateReport createReportModel, CancellationToken cancellationToken);
 
-        Task<ValueServiceResult<Guid>> RemoveReport(Guid id, CancellationToken cancellationToken);
+        Task<ValueServiceResult<Guid>> RemoveReportAsync(Guid id, CancellationToken cancellationToken);
     }
 }

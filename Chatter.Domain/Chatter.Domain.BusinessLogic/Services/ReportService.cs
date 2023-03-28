@@ -5,8 +5,10 @@ using Chatter.Domain.BusinessLogic.Mapping.Configuration;
 using Chatter.Domain.BusinessLogic.MessagesContainers;
 using Chatter.Domain.BusinessLogic.Models;
 using Chatter.Domain.BusinessLogic.Models.Create;
+using Chatter.Domain.Common.Enums;
 using Chatter.Domain.DataAccess.Interfaces;
 using Chatter.Domain.DataAccess.Models;
+using Chatter.Domain.DataAccess.Models.Pagination;
 using Microsoft.Extensions.Logging;
 
 namespace Chatter.Domain.BusinessLogic.Services
@@ -28,12 +30,12 @@ namespace Chatter.Domain.BusinessLogic.Services
                     .CreateMapper();
         }
 
-        public async Task<ValueServiceResult<Report>> CreateReport(CreateReport createReportModel, CancellationToken cancellationToken)
+        public async Task<ValueServiceResult<Report>> CreateReportAsync(CreateReport createReportModel, CancellationToken cancellationToken)
         {
             var result = new ValueServiceResult<Report>();
             try
             {
-                _logger.LogInformation("CreateReport : {@details}", new { Class = nameof(ReportService), Method = nameof(CreateReport) });
+                _logger.LogInformation("CreateReport : {@details}", new { Class = nameof(ReportService), Method = nameof(CreateReportAsync) });
                 var reportedUser = await _chatUserRepository.GetAsync(createReportModel.ReportedUserID, cancellationToken);
 
                 if (reportedUser == null)
@@ -61,13 +63,13 @@ namespace Chatter.Domain.BusinessLogic.Services
             }
         }
 
-        public async Task<ValueServiceResult<Guid>> RemoveReport(Guid id, CancellationToken cancellationToken)
+        public async Task<ValueServiceResult<Guid>> RemoveReportAsync(Guid id, CancellationToken cancellationToken)
         {
             var result = new ValueServiceResult<Guid>();
 
             try
             {
-                _logger.LogInformation("RemoveReport : {@details}", new { Class = nameof(ReportService), Method = nameof(RemoveReport) });
+                _logger.LogInformation("RemoveReport : {@details}", new { Class = nameof(ReportService), Method = nameof(RemoveReportAsync) });
                 var deletionStatus = await _reportRepository.DeleteAsync(id, cancellationToken);
 
                 if (deletionStatus == Common.Enums.DeletionStatus.NotExisted)
@@ -85,7 +87,7 @@ namespace Chatter.Domain.BusinessLogic.Services
             }
         }
 
-        public async Task<ValueServiceResult<Guid>> SendReport(Report report, CancellationToken cancellationToken)
+        public async Task<ValueServiceResult<Guid>> SendReportAsync(Report report, CancellationToken cancellationToken)
         {
             var result = new ValueServiceResult<Guid>();
             try
@@ -98,7 +100,7 @@ namespace Chatter.Domain.BusinessLogic.Services
                     return result.WithBusinessError(ReportServiceMessagesContainer.UserNotExist);
                 }
 
-                _logger.LogInformation("SendReport : {@details}", new { Class = nameof(ReportService), Method = nameof(SendReport) });
+                _logger.LogInformation("SendReport : {@details}", new { Class = nameof(ReportService), Method = nameof(SendReportAsync) });
                 var mappedReport = _mapper.Map<ReportModel>(report);
                 await _reportRepository.CreateAsync(mappedReport, cancellationToken);
                 _logger.LogInformation("Report sent. {@Details}", new { ReportId = mappedReport.ID });
