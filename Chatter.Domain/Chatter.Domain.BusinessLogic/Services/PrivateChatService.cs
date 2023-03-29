@@ -4,7 +4,6 @@ using Chatter.Domain.BusinessLogic.Interfaces;
 using Chatter.Domain.BusinessLogic.Mapping.Configuration;
 using Chatter.Domain.BusinessLogic.MessagesContainers;
 using Chatter.Domain.BusinessLogic.Models;
-using Chatter.Domain.BusinessLogic.Models.Abstract;
 using Chatter.Domain.BusinessLogic.Models.ChatMessages;
 using Chatter.Domain.BusinessLogic.Models.Chats;
 using Chatter.Domain.BusinessLogic.Models.Create;
@@ -35,15 +34,15 @@ namespace Chatter.Domain.BusinessLogic.Services
                   .CreateMapper();
         }
 
-        public async Task<ValueServiceResult<PrivateChat>> CreateNewChat(User member1, User member2, CancellationToken token)
+        public async Task<ValueServiceResult<PrivateChat>> CreateNewChatAsync(Guid member1ID, Guid member2ID, CancellationToken token)
         {
             var result = new ValueServiceResult<PrivateChat>();
             try
             {
-                _logger.LogInformation("CreateNewChat : {@Details}", new { Class = nameof(PrivateChatService), Method = nameof(CreateNewChat) });
+                _logger.LogInformation("CreateNewChat : {@Details}", new { Class = nameof(PrivateChatService), Method = nameof(CreateNewChatAsync) });
 
-                var chatMember1 = await _chatUserRepository.GetAsync(member1.ID,token);
-                var chatMember2 = await _chatUserRepository.GetAsync(member2.ID,token);
+                var chatMember1 = await _chatUserRepository.GetAsync(member1ID,token);
+                var chatMember2 = await _chatUserRepository.GetAsync(member2ID,token);
 
                 if (chatMember1 is null || chatMember2 is null) 
                 {
@@ -53,8 +52,8 @@ namespace Chatter.Domain.BusinessLogic.Services
 
                 var chat = new PrivateChat() 
                 {
-                    Member1 = member1,
-                    Member2 = member2
+                    Member1ID = member1ID,
+                    Member2ID = member2ID
                 };
 
                 return result.WithValue(chat);
@@ -66,12 +65,12 @@ namespace Chatter.Domain.BusinessLogic.Services
             }
         }
 
-        public async Task<ValueServiceResult<Guid>> DeleteMessage(Guid messageId, CancellationToken token)
+        public async Task<ValueServiceResult<Guid>> DeleteMessageAsync(Guid messageId, CancellationToken token)
         {
             var result = new ValueServiceResult<Guid>();
             try
             {
-                _logger.LogInformation("DeleteMessage : {@Details}", new { Class = nameof(PrivateChatService), Method = nameof(DeleteMessage) });
+                _logger.LogInformation("DeleteMessage : {@Details}", new { Class = nameof(PrivateChatService), Method = nameof(DeleteMessageAsync) });
 
                 var deletionStatus = await _chatMessageRepository.DeleteAsync(messageId, token);
 
@@ -90,12 +89,12 @@ namespace Chatter.Domain.BusinessLogic.Services
             }
         }
 
-        public async Task<ValueServiceResult<Guid>> EditMessage(UpdateMessage updateModel, CancellationToken token)
+        public async Task<ValueServiceResult<Guid>> EditMessageAsync(UpdateMessage updateModel, CancellationToken token)
         {
             var result = new ValueServiceResult<Guid>();
             try 
             {
-                _logger.LogInformation("EditMessage : {@Details}", new { Class = nameof(PrivateChatService), Method = nameof(EditMessage) });
+                _logger.LogInformation("EditMessage : {@Details}", new { Class = nameof(PrivateChatService), Method = nameof(EditMessageAsync) });
                 updateModel.IsEdited = true;
                 var mappedUpdateModel = _mapper.Map<UpdateChatMessageModel>(updateModel);
                 var isSuccessful = await _chatMessageRepository.UpdateAsync(mappedUpdateModel, token);
@@ -116,27 +115,27 @@ namespace Chatter.Domain.BusinessLogic.Services
             }
 }
 
-        public async Task<ValueServiceResult<List<PrivateChatMessage>>> LoadChat(PrivateChat chat, CancellationToken token)
+        public async Task<ValueServiceResult<List<PrivateChatMessage>>> LoadChatAsync(PrivateChat chat, CancellationToken token)
         {
             var result = new ValueServiceResult<List<PrivateChatMessage>>();
             try
             {
-                _logger.LogInformation("LoadChat : {@Details}", new { Class = nameof(PrivateChatService), Method = nameof(LoadChat) });
+                _logger.LogInformation("LoadChat : {@Details}", new { Class = nameof(PrivateChatService), Method = nameof(LoadChatAsync) });
 
                 var listParameters = new ChatMessageListParameters() 
                 {
                     SortOrder = SortOrder.Asc,
                     SortBy = ChatMessageSort.Sent,
                     RecipientIsGroup = false,
-                    Sender = chat.Member1.ID,
-                    Recipient = chat.Member2.ID
+                    Sender = chat.Member1ID,
+                    Recipient = chat.Member2ID
                 };
 
                 var messages = await _chatMessageRepository.ListAsync(listParameters, token);
 
                 if (messages.Count == 0) 
                 {
-                    _logger.LogInformation("Chat is empty. {@Details}", new { Member1 = chat.Member1.ID, Member2 = chat.Member2.ID });
+                    _logger.LogInformation("Chat is empty. {@Details}", new { Member1 = chat.Member1ID, Member2 = chat.Member2ID });
                     return result.WithValue(new List<PrivateChatMessage>());
                 }
 
@@ -147,8 +146,8 @@ namespace Chatter.Domain.BusinessLogic.Services
                     IsEdited = x.IsEdited,
                     Body = x.Body,
                     Sent = x.Sent,
-                    Sender = chat.Member1.ID == x.Sender ? chat.Member1 : chat.Member2,
-                    Recipient = chat.Member1.ID == x.RecipientUser ? chat.Member1 : chat.Member2
+                    Sender = chat.Member1ID == x.Sender ? chat.Member1ID : chat.Member2ID,
+                    RecipientID = chat.Member1ID == x.RecipientUser ? chat.Member1ID : chat.Member2ID
                 }).ToList();
 
                 return result.WithValue(mappedMessages);
@@ -160,17 +159,43 @@ namespace Chatter.Domain.BusinessLogic.Services
             }
         }
 
-        public Task<ValueServiceResult<List<PrivateChat>>> LoadContacts(Guid userId, CancellationToken token)
+        public async Task<ValueServiceResult<List<PrivateChat>>> LoadUserContactsAsync(Guid userId, CancellationToken token)
         {
-            throw new NotImplementedException();
+            var result = new ValueServiceResult<List<PrivateChat>>();
+
+            try
+            {
+                _logger.LogInformation("LoadUserContacts : {@Details}", new { Class = nameof(PrivateChatService), Method = nameof(LoadUserContactsAsync) });
+
+                var user = await _chatUserRepository.GetAsync(userId, token);
+                if (user is null)
+                {
+                    _logger.LogInformation("User does not exist. {@Details}", new { UserID = userId });
+                    return result.WithBusinessError(PrivateChatServiceMessagesContainer.UserDoesNotExist);
+                }
+                var contacts = await _chatUserRepository.GetUserContactsAsync(userId, token);
+
+                var chats = contacts.Select(x => new PrivateChat()
+                {
+                    Member1ID = userId,
+                    Member2ID = x 
+                }).ToList();
+
+                return result.WithValue(chats);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return result.WithException(ex.Message);
+            }
         }
 
-        public async Task<ValueServiceResult<Guid>> MarkMessageAsRead(Guid messageId, CancellationToken token)
+        public async Task<ValueServiceResult<Guid>> MarkMessageAsReadAsync(Guid messageId, CancellationToken token)
         {
             var result = new ValueServiceResult<Guid>();
             try
             {
-                _logger.LogInformation("MarkMessageRead : {@Details}", new { Class = nameof(PrivateChatService), Method = nameof(MarkMessageAsRead) });
+                _logger.LogInformation("MarkMessageRead : {@Details}", new { Class = nameof(PrivateChatService), Method = nameof(MarkMessageAsReadAsync) });
 
                 var updateModel = new UpdateMessage() 
                 {

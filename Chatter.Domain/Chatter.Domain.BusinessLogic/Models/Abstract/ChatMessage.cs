@@ -12,7 +12,7 @@
 
         public DateTime Sent { get; set; }
 
-        public User Sender { get; set; }
+        public Guid Sender { get; set; }
 
     }
 }

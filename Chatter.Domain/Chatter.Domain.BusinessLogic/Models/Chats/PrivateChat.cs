@@ -5,8 +5,8 @@ namespace Chatter.Domain.BusinessLogic.Models.Chats
 {
     public class PrivateChat
     {
-        public User Member1 { get; set; }
+        public Guid Member1ID { get; set; }
 
-        public User Member2 { get; set; }
+        public Guid Member2ID { get; set; }
     }
 }

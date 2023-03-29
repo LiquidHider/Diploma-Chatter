@@ -57,13 +57,13 @@ namespace Chatter.Domain.Tests.UnitTests
                 .Returns(Task.FromResult(resultFromDb));
 
             //Act
-            var actual = await _privateChatService.CreateNewChat(member, member, token);
+            var actual = await _privateChatService.CreateNewChatAsync(member.ID, member.ID, token);
 
             //Assert
             actual.IsSuccessful.Should().BeTrue();
             actual.IsEmpty.Should().BeFalse();
-            actual.Value.Member1.Should().BeEquivalentTo(member);
-            actual.Value.Member2.Should().BeEquivalentTo(member);
+            actual.Value.Member1ID.Should().Be(member.ID);
+            actual.Value.Member2ID.Should().Be(member.ID);
         }
 
         [Fact]
@@ -74,7 +74,7 @@ namespace Chatter.Domain.Tests.UnitTests
             var member = _fixture.Create<ChatUser>();
 
             //Act
-            var actual = await _privateChatService.CreateNewChat(member, member, token);
+            var actual = await _privateChatService.CreateNewChatAsync(member.ID, member.ID, token);
 
             //Assert
             actual.IsSuccessful.Should().BeFalse();
@@ -91,7 +91,7 @@ namespace Chatter.Domain.Tests.UnitTests
                .Returns(Task.FromResult(DeletionStatus.Deleted));
 
             //Act
-            var actual = await _privateChatService.DeleteMessage(messageId, token);
+            var actual = await _privateChatService.DeleteMessageAsync(messageId, token);
 
             //Assert
             actual.IsSuccessful.Should().BeTrue();
@@ -106,7 +106,7 @@ namespace Chatter.Domain.Tests.UnitTests
             CancellationToken token = default;
 
             //Act
-            var actual = await _privateChatService.DeleteMessage(Guid.NewGuid(), token);
+            var actual = await _privateChatService.DeleteMessageAsync(Guid.NewGuid(), token);
 
             //Assert
             actual.IsSuccessful.Should().BeFalse();
@@ -129,7 +129,7 @@ namespace Chatter.Domain.Tests.UnitTests
 
 
             //Act
-            var actual = await _privateChatService.EditMessage(updateModel, token);
+            var actual = await _privateChatService.EditMessageAsync(updateModel, token);
 
             //Assert
             actual.IsSuccessful.Should().BeTrue();
@@ -148,7 +148,7 @@ namespace Chatter.Domain.Tests.UnitTests
             };
 
             //Act
-            var actual = await _privateChatService.EditMessage(updateModel, token);
+            var actual = await _privateChatService.EditMessageAsync(updateModel, token);
 
             //Assert
             actual.IsSuccessful.Should().BeFalse();
@@ -167,12 +167,12 @@ namespace Chatter.Domain.Tests.UnitTests
                 .Returns(Task.FromResult(listFromDb));
 
             //Act
-            var actual = await _privateChatService.LoadChat(chat, token);
+            var actual = await _privateChatService.LoadChatAsync(chat, token);
             
             //Assert
             actual.IsSuccessful.Should().BeTrue();
             actual.Value.Should().NotBeNull();
-            Assert.True(actual.Value.All(x => x.Recipient.ID == chat.Member1.ID || x.Sender.ID == chat.Member2.ID));
+            Assert.True(actual.Value.All(x => x.RecipientID == chat.Member1ID || x.Sender == chat.Member2ID));
         }
 
         [Fact]
@@ -187,7 +187,7 @@ namespace Chatter.Domain.Tests.UnitTests
                 .Returns(Task.FromResult(listFromDb));
 
             //Act
-            var actual = await _privateChatService.LoadChat(chat, token);
+            var actual = await _privateChatService.LoadChatAsync(chat, token);
 
             //Assert
             actual.IsSuccessful.Should().BeTrue();
@@ -205,7 +205,7 @@ namespace Chatter.Domain.Tests.UnitTests
             var expected = Guid.NewGuid();
 
             //Act
-            var actual = await _privateChatService.MarkMessageAsRead(expected, token);
+            var actual = await _privateChatService.MarkMessageAsReadAsync(expected, token);
 
             //Assert
             actual.IsSuccessful.Should().BeTrue();
@@ -220,7 +220,7 @@ namespace Chatter.Domain.Tests.UnitTests
             var expected = Guid.NewGuid();
 
             //Act
-            var actual = await _privateChatService.MarkMessageAsRead(expected, token);
+            var actual = await _privateChatService.MarkMessageAsReadAsync(expected, token);
 
             //Assert
             actual.IsSuccessful.Should().BeFalse();

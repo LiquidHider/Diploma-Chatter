@@ -1,5 +1,4 @@
 ﻿using Chatter.Domain.BusinessLogic.Models;
-using Chatter.Domain.BusinessLogic.Models.Abstract;
 using Chatter.Domain.BusinessLogic.Models.ChatMessages;
 using Chatter.Domain.BusinessLogic.Models.Chats;
 using Chatter.Domain.BusinessLogic.Models.Create;
@@ -11,16 +10,16 @@ namespace Chatter.Domain.BusinessLogic.Interfaces
     {
         Task<ValueServiceResult<Guid>> SendMessageAsync(CreateChatMessage createModel, CancellationToken token);
 
-        Task<ValueServiceResult<PrivateChat>> CreateNewChat(User participant1, User participant2, CancellationToken token);
+        Task<ValueServiceResult<PrivateChat>> CreateNewChatAsync(Guid member1ID, Guid member2ID, CancellationToken token);
 
-        Task<ValueServiceResult<List<PrivateChatMessage>>> LoadChat(PrivateChat chat, CancellationToken token);
+        Task<ValueServiceResult<List<PrivateChatMessage>>> LoadChatAsync(PrivateChat chat, CancellationToken token);
 
-        Task<ValueServiceResult<List<PrivateChat>>> LoadContacts(Guid userId, CancellationToken token);
+        Task<ValueServiceResult<List<PrivateChat>>> LoadUserContactsAsync(Guid userId, CancellationToken token);
 
-        Task<ValueServiceResult<Guid>> MarkMessageAsRead(Guid messageId, CancellationToken token);
+        Task<ValueServiceResult<Guid>> MarkMessageAsReadAsync(Guid messageId, CancellationToken token);
 
-        Task<ValueServiceResult<Guid>> EditMessage(UpdateMessage updateModel, CancellationToken token);
+        Task<ValueServiceResult<Guid>> EditMessageAsync(UpdateMessage updateModel, CancellationToken token);
 
-        Task<ValueServiceResult<Guid>> DeleteMessage(Guid messageId, CancellationToken token);
+        Task<ValueServiceResult<Guid>> DeleteMessageAsync(Guid messageId, CancellationToken token);
     }
 }

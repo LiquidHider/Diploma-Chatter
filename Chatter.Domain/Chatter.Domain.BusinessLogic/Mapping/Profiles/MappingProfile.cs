@@ -15,7 +15,7 @@ namespace Chatter.Domain.BusinessLogic.Mapping.Profiles
             CreateMap<ChatUser, ChatUserModel>();
             CreateMap<UpdateMessage, UpdateChatMessageModel>();
             CreateMap<PrivateChatMessage, ChatMessageModel>()
-                .ForMember(dest => dest.RecipientUser, opt => opt.MapFrom(src => src.Recipient));
+                .ForMember(dest => dest.RecipientUser, opt => opt.MapFrom(src => src.RecipientID));
             CreateMap<GroupChatMessage, ChatMessageModel>()
               .ForMember(dest => dest.RecipientGroup, opt => opt.MapFrom(src => src.Recipient));
         }
