@@ -260,7 +260,46 @@ namespace Chatter.Domain.Tests.UnitTests
             actual.IsSuccessful.Should().BeFalse();
             actual.Value.Should().Be(Guid.Empty);
             actual.Error.Type.Should().Be(ErrorType.BusinessError);
+        }
 
+        [Fact]
+        public async void LoadUserContactsAsync_GetAllExistedUserContacts_ReturnsServiceResultWithChatsList()
+        {
+            //Arrange
+            CancellationToken token = default;
+            Guid userId = Guid.NewGuid();
+            IList<Guid> resultFromDb = _fixture.Create<List<Guid>>();
+
+            _chatUserRepositoryMock.Setup(x => x.GetAsync(It.IsAny<Guid>(), token))
+                .Returns(Task.FromResult(_fixture.Create<ChatUserModel>()));
+
+            _chatUserRepositoryMock.Setup(x => x.GetUserContactsAsync(It.IsAny<Guid>(), token))
+                .Returns(Task.FromResult(resultFromDb));
+             
+
+            //Act
+            var actual = await _privateChatService.LoadUserContactsAsync(userId, token);
+
+            //Assert
+            actual.IsSuccessful.Should().BeTrue();
+            actual.Value.Should().NotBeNull();
+            actual.Value.Count.Should().Be(resultFromDb.Count);
+        }
+
+        [Fact]
+        public async void LoadUserContactsAsync_GetContactsOfInexistentUser_ReturnsServiceResultWithBusinessError()
+        {
+            //Arrange
+            CancellationToken token = default;
+            Guid userId = Guid.NewGuid();
+
+
+            //Act
+            var actual = await _privateChatService.LoadUserContactsAsync(userId, token);
+
+            //Assert
+            actual.IsSuccessful.Should().BeFalse();
+            actual.Error.Type.Should().Be(ErrorType.BusinessError);
         }
     }
 }
