@@ -15,11 +15,11 @@ namespace Chatter.Domain.BusinessLogic.Interfaces
 
         Task<ValueServiceResult<List<PrivateChatMessage>>> LoadChat(PrivateChat chat, CancellationToken token);
 
-        Task<ValueServiceResult<List<PrivateChat>>> LoadPrivateChats(Guid userId, CancellationToken token);
+        Task<ValueServiceResult<List<PrivateChat>>> LoadContacts(Guid userId, CancellationToken token);
 
         Task<ValueServiceResult<Guid>> MarkMessageAsRead(Guid messageId, CancellationToken token);
 
-        Task<ValueServiceResult<Guid>> EditMessage(Guid messageId, UpdateMessage updateModel, CancellationToken token);
+        Task<ValueServiceResult<Guid>> EditMessage(UpdateMessage updateModel, CancellationToken token);
 
         Task<ValueServiceResult<Guid>> DeleteMessage(Guid messageId, CancellationToken token);
     }

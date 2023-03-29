@@ -16,10 +16,11 @@ namespace Chatter.Domain.BusinessLogic.Models
 
         public List<Photo> Photos { get; set; }
 
-        public List<ChatUser> Contacts { get; set; }
+        public List<Guid> Contacts { get; set; }
 
         public bool IsBlocked { get; set; }
 
         public DateTime? BlockedUntilUtc { get; set; }
     }
 }
+ 

@@ -8,7 +8,5 @@ namespace Chatter.Domain.BusinessLogic.Models.Chats
         public User Member1 { get; set; }
 
         public User Member2 { get; set; }
-
-        public List<PrivateChatMessage> Messages { get; set; }
     }
 }

@@ -54,8 +54,7 @@ namespace Chatter.Domain.BusinessLogic.Services
                 var chat = new PrivateChat() 
                 {
                     Member1 = member1,
-                    Member2 = member2,
-                    Messages = new List<PrivateChatMessage>()
+                    Member2 = member2
                 };
 
                 return result.WithValue(chat);
@@ -91,23 +90,23 @@ namespace Chatter.Domain.BusinessLogic.Services
             }
         }
 
-        public async Task<ValueServiceResult<Guid>> EditMessage(Guid messageId, UpdateMessage updateModel, CancellationToken token)
+        public async Task<ValueServiceResult<Guid>> EditMessage(UpdateMessage updateModel, CancellationToken token)
         {
             var result = new ValueServiceResult<Guid>();
             try 
             {
                 _logger.LogInformation("EditMessage : {@Details}", new { Class = nameof(PrivateChatService), Method = nameof(EditMessage) });
-
+                updateModel.IsEdited = true;
                 var mappedUpdateModel = _mapper.Map<UpdateChatMessageModel>(updateModel);
                 var isSuccessful = await _chatMessageRepository.UpdateAsync(mappedUpdateModel, token);
 
                 if (!isSuccessful)
                 {
-                    _logger.LogInformation("Message does not exist. {@Details}", new { MessageID = messageId });
+                    _logger.LogInformation("Message does not exist. {@Details}", new { MessageID = updateModel.ID });
                     return result.WithBusinessError(ReportServiceMessagesContainer.UserNotExist);
                 }
 
-                return result.WithValue(messageId);
+                return result.WithValue(updateModel.ID);
 
             }
             catch (Exception ex)
@@ -135,6 +134,12 @@ namespace Chatter.Domain.BusinessLogic.Services
 
                 var messages = await _chatMessageRepository.ListAsync(listParameters, token);
 
+                if (messages.Count == 0) 
+                {
+                    _logger.LogInformation("Chat is empty. {@Details}", new { Member1 = chat.Member1.ID, Member2 = chat.Member2.ID });
+                    return result.WithValue(new List<PrivateChatMessage>());
+                }
+
                 var mappedMessages = messages.Select(x => new PrivateChatMessage() 
                 {
                     ID = x.ID,
@@ -155,7 +160,7 @@ namespace Chatter.Domain.BusinessLogic.Services
             }
         }
 
-        public Task<ValueServiceResult<List<PrivateChat>>> LoadPrivateChats(Guid userId, CancellationToken token)
+        public Task<ValueServiceResult<List<PrivateChat>>> LoadContacts(Guid userId, CancellationToken token)
         {
             throw new NotImplementedException();
         }
