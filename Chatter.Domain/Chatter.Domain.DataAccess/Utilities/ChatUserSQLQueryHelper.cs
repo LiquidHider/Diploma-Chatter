@@ -15,18 +15,24 @@
             [IsBlocked],
             [BlockedUntil])
             VALUES (@ID, @LastName, @FirstName, @Patronymic, @UniversityName, @UniversityFaculty, 
-            @JoinedUtc, @LastActiveUtc, @IsBlocked, @BlockedUntilUtc)
-        ";
+            @JoinedUtc, @LastActiveUtc, @IsBlocked, @BlockedUntilUtc)";
 
         public const string DeleteQuery = @"
-        DELETE FROM [dbo].[ChatUsers]
-        WHERE [ID] = @ID";
+            DELETE FROM [dbo].[ChatUsers]
+            WHERE [ID] = @ID";
 
         public const string GetOneQuery = @"
             SELECT TOP (1) *
             FROM [dbo].[ChatUsers]
             {0}";
 
+        public const string GetUserContacts = @"SELECT DISTINCT [RecipientUser]  
+            FROM [dbo].[Messages]
+            WHERE [RecipientUser] != @ID
+            UNION
+            SELECT DISTINCT [Sender]  
+            FROM [dbo].[Messages]
+            WHERE [Sender] !=  @ID";
 
         public const string ListQuery = @"
             SELECT *
@@ -42,8 +48,8 @@
             WHERE ID = @ID";
 
         public const string CountQuery = @"  
-                SELECT COUNT(*)
-                FROM [dbo].[ChatUsers]
-                {0}";
+            SELECT COUNT(*)
+            FROM [dbo].[ChatUsers]
+            {0}";
     }
 }

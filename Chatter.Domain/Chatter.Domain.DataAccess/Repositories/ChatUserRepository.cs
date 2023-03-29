@@ -69,6 +69,21 @@ namespace Chatter.Domain.DataAccess.Repositories
             return DeletionStatus.Deleted;
         }
 
+        public async Task<IList<Guid>> GetUserContactsAsync(Guid userId, CancellationToken cancellationToken) 
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@ID", userId);
+            var query = ChatUserSQLQueryHelper.GetUserContacts;
+
+            using (IDbConnection db = new SqlConnection(_dbOptions.ChatterDbConnection))
+            {
+                var command = new CommandDefinition(query, parameters, cancellationToken: cancellationToken);
+                var result = await db.QueryAsync<Guid>(command);
+
+                return result.ToList();
+            }
+        }
+
         public async Task<PaginatedResult<ChatUserModel,ChatUserSort>> ListAsync(ChatUserListParameters listParameters, CancellationToken cancellationToken)
         {
             if (listParameters == null)

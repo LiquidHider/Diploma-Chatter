@@ -14,6 +14,7 @@ using System.Data.SqlClient;
 
 namespace Chatter.Domain.DataAccess.Repositories
 {
+    //TODO: Create GetMainPhoto(Guid userId) method
     public class PhotoRepository : IPhotoRepository
     {
         private readonly ILogger<PhotoRepository> _logger;

@@ -19,7 +19,11 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
 
         private readonly ChatUserRepository _chatUserRepository;
 
+        private readonly ChatMessageRepository _chatMessageRepository;
+
         private readonly ChatUserFixtureHelper _chatUserFixtureHelper;
+
+        private readonly ChatMessageFixtureHelper _chatMessageFixtureHelper;
 
         public ChatUserRepositoryTests()
         {
@@ -27,14 +31,17 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
             _databaseFixture.EnsureCreated(true);
 
             _chatUserFixtureHelper = new ChatUserFixtureHelper();
+            _chatMessageFixtureHelper = new ChatMessageFixtureHelper();
 
             var chatUserRepoLoggerMock = new Mock<ILogger<ChatUserRepository>>();
+            var chatMessageRepoLoggerMock = new Mock<ILogger<ChatMessageRepository>>();
 
             var optionsMock = new Mock<IOptions<DatabaseOptions>>();
             optionsMock.Setup(x => x.Value)
             .Returns(_databaseFixture.dbOptions);
 
             _chatUserRepository = new ChatUserRepository(optionsMock.Object, chatUserRepoLoggerMock.Object);
+            _chatMessageRepository = new ChatMessageRepository(optionsMock.Object, chatMessageRepoLoggerMock.Object);
         }
 
         [Fact]
@@ -394,6 +401,7 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
         [Fact]
         public async void ListAsync_GetAllChatUsersListFromEmptyDb_PaginatedResultEntitiesAreNull()
         {
+            //Arrange
             CancellationToken token = default;
             var listParameters = new ChatUserListParameters()
             {
@@ -422,6 +430,70 @@ namespace Chatter.Domain.Tests.IntegrationTests.DataAccess
             //Assert
             actualPaginatedResult.Should().BeEquivalentTo(expectedPaginatedResult, o => o.Excluding(x => x.Entities));
             actualPaginatedResult.Entities.Count.Should().Be(0);
+        }
+
+        [Fact]
+        public async void GetUserContactsAsync_GetAllUserContacts_ReturnsUsersIDsList() 
+        {
+            //Arrange
+            CancellationToken token = default;
+            var sender = _chatUserFixtureHelper.CreateRandomChatUser();
+            var userRecipients = _chatUserFixtureHelper.CreateRandomUsersList(5);
+            var otherUser = _chatUserFixtureHelper.CreateRandomChatUser();
+            var messages = new List<ChatMessageModel>();
+
+            await _chatUserRepository.CreateAsync(sender, token);
+            await _chatUserRepository.CreateAsync(otherUser, token);
+            foreach (var recipient in userRecipients)
+            {
+                await _chatUserRepository.CreateAsync(recipient, token);
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+               messages.Add(_chatMessageFixtureHelper.CreateRandomChatMessage(userRecipients[i], sender));
+            }
+            for (int i = 3; i < userRecipients.Count; i++)
+            {
+                messages.Add(_chatMessageFixtureHelper.CreateRandomChatMessage(sender, userRecipients[i]));
+            }
+            messages.Add(_chatMessageFixtureHelper.CreateRandomChatMessage(sender, otherUser));
+
+            foreach (var message in messages) 
+            {
+                await _chatMessageRepository.CreateAsync(message, token);
+            }
+
+            var senderColumn = messages.Select(x => x.Sender).ToList();
+            var recipientsColumn = messages.Select(x => (Guid)x.RecipientUser).ToList();
+            var expected = senderColumn.Concat(recipientsColumn)
+                .Distinct()
+                .Where(x => x != sender.ID);
+
+            //Act
+            var actual = await _chatUserRepository.GetUserContactsAsync(sender.ID, token);
+            await _databaseFixture.ClearDatabaseAsync();
+
+            //Assert
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+
+        [Fact]
+        public async void GetUserContactsAsync_TryToGetContactsFromUserWithNoContacts_ReturnsEmptyList()
+        {
+            //Arrange
+            CancellationToken token = default;
+            var sender = _chatUserFixtureHelper.CreateRandomChatUser();
+
+            await _chatUserRepository.CreateAsync(sender, token);
+
+            //Act
+            var actual = await _chatUserRepository.GetUserContactsAsync(sender.ID, token);
+            await _databaseFixture.ClearDatabaseAsync();
+
+            //Assert
+            actual.Count.Should().Be(0);
         }
     }
 }
