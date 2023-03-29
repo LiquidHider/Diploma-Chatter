@@ -6,6 +6,12 @@
 
         public bool IsRead { get; set; }
 
+        public bool IsEdited { get; set; }
+
+        public string Body { get; set; }
+
+        public DateTime Sent { get; set; }
+
         public User Sender { get; set; }
 
     }
