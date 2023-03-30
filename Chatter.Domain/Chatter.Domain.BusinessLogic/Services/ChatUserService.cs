@@ -16,14 +16,12 @@ namespace Chatter.Domain.BusinessLogic.Services
     public class ChatUserService : IChatUserService
     {
         private readonly IChatUserRepository _chatUserRepository;
-        private readonly IChatMessageRepository _chatMessageRepository;
         private readonly ILogger<ChatUserService> _logger;
         private readonly IMapper _mapper;
 
-        public ChatUserService(IChatUserRepository chatUserRepository, IChatMessageRepository chatMessageRepository, ILogger<ChatUserService> logger)
+        public ChatUserService(IChatUserRepository chatUserRepository, ILogger<ChatUserService> logger)
         {
             _chatUserRepository = chatUserRepository;
-            _chatMessageRepository = chatMessageRepository;
             _logger = logger;
             _mapper = new AutoMapperConfguration()
                   .Configure()
@@ -32,30 +30,39 @@ namespace Chatter.Domain.BusinessLogic.Services
 
         public async Task<ValueServiceResult<ChatUser>> CreateNewUserAsync(CreateChatUser createModel, CancellationToken token)
         {
-            var result = new ValueServiceResult<ChatUser>();
-            try
+            return await Task.Run(() =>
             {
-                _logger.LogInformation("CreateNewUserAsync : {@Details}", new { Class = nameof(ChatUserService), Method = nameof(CreateNewUserAsync) });
-                var formatedJoinedTime = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.ff");
-                var chatUser = new ChatUser()
+                var result = new ValueServiceResult<ChatUser>();
+                try
                 {
-                    ID = Guid.NewGuid(),
-                    LastName = createModel.LastName,
-                    FirstName = createModel.FirstName,
-                    Patronymic = createModel.Patronymic,
-                    UniversityName = createModel.UniversityName,
-                    UniversityFaculty = createModel.UniversityFaculty,
-                    JoinedUtc = DateTime.Parse(formatedJoinedTime),
-                };
+                    _logger.LogInformation("CreateNewUserAsync : {@Details}", new { Class = nameof(ChatUserService), Method = nameof(CreateNewUserAsync) });
 
-                return result.WithValue(chatUser);
+                    if (createModel is null) 
+                    {
+                        throw new ArgumentNullException(nameof(createModel));
+                    }
+                    
+                    var formatedJoinedTime = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.ff");
+                    var chatUser = new ChatUser()
+                    {
+                        ID = Guid.NewGuid(),
+                        LastName = createModel.LastName,
+                        FirstName = createModel.FirstName,
+                        Patronymic = createModel.Patronymic,
+                        UniversityName = createModel.UniversityName,
+                        UniversityFaculty = createModel.UniversityFaculty,
+                        JoinedUtc = DateTime.Parse(formatedJoinedTime),
+                    };
 
-            }
-            catch (Exception ex) 
-            {
-                _logger.LogError(ex, ex.Message);
-                return result.WithException(ex.Message);
-            }
+                    return result.WithValue(chatUser);
+
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, ex.Message);
+                    return result.WithException(ex.Message);
+                }
+            });
         }
 
         public async Task<ValueServiceResult<Guid>> DeleteUserAsync(Guid id, CancellationToken token)
@@ -99,12 +106,19 @@ namespace Chatter.Domain.BusinessLogic.Services
                 var mappedUser = _mapper.Map<ChatUser>(user);
                 var contacts = await _chatUserRepository.GetUserContactsAsync(id, token);
 
-                mappedUser.Contacts = contacts.Select(x => new Models.Chats.PrivateChat()
+                if (contacts is not null) 
                 {
-                    Member1ID = user.ID,
-                    Member2ID = x
-                }).ToList();
-
+                    mappedUser.Contacts = contacts.Select(x => new Models.Chats.PrivateChat()
+                    {
+                        Member1ID = user.ID,
+                        Member2ID = x
+                    }).ToList();
+                }
+                else 
+                {
+                    mappedUser.Contacts = new();
+                }
+                
                 return result.WithValue(mappedUser);
             }
             catch (Exception ex)

@@ -1,6 +1,6 @@
 ﻿namespace Chatter.Domain.BusinessLogic.MessagesContainers
 {
-    internal class ChatUserServiceMessagesContainer
+    public class ChatUserServiceMessagesContainer
     {
         public const string UserNotExist = "User does not exist.";
         public const string UserAlreadyBlocked = "User is already blocked.";

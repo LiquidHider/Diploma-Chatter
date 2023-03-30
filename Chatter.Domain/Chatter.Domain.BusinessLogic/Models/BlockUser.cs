@@ -5,6 +5,6 @@
         public Guid UserID { get; set; }
         public bool IsBlocked { get; private set; } = true;
 
-        public DateTime BlockedUntilUtc { get; set; }
+        public DateTime? BlockedUntilUtc { get; set; }
     }
 }
