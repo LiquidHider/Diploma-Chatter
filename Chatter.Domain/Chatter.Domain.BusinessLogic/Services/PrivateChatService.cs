@@ -34,12 +34,12 @@ namespace Chatter.Domain.BusinessLogic.Services
                   .CreateMapper();
         }
 
-        public async Task<ValueServiceResult<PrivateChat>> CreateNewChatAsync(Guid member1ID, Guid member2ID, CancellationToken token)
+        public async Task<ValueServiceResult<PrivateChat>> CreateChatAsync(Guid member1ID, Guid member2ID, CancellationToken token)
         {
             var result = new ValueServiceResult<PrivateChat>();
             try
             {
-                _logger.LogInformation("CreateNewChat : {@Details}", new { Class = nameof(PrivateChatService), Method = nameof(CreateNewChatAsync) });
+                _logger.LogInformation("CreateNewChat : {@Details}", new { Class = nameof(PrivateChatService), Method = nameof(CreateChatAsync) });
 
                 var chatMember1 = await _chatUserRepository.GetAsync(member1ID,token);
                 var chatMember2 = await _chatUserRepository.GetAsync(member2ID,token);

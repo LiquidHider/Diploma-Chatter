@@ -10,7 +10,7 @@ namespace Chatter.Domain.BusinessLogic.Interfaces
     {
         Task<ValueServiceResult<Guid>> SendMessageAsync(CreateChatMessage createModel, CancellationToken token);
 
-        Task<ValueServiceResult<PrivateChat>> CreateNewChatAsync(Guid member1ID, Guid member2ID, CancellationToken token);
+        Task<ValueServiceResult<PrivateChat>> CreateChatAsync(Guid member1ID, Guid member2ID, CancellationToken token);
 
         Task<ValueServiceResult<List<PrivateChatMessage>>> LoadChatAsync(PrivateChat chat, CancellationToken token);
 

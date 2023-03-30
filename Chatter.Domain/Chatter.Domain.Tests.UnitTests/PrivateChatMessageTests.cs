@@ -57,7 +57,7 @@ namespace Chatter.Domain.Tests.UnitTests
                 .Returns(Task.FromResult(resultFromDb));
 
             //Act
-            var actual = await _privateChatService.CreateNewChatAsync(member.ID, member.ID, token);
+            var actual = await _privateChatService.CreateChatAsync(member.ID, member.ID, token);
 
             //Assert
             actual.IsSuccessful.Should().BeTrue();
@@ -74,7 +74,7 @@ namespace Chatter.Domain.Tests.UnitTests
             var member = _fixture.Create<ChatUser>();
 
             //Act
-            var actual = await _privateChatService.CreateNewChatAsync(member.ID, member.ID, token);
+            var actual = await _privateChatService.CreateChatAsync(member.ID, member.ID, token);
 
             //Assert
             actual.IsSuccessful.Should().BeFalse();
