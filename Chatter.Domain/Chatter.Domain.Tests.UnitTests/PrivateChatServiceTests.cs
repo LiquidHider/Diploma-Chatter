@@ -18,17 +18,16 @@ using Chatter.Domain.BusinessLogic.Models.Create;
 
 namespace Chatter.Domain.Tests.UnitTests
 {
-    public class PrivateChatMessageTests
+    public class PrivateChatServiceTests
     {
         private readonly PrivateChatService _privateChatService;
         private readonly Mock<IChatUserRepository> _chatUserRepositoryMock;
         private readonly Mock<IChatMessageRepository> _chatMessageRepositoryMock;
 
-        private readonly ChatMessageFixtureHelper _chatMessageFixtureHelper;
         private readonly ChatUserFixtureHelper _chatUserFixtureHelper;
         private readonly Fixture _fixture;
 
-        public PrivateChatMessageTests()
+        public PrivateChatServiceTests()
         {
             var loggerMock = new Mock<ILogger<PrivateChatService>>();
             _chatUserRepositoryMock = new Mock<IChatUserRepository>();
@@ -39,7 +38,6 @@ namespace Chatter.Domain.Tests.UnitTests
             _fixture = new Fixture();
             _fixture.Customizations.Add(new TypeRelay(typeof(User),typeof(ChatUser)));
 
-            _chatMessageFixtureHelper = new ChatMessageFixtureHelper();
             _chatUserFixtureHelper = new ChatUserFixtureHelper();
         }
 
