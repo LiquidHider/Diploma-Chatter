@@ -46,7 +46,7 @@ namespace Chatter.Domain.BusinessLogic.Services
 
                 var report = new Report()
                 {
-                    ID = new Guid(),
+                    ID = Guid.NewGuid(),
                     Title = createReportModel.Title,
                     Message = createReportModel.Message,
                     ReportedUserID = createReportModel.ReportedUserID,

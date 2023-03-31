@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Reports\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Chatter.Domain.BusinessLogic\Chatter.Domain.BusinessLogic.csproj" />
   </ItemGroup>
 

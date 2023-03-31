@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Chatter.Domain.API.Models.ChatUser;
 using Chatter.Domain.API.Models.PrivateChat;
+using Chatter.Domain.API.Models.Reports;
 using Chatter.Domain.BusinessLogic.Models;
 using Chatter.Domain.BusinessLogic.Models.Abstract;
 using Chatter.Domain.BusinessLogic.Models.ChatMessages;
@@ -18,6 +19,7 @@ namespace Chatter.Domain.API.Mapping
             CreateMap<ChatMessage, ChatMessageResponse>();
             CreateMap<PrivateChatMessage, ChatMessageResponse>();
             CreateMap<PrivateChat, PrivateChatReponse>();
+            CreateMap<Report, ReportResponse>();
             CreateMap<ChatUser, ChatUserResponse>()
                 .ForMember(dest => dest.Contacts, opt => opt.MapFrom(src => src.Contacts));
             
@@ -28,6 +30,8 @@ namespace Chatter.Domain.API.Mapping
             CreateMap<CreateChatUserRequest, CreateChatUser>();
             CreateMap<UpdateChatUserRequest, UpdateChatUser>();
             CreateMap<BlockUserRequest, BlockUser>();
+            CreateMap<CreateReportRequest, CreateReport>();
+            CreateMap<SendReportRequest, Report>();
         }
     }
 }
