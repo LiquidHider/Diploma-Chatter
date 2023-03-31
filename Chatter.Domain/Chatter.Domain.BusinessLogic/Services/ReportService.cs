@@ -8,7 +8,6 @@ using Chatter.Domain.BusinessLogic.Models.Create;
 using Chatter.Domain.Common.Enums;
 using Chatter.Domain.DataAccess.Interfaces;
 using Chatter.Domain.DataAccess.Models;
-using Chatter.Domain.DataAccess.Models.Pagination;
 using Chatter.Domain.DataAccess.Models.Parameters;
 using Microsoft.Extensions.Logging;
 
@@ -110,7 +109,7 @@ namespace Chatter.Domain.BusinessLogic.Services
                     PageNumber = dbResult.PageNumber,
                     SortOrder = dbResult.SortOrder,
                     SortBy = dbResult.SortBy,
-                    Entities = dbResult.Entities.Select(x => _mapper.Map<Report>(x)).ToList()
+                    Value = dbResult.Entities.Select(x => _mapper.Map<Report>(x)).ToList()
                 };
 
                 return result.WithValue(mappedResult);

@@ -1,7 +1,6 @@
 ﻿using Chatter.Domain.BusinessLogic.Models;
 using Chatter.Domain.BusinessLogic.Models.Create;
 using Chatter.Domain.Common.Enums;
-using Chatter.Domain.DataAccess.Models.Pagination;
 using Chatter.Domain.DataAccess.Models.Parameters;
 
 namespace Chatter.Domain.BusinessLogic.Interfaces

@@ -5,7 +5,6 @@ using Chatter.Domain.BusinessLogic.Services;
 using Chatter.Domain.Common.Enums;
 using Chatter.Domain.DataAccess.Interfaces;
 using Chatter.Domain.DataAccess.Models;
-using Chatter.Domain.DataAccess.Models.Pagination;
 using Chatter.Domain.DataAccess.Models.Parameters;
 using Chatter.Domain.Tests.Common;
 using FluentAssertions;
@@ -207,7 +206,7 @@ namespace Chatter.Domain.Tests.UnitTests
                 SortBy = _fixture.Create<ReportSort>()
             };
 
-            var paginatedResultFromDb = new PaginatedResult<ReportModel, ReportSort>()
+            var paginatedResultFromDb = new DataAccess.Models.Pagination.PaginatedResult<ReportModel, ReportSort>()
             {
                 TotalCount = 5,
                 TotalPages = 2,
@@ -227,9 +226,9 @@ namespace Chatter.Domain.Tests.UnitTests
             //Assert
             actual.IsSuccessful.Should().BeTrue();
             actual.Value.Should().NotBeNull();
-            actual.Value.Entities.Count.Should().Be(listParameters.PageSize);
-            actual.Value.Entities.Should().NotBeEmpty();
-            actual.Value.Entities.Should().NotContainNulls();
+            actual.Value.Value.Count.Should().Be(listParameters.PageSize);
+            actual.Value.Value.Should().NotBeEmpty();
+            actual.Value.Value.Should().NotContainNulls();
         }
     }
 }
