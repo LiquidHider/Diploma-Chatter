@@ -77,7 +77,7 @@ namespace Chatter.Domain.BusinessLogic.Services
                 if (deletionStatus == DeletionStatus.NotExisted) 
                 {
                     _logger.LogInformation("Message does not exist. {@Details}", new { MessageID = messageId });
-                    return result.WithBusinessError(ReportServiceMessagesContainer.UserNotExist);
+                    return result.WithBusinessError(PrivateChatServiceMessagesContainer.MessageDoesNotExist);
                 }
 
                 return result.WithValue(messageId);
@@ -102,7 +102,7 @@ namespace Chatter.Domain.BusinessLogic.Services
                 if (!isSuccessful)
                 {
                     _logger.LogInformation("Message does not exist. {@Details}", new { MessageID = updateModel.ID });
-                    return result.WithBusinessError(ReportServiceMessagesContainer.UserNotExist);
+                    return result.WithBusinessError(PrivateChatServiceMessagesContainer.MessageDoesNotExist);
                 }
 
                 return result.WithValue(updateModel.ID);
@@ -208,7 +208,7 @@ namespace Chatter.Domain.BusinessLogic.Services
                 if (!isSuccessful)
                 {
                     _logger.LogInformation("Message does not exist. {@Details}", new { MessageID = messageId });
-                    return result.WithBusinessError(ReportServiceMessagesContainer.UserNotExist);
+                    return result.WithBusinessError(PrivateChatServiceMessagesContainer.MessageDoesNotExist);
                 }
 
                 return result.WithValue(messageId);
