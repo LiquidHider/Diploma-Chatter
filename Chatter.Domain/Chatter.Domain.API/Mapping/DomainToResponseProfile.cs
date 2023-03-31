@@ -31,7 +31,7 @@ namespace Chatter.Domain.API.Mapping
             CreateMap<UpdateChatUserRequest, UpdateChatUser>();
             CreateMap<BlockUserRequest, BlockUser>();
             CreateMap<CreateReportRequest, CreateReport>();
-            CreateMap<SendReportRequest, Report>();
+
         }
     }
 }
