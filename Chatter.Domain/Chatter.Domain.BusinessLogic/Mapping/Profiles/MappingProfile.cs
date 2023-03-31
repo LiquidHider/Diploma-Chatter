@@ -12,7 +12,9 @@ namespace Chatter.Domain.BusinessLogic.Mapping.Profiles
         {
             CreateMap<Report, ReportModel>();
             CreateMap<ReportModel, Report>();
-            CreateMap<ChatUser, ChatUserModel>();
+            CreateMap<ChatUser, ChatUserModel>()
+            .ForMember(dest => dest.LastActive, opt => opt.MapFrom(src => src.LastActiveUtc))
+                .ForMember(dest => dest.BlockedUntil, opt => opt.MapFrom(src => src.BlockedUntilUtc));
 
             CreateMap<ChatUserModel, ChatUser>()
                 .ForMember(dest => dest.LastActiveUtc, opt => opt.MapFrom(src => src.LastActive))
