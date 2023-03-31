@@ -1,4 +1,5 @@
 using Chatter.Domain.API.Mapping;
+using Chatter.Domain.BusinessLogic.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(DomainToResponseProfile));
+builder.Services.AddBusinessLogic(builder.Configuration);
 
 var app = builder.Build();
 
