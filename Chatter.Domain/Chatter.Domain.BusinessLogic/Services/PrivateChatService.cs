@@ -131,6 +131,15 @@ namespace Chatter.Domain.BusinessLogic.Services
                     Recipient = chat.Member2ID
                 };
 
+                var chatMember1 = await _chatUserRepository.GetAsync(chat.Member1ID, token);
+                var chatMember2 = await _chatUserRepository.GetAsync(chat.Member2ID, token);
+
+                if (chatMember1 is null || chatMember2 is null)
+                {
+                    _logger.LogInformation("One or both chat members does not exist. Taken from db: {@Details}", new { Member1 = chatMember1, Member2 = chatMember2 });
+                    return result.WithBusinessError(PrivateChatServiceMessagesContainer.OneOrBothMembersDoesNotExist);
+                }
+
                 var messages = await _chatMessageRepository.ListAsync(listParameters, token);
 
                 if (messages.Count == 0) 

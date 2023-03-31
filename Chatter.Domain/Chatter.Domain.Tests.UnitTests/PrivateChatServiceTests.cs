@@ -15,6 +15,7 @@ using Chatter.Domain.BusinessLogic.Models.Chats;
 using AutoFixture.Kernel;
 using Chatter.Domain.BusinessLogic.Models.Abstract;
 using Chatter.Domain.BusinessLogic.Models.Create;
+using Chatter.Domain.BusinessLogic.MessagesContainers;
 
 namespace Chatter.Domain.Tests.UnitTests
 {
@@ -160,7 +161,9 @@ namespace Chatter.Domain.Tests.UnitTests
             CancellationToken token = default;
             var chat = _fixture.Create<PrivateChat>();
             var listFromDb = _fixture.Create<IList<ChatMessageModel>>();
-            
+
+            _chatUserRepositoryMock.Setup(x => x.GetAsync(It.IsAny<Guid>(), token))
+           .Returns(Task.FromResult(_fixture.Create<ChatUserModel>()));
             _chatMessageRepositoryMock.Setup(x => x.ListAsync(It.IsAny<ChatMessageListParameters>(), token))
                 .Returns(Task.FromResult(listFromDb));
 
@@ -180,9 +183,11 @@ namespace Chatter.Domain.Tests.UnitTests
             CancellationToken token = default;
             var chat = _fixture.Create<PrivateChat>();
             IList<ChatMessageModel> listFromDb = new List<ChatMessageModel>();
-
+            _chatUserRepositoryMock.Setup(x => x.GetAsync(It.IsAny<Guid>(), token))
+                .Returns(Task.FromResult(_fixture.Create<ChatUserModel>()));
             _chatMessageRepositoryMock.Setup(x => x.ListAsync(It.IsAny<ChatMessageListParameters>(), token))
                 .Returns(Task.FromResult(listFromDb));
+
 
             //Act
             var actual = await _privateChatService.LoadChatAsync(chat, token);
@@ -191,6 +196,23 @@ namespace Chatter.Domain.Tests.UnitTests
             actual.IsSuccessful.Should().BeTrue();
             actual.Value.Should().NotBeNull();
             actual.Value.Count.Should().Be(0);
+        }
+
+        [Fact]
+        public async void LoadChat_GetMessagesListBetweenInexistentMember1AndMember2_ReturnsServiceResultWithBusinessError()
+        {
+            //Arrange
+            CancellationToken token = default;
+            var chat = _fixture.Create<PrivateChat>();
+
+
+            //Act
+            var actual = await _privateChatService.LoadChatAsync(chat, token);
+
+            //Assert
+            actual.IsSuccessful.Should().BeFalse();
+            actual.Error.Type.Should().Be(ErrorType.BusinessError);
+            actual.Error.Message.Should().Be(PrivateChatServiceMessagesContainer.OneOrBothMembersDoesNotExist);
         }
 
         [Fact]
