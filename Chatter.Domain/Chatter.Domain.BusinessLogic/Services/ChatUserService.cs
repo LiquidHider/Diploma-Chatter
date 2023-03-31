@@ -30,7 +30,7 @@ namespace Chatter.Domain.BusinessLogic.Services
 
         public async Task<ValueServiceResult<ChatUser>> CreateNewUserAsync(CreateChatUser createModel, CancellationToken token)
         {
-            return await Task.Run(() =>
+            return await Task.Run(async () =>
             {
                 var result = new ValueServiceResult<ChatUser>();
                 try
@@ -52,7 +52,10 @@ namespace Chatter.Domain.BusinessLogic.Services
                         UniversityName = createModel.UniversityName,
                         UniversityFaculty = createModel.UniversityFaculty,
                         JoinedUtc = DateTime.Parse(formatedJoinedTime),
+                        LastActiveUtc = DateTime.Parse(formatedJoinedTime),
                     };
+                    var mappedResult = _mapper.Map<ChatUser, ChatUserModel>(chatUser);
+                    await _chatUserRepository.CreateAsync(mappedResult,token);
 
                     return result.WithValue(chatUser);
 

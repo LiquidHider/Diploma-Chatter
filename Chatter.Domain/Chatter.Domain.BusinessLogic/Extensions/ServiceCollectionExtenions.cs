@@ -13,6 +13,8 @@ namespace Chatter.Domain.BusinessLogic.Extensions
             services.AddDataAccess(configuration);
 
             services.AddScoped<IPrivateChatService, PrivateChatService>();
+            services.AddScoped<IChatUserService, ChatUserService>();
+            services.AddScoped<IReportService, ReportService>();
 
             return services;
         }
