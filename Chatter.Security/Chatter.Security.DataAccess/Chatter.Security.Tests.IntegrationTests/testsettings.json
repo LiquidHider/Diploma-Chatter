@@ -1,0 +1,7 @@
+{
+  "DataSource": "RedDeadGPU\\WORKLOCAL",
+  "InitialCatalog": "test.chatter",
+  "IntegratedSecurity": true,
+  "UserId": "sa",
+  "Password": "Use this field when Integrated Security is false!"
+}
