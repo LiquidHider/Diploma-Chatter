@@ -1,6 +1,6 @@
 ﻿namespace Chatter.Security.DataAccess.Models
 {
-    public class CreateIdentity
+    public class CreateIdentityModel
     {
         public Guid ID { get; set; }
 
@@ -8,7 +8,9 @@
 
         public string UserTag { get; set; }
 
-        public string Password { get; set; }
+        public string PasswordHash { get; set; }
+
+        public string PasswordKey { get; set; }
 
         public Guid UserID { get; set; }
     }

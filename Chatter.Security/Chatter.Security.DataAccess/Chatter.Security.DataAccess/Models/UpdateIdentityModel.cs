@@ -1,6 +1,6 @@
 ﻿namespace Chatter.Security.DataAccess.Models
 {
-    public class UpdateIdentity
+    public class UpdateIdentityModel
     {
         public Guid ID { get; set; }
 
