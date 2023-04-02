@@ -1,4 +1,4 @@
-﻿namespace Chatter.Domain.DataAccess.DbOptions
+﻿namespace Chatter.Security.DataAccess.DbOptions
 {
     public class DatabaseOptions
     {

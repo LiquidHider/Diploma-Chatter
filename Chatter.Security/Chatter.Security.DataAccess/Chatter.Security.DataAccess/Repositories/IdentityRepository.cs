@@ -1,4 +1,4 @@
-﻿using Chatter.Domain.DataAccess.DbOptions;
+﻿using Chatter.Security.DataAccess.DbOptions;
 using Chatter.Security.Common.Enums;
 using Chatter.Security.DataAccess.Interfaces;
 using Chatter.Security.DataAccess.Models;
