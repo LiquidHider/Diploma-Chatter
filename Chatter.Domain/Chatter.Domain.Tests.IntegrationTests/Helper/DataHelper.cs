@@ -15,6 +15,7 @@ namespace Chatter.Domain.Tests.IntegrationTests.Helper
             "dbo.Messages",
             "dbo.UserJoinedGroups",
             "dbo.BlockedGroupChatUsers",
+            "dbo.UserRoles"
         };
     }
 }
