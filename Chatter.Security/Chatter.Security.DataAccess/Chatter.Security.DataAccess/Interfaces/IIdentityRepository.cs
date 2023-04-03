@@ -13,6 +13,6 @@ namespace Chatter.Security.DataAccess.Interfaces
 
         Task<DeletionStatus> DeleteAsync(Guid id, CancellationToken cancellationToken);
 
-        Task<IdentityModel> GetByEmailOrUserTagAsync(GetByEmailOrUserTag searchModel, CancellationToken cancellationToken)
+        Task<IdentityModel> GetByEmailOrUserTagAsync(GetByEmailOrUserTag searchModel, CancellationToken cancellationToken);
     }
 }
