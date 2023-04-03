@@ -1,4 +1,4 @@
-﻿namespace Chatter.Security.DataAccess.Models
+﻿namespace Chatter.Security.Core.Models
 {
     public class CreateIdentity
     {
