@@ -18,6 +18,7 @@ namespace Chatter.Security.DataAccess.Extensions
             });
 
             services.AddTransient<IIdentityRepository, IdentityRepository>();
+            services.AddTransient<IUserRoleRepository, UserRoleRepository>();
 
             return services;
         }
