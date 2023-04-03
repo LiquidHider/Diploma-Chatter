@@ -13,6 +13,12 @@
         FROM [dbo].[Identities]
         WHERE [ID] = @ID";
 
+        public const string GetOneByEmailOrUserTagQuery = @"
+        SELECT TOP (1) *
+        FROM [dbo].[Identities]
+        WHERE [UserTag] = @UserTag
+        OR [Email] = @Email";
+
         public const string UpdateQuery = @"
         UPDATE [dbo].[Identities]
         SET {0}

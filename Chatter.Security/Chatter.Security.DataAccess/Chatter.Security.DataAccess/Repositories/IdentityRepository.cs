@@ -83,6 +83,24 @@ namespace Chatter.Security.DataAccess.Repositories
             }
         }
 
+        public async Task<IdentityModel> GetByEmailOrUserTagAsync(GetByEmailOrUserTag searchModel, CancellationToken cancellationToken)
+        {
+            var parameters = new DynamicParameters();
+
+            parameters.Add("@UserTag", searchModel.UserTag);
+            parameters.Add("@Email", searchModel.Email);
+
+            var query = IdentitySQLQueryHelper.GetOneByEmailOrUserTagQuery;
+
+            using (IDbConnection db = new SqlConnection(_dbOptions.ChatterDbConnection))
+            {
+                var command = new CommandDefinition(query, parameters, cancellationToken: cancellationToken);
+                var result = await db.QueryFirstOrDefaultAsync<IdentityModel>(command);
+
+                return result;
+            }
+        }
+
         public async Task<bool> UpdateAsync(UpdateIdentityModel updateModel, CancellationToken cancellationToken)
         {
             var parameters = new DynamicParameters();

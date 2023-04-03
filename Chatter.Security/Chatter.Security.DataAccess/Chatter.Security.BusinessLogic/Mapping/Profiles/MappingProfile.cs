@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Chatter.Security.Core.Models;
 using Chatter.Security.DataAccess.Models;
 
 namespace Chatter.Security.Core.Mapping.Profiles
@@ -9,7 +10,8 @@ namespace Chatter.Security.Core.Mapping.Profiles
         {
             CreateMap<IdentityModel, Identity>();
             CreateMap<CreateIdentityModel, CreateIdentity>();
-            CreateMap<UpdateIdentityModel, UpdateIdentity>();
+            CreateMap<UpdateIdentity, UpdateIdentityModel>();
+
         }
     }
 
