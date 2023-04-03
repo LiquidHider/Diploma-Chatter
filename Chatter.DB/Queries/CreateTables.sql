@@ -26,6 +26,9 @@ BEGIN TRY
 --blocked group chat users
 :r D:\Repos\Chatter\Chatter.DB\Queries\Tables\8 - BlockedGroupChatUsers.sql
 
+--user roles
+:r D:\Repos\Chatter\Chatter.DB\Queries\Tables\9 - UserRoles.sql
+
 END TRY
 BEGIN CATCH
 PRINT 'Error: Cannot create tables: ' + ERROR_MESSAGE()
