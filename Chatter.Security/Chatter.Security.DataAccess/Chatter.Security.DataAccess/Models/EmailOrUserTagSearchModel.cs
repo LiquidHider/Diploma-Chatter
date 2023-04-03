@@ -1,6 +1,6 @@
 ﻿namespace Chatter.Security.DataAccess.Models
 {
-    public class GetByEmailOrUserTag
+    public class EmailOrUserTagSearchModel
     {
         public string? Email { get; set; }
 
