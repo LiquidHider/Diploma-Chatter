@@ -39,7 +39,7 @@ namespace Chatter.Security.Core.Services
             try
             {
                 _logger.LogInformation("CreateAsync : {@Details}", new { Class = nameof(IdentityService), Method = nameof(CreateAsync) });
-                var searchModel = new GetByEmailOrUserTag() 
+                var searchModel = new EmailOrUserTagSearchModel() 
                 {
                     Email = createModel.Email,
                     UserTag = createModel.UserTag,
@@ -81,7 +81,7 @@ namespace Chatter.Security.Core.Services
             var result = new ValueServiceResult<Guid>();
             try
             { 
-                _logger.LogInformation("UpdateAsync : {@Details}", new { Class = nameof(IdentityRepository), Method = nameof(UpdateAsync) });
+                _logger.LogInformation("UpdateAsync : {@Details}", new { Class = nameof(IdentityService), Method = nameof(UpdateAsync) });
                 var mappedModel = _mapper.Map<UpdateIdentityModel>(updateModel);
 
                 var isModified = await _identityRepository.UpdateAsync(mappedModel, cancellationToken);
@@ -106,7 +106,7 @@ namespace Chatter.Security.Core.Services
             var result = new ValueServiceResult<Guid>();
             try 
             {
-                _logger.LogInformation("DeleteAsync : {@Details}", new { Class = nameof(IdentityRepository), Method = nameof(DeleteAsync) });
+                _logger.LogInformation("DeleteAsync : {@Details}", new { Class = nameof(IdentityService), Method = nameof(DeleteAsync) });
 
                 var deletionStatus = await _identityRepository.DeleteAsync(id, cancellationToken);
 
@@ -130,6 +130,7 @@ namespace Chatter.Security.Core.Services
             var result = new ValueServiceResult<Identity>();
             try
             {
+                _logger.LogInformation("FindByIdAsync : {@Details}", new { Class = nameof(IdentityService), Method = nameof(FindByIdAsync) });
                 var identity = await _identityRepository.GetAsync(id, cancellationToken);
 
                 if (identity == null) 
@@ -153,7 +154,8 @@ namespace Chatter.Security.Core.Services
             var result = new ValueServiceResult<Identity>();
             try
             {
-                var searchModel = new GetByEmailOrUserTag() 
+                _logger.LogInformation("FindByEmailAsync : {@Details}", new { Class = nameof(IdentityService), Method = nameof(FindByEmailAsync) });
+                var searchModel = new EmailOrUserTagSearchModel() 
                 {
                     Email = email
                 };
@@ -182,7 +184,8 @@ namespace Chatter.Security.Core.Services
             var result = new ValueServiceResult<Identity>();
             try
             {
-                var searchModel = new GetByEmailOrUserTag()
+                _logger.LogInformation("FindByUserTagAsync : {@Details}", new { Class = nameof(IdentityService), Method = nameof(FindByUserTagAsync) });
+                var searchModel = new EmailOrUserTagSearchModel()
                 {
                     UserTag = userTag
                 };
@@ -211,6 +214,7 @@ namespace Chatter.Security.Core.Services
             var result = new ValueServiceResult<IList<string>>();
             try
             {
+                _logger.LogInformation("GetRolesAsync : {@Details}", new { Class = nameof(IdentityService), Method = nameof(GetRolesAsync) });
                 var identity = await _identityRepository.GetAsync(identityId, cancellationToken);
 
                 if (identity == null)

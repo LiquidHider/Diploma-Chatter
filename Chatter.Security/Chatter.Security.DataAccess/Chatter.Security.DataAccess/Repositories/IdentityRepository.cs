@@ -83,7 +83,7 @@ namespace Chatter.Security.DataAccess.Repositories
             }
         }
 
-        public async Task<IdentityModel> GetByEmailOrUserTagAsync(GetByEmailOrUserTag searchModel, CancellationToken cancellationToken)
+        public async Task<IdentityModel> GetByEmailOrUserTagAsync(EmailOrUserTagSearchModel searchModel, CancellationToken cancellationToken)
         {
             var parameters = new DynamicParameters();
 
