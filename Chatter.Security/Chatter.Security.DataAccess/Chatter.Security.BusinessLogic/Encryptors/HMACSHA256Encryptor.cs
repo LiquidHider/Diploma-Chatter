@@ -34,5 +34,31 @@ namespace Chatter.Security.Core.Encryptors
                 return Convert.ToBase64String(hashValue);
             }
         }
+
+        public bool Verify(string decryptedValue, string encryptedValue, byte[] key)
+        {
+            using (HMACSHA256 hmac = new HMACSHA256(key))
+            {
+                byte[] computedPasswordHashBytes = hmac.ComputeHash(Encoding.UTF8.GetBytes(decryptedValue));
+                string computedPasswordHashString = Convert.ToBase64String(computedPasswordHashBytes);
+                byte[] computedPasswordHashStringBytes = Encoding.UTF8.GetBytes(computedPasswordHashString);
+                byte[] storedPasswordHashBytes = Encoding.UTF8.GetBytes(encryptedValue);
+
+                if (storedPasswordHashBytes.Length != computedPasswordHashStringBytes.Length)
+                {
+                    return false;
+                }
+
+                for (int i = 0; i < storedPasswordHashBytes.Length; i++)
+                {
+                    if (storedPasswordHashBytes[i] != computedPasswordHashStringBytes[i])
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
     }
 }

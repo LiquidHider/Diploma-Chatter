@@ -13,10 +13,12 @@ namespace Chatter.Security.Core.Services
     public class SignInService : ISignInService
     {
         private readonly IIdentityRepository _identityRepository;
+        private readonly IHMACEncryptor _encryptor;
         private readonly ILogger<SignInService> _logger;
-        public SignInService(IIdentityRepository identityRepository, ILogger<SignInService> logger)
+        public SignInService(IIdentityRepository identityRepository, IHMACEncryptor encryptor, ILogger<SignInService> logger)
         {
             _identityRepository = identityRepository;
+            _encryptor = encryptor;
             _logger = logger;
         }
 
@@ -38,11 +40,14 @@ namespace Chatter.Security.Core.Services
                 return result.WithBusinessError("User does not exist.");
             }
 
-            bool isPasswordValid = VerifyPassword
+            var passwordKey = Encoding.UTF8.GetBytes(user.PasswordKey);
+            var encryptedPassword = _encryptor.EncryptPassword(signInModel.Password, passwordKey);
+
+            bool isPasswordValid = _encryptor.Verify
             (
-               password: user.PasswordHash,
-               storedPasswordHash: user.PasswordHash,
-               key: Encoding.UTF8.GetBytes(user.PasswordKey)
+               decryptedValue: encryptedPassword,
+               encryptedValue: user.PasswordHash,
+               key: passwordKey
             );
 
             if (!isPasswordValid)
@@ -52,45 +57,22 @@ namespace Chatter.Security.Core.Services
             }
             
             List<Claim> claims = new List<Claim> ();
-                if (signInModel.UserTag != null) 
-                {
-                    claims.Add(new Claim(ClaimTypes.Name, user.UserTag));
-                }
-                if (signInModel.Email != null)
-                {
-                    claims.Add(new Claim(ClaimTypes.Email, user.Email));
-                }
-                ClaimsIdentity identity = new ClaimsIdentity(claims, "AuthCookie");
-                ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(identity);
 
-                return result.WithValue(claimsPrincipal);
-           
-        }
-
-        private bool VerifyPassword(string password, string storedPasswordHash, byte[] key)
-        {
-            using (HMACSHA256 hmac = new HMACSHA256(key))
+            if (signInModel.UserTag != null) 
             {
-                byte[] computedPasswordHashBytes = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-                string computedPasswordHashString = Convert.ToBase64String(computedPasswordHashBytes);
-                byte[] computedPasswordHashStringBytes = Encoding.UTF8.GetBytes(computedPasswordHashString);
-                byte[] storedPasswordHashBytes = Encoding.UTF8.GetBytes(storedPasswordHash);
-
-                if (storedPasswordHashBytes.Length != computedPasswordHashStringBytes.Length)
-                {
-                    return false;
-                }
-
-                for (int i = 0; i < storedPasswordHashBytes.Length; i++)
-                {
-                    if (storedPasswordHashBytes[i] != computedPasswordHashStringBytes[i])
-                    {
-                        return false;
-                    }
-                }
-
-                return true;
+                claims.Add(new Claim(ClaimTypes.Name, user.UserTag));
             }
+            if (signInModel.Email != null)
+            {
+                claims.Add(new Claim(ClaimTypes.Email, user.Email));
+            }
+
+            var authType = "AuthCookie";
+            ClaimsIdentity identity = new ClaimsIdentity(claims, authType);
+            ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(identity);
+
+            return result.WithValue(claimsPrincipal);
+           
         }
     }
 }

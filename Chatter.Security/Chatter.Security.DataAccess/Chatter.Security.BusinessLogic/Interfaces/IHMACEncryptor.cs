@@ -7,5 +7,7 @@ namespace Chatter.Security.Core.Interfaces
         string CreateRandomPasswordKey(IConfiguration config);
 
         string EncryptPassword(string password, byte[] key);
+
+        bool Verify(string decryptedValue, string encryptedValue, byte[] key);
     }
 }
