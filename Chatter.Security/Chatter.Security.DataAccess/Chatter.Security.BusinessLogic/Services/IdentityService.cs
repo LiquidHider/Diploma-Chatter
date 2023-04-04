@@ -91,6 +91,14 @@ namespace Chatter.Security.Core.Services
             {
                 _logger.LogInformation("AddRoleToIdentityAsync : {@Details}", new { Class = nameof(IdentityService), Method = nameof(AddRoleToIdentityAsync) });
 
+                var identity = await _identityRepository.GetAsync(identityId, cancellationToken);
+
+                if (identity == null) 
+                {
+                    _logger.LogInformation("Identity does not exist. {@Details}", new { IdentityID = identityId });
+                    return result.WithBusinessError("Identity does not exist.");
+                }
+
                 var dbUserRoleId = await _userRoleRepository.GetRoleIdAsync(identityId, userRole, cancellationToken);
 
                 if (dbUserRoleId != Guid.Empty) 
@@ -118,6 +126,14 @@ namespace Chatter.Security.Core.Services
             try
             {
                 _logger.LogInformation("RemoveRoleFromIdentityAsync : {@Details}", new { Class = nameof(IdentityService), Method = nameof(RemoveRoleIdentityAsync)});
+                
+                var identity = await _identityRepository.GetAsync(identityId, cancellationToken);
+
+                if (identity == null)
+                {
+                    _logger.LogInformation("Identity does not exist. {@Details}", new { IdentityID = identityId });
+                    return result.WithBusinessError("Identity does not exist.");
+                }
 
                 var userRoleId = await _userRoleRepository.GetRoleIdAsync(identityId, userRole, cancellationToken);
                 var deletionStatus = await _userRoleRepository.DeleteUserRoleAsync(identityId, userRole, cancellationToken);
@@ -172,7 +188,7 @@ namespace Chatter.Security.Core.Services
 
                 var deletionStatus = await _identityRepository.DeleteAsync(id, cancellationToken);
 
-                if (deletionStatus == Common.Enums.DeletionStatus.NotExisted)
+                if (deletionStatus == DeletionStatus.NotExisted)
                 {
                     _logger.LogInformation("Identity with specific ID does not exist. {@Details}", new { IdentityID = id });
                     return result.WithBusinessError("Identity does not exist.");
