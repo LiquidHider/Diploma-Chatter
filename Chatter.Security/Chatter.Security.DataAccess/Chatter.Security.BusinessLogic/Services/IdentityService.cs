@@ -8,7 +8,6 @@ using Chatter.Security.DataAccess.Models;
 using Chatter.Security.Core.Extensions;
 using Chatter.Security.Core.Interfaces;
 using Microsoft.Extensions.Logging;
-using Chatter.Security.DataAccess.Repositories;
 
 namespace Chatter.Security.Core.Services
 {

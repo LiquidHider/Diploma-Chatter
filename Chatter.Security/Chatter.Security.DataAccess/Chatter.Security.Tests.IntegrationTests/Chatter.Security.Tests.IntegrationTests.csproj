@@ -29,8 +29,4 @@
     <ProjectReference Include="..\Chatter.Security.Tests.Common\Chatter.Security.Tests.Common.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DataAccess\" />
-  </ItemGroup>
-
 </Project>

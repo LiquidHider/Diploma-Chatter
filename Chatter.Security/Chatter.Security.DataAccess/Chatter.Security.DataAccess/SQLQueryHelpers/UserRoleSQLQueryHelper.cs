@@ -18,7 +18,7 @@ namespace Chatter.Security.DataAccess.SQLQueryHelpers
         WHERE [UserID] = @IdentityID AND [UserRole] = @UserRole";
 
         public const string UserRolesQuery = @"
-        SELECT *
+        SELECT [UserRole]
         FROM [dbo].[UserRoles]
         WHERE [UserID] = @IdentityID";
     }
