@@ -17,8 +17,8 @@ namespace Chatter.Security.DataAccess.Extensions
                 options.ChatterDbConnection = connectionString;
             });
 
-            services.AddTransient<IIdentityRepository, IdentityRepository>();
-            services.AddTransient<IUserRoleRepository, UserRoleRepository>();
+            services.AddScoped<IIdentityRepository, IdentityRepository>();
+            services.AddScoped<IUserRoleRepository, UserRoleRepository>();
 
             return services;
         }
