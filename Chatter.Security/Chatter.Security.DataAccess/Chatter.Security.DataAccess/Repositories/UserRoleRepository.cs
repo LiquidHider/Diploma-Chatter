@@ -23,12 +23,13 @@ namespace Chatter.Security.DataAccess.Repositories
             _logger = logger;
         }
 
-        public async Task AddRoleToUserAsync(Guid userId, UserRole userRole, CancellationToken cancellationToken)
+        public async Task<Guid> AddRoleToUserAsync(Guid identityId, UserRole userRole, CancellationToken cancellationToken)
         {
             _logger.LogInformation("AddRoleToUserAsync : {@Details}", new { Class = nameof(IdentityRepository), Method = nameof(AddRoleToUserAsync) });
             var parameters = new DynamicParameters();
-            parameters.Add("@ID", Guid.NewGuid());
-            parameters.Add("@UserID", userId);
+            var roleId = Guid.NewGuid();
+            parameters.Add("@ID", roleId);
+            parameters.Add("@IdentityID", identityId);
             parameters.Add("@UserRole", userRole);
             parameters.Add("@UserRoleName", userRole.ToString());
 
@@ -39,14 +40,15 @@ namespace Chatter.Security.DataAccess.Repositories
             using (IDbConnection db = new SqlConnection(_dbOptions.ChatterDbConnection)) 
             {
                var queryResult = await db.ExecuteAsync(command);
+               return roleId;
             }
         }
 
-        public async Task<DeletionStatus> DeleteUserRoleAsync(Guid userId, UserRole userRole, CancellationToken cancellationToken)
+        public async Task<DeletionStatus> DeleteUserRoleAsync(Guid identityId, UserRole userRole, CancellationToken cancellationToken)
         {
             _logger.LogInformation("DeleteUserRoleAsync : {@Details}", new { Class = nameof(IdentityRepository), Method = nameof(DeleteUserRoleAsync) });
             var parameters = new DynamicParameters();
-            parameters.Add("@UserID", userId);
+            parameters.Add("@IdentityID", identityId);
             parameters.Add("@UserRole", userRole);
 
             var query = UserRoleSQLQueryHelper.DeleteQuery;
@@ -68,27 +70,27 @@ namespace Chatter.Security.DataAccess.Repositories
             return DeletionStatus.Deleted;
         }
 
-        public async Task<UserRole> GetRoleIdAsync(Guid userId, UserRole userRole, CancellationToken cancellationToken)
+        public async Task<Guid> GetRoleIdAsync(Guid identityId, UserRole userRole, CancellationToken cancellationToken)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@UserId", userId);
+            parameters.Add("@IdentityID", identityId);
             parameters.Add("@UserRole", userRole);
 
-            var query = UserRoleSQLQueryHelper.GetRoleQuery;
+            var query = UserRoleSQLQueryHelper.GetRoleIdQuery;
 
             using (IDbConnection db = new SqlConnection(_dbOptions.ChatterDbConnection))
             {
                 var command = new CommandDefinition(query, parameters, cancellationToken: cancellationToken);
-                var result = await db.QueryFirstOrDefaultAsync<UserRole>(command);
+                var result = await db.QueryFirstOrDefaultAsync<Guid>(command);
 
                 return result;
             }
         }
 
-        public async Task<IList<UserRole>> GetUserRolesAsync(Guid userId, CancellationToken cancellationToken)
+        public async Task<IList<UserRole>> GetUserRolesAsync(Guid identityId, CancellationToken cancellationToken)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@UserID", userId);
+            parameters.Add("@IdentityID", identityId);
 
             var query = UserRoleSQLQueryHelper.UserRolesQuery;
 
