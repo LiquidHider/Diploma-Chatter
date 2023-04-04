@@ -1,4 +1,6 @@
-﻿namespace Chatter.Security.Core.Models
+﻿using Chatter.Security.Common.Enums;
+
+namespace Chatter.Security.Core.Models
 {
     public class CreateIdentity
     {
@@ -9,5 +11,7 @@
         public string Password { get; set; }
 
         public Guid UserID { get; set; }
+
+        public List<UserRole> Roles { get; } = new List<UserRole>();
     }
 }

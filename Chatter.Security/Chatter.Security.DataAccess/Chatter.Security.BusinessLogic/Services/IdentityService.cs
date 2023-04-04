@@ -19,6 +19,7 @@ namespace Chatter.Security.Core.Services
         private readonly IUserRoleRepository _userRoleRepository;
         private readonly IHMACEncryptor _hmacEncryptor;
         private readonly IMapper _mapper;
+
         public IdentityService(IIdentityRepository identityRepository, IConfiguration configuration, IUserRoleRepository userRoleRepository,
             IHMACEncryptor hmacEncryptor, ILogger<IdentityService> logger)
         {
@@ -65,6 +66,11 @@ namespace Chatter.Security.Core.Services
                 };
             
                 await _identityRepository.CreateAsync(mappedCreateModel, cancellationToken);
+
+                foreach (var role in createModel.Roles) 
+                {
+                    await _userRoleRepository.AddRoleToUserAsync(mappedCreateModel.ID, role, cancellationToken);
+                }
 
                 return result.WithValue(mappedCreateModel.ID);
             }
