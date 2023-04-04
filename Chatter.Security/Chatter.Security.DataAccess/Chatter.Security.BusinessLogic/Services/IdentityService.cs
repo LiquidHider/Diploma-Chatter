@@ -8,6 +8,7 @@ using Chatter.Security.DataAccess.Models;
 using Chatter.Security.Core.Extensions;
 using Chatter.Security.Core.Interfaces;
 using Microsoft.Extensions.Logging;
+using Chatter.Security.Common.Enums;
 
 namespace Chatter.Security.Core.Services
 {
@@ -49,7 +50,8 @@ namespace Chatter.Security.Core.Services
 
                 if (user != null)
                 {
-                    return result.WithBusinessError("User with this email or usertag already exists.");
+                    _logger.LogInformation("Identity with specified email or usertag already exists. {@Details}", new { UserTag = createModel.UserTag, Email = createModel.Email  });
+                    return result.WithBusinessError("Identity with specified email or usertag already exists.");
                 }
 
                 string passwordKey = _hmacEncryptor.CreateRandomPasswordKey(_configuration);
@@ -73,6 +75,61 @@ namespace Chatter.Security.Core.Services
                 }
 
                 return result.WithValue(mappedCreateModel.ID);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return result.WithException(ex.Message);
+            }
+        }
+
+        public async Task<ValueServiceResult<Guid>> AddRoleToIdentityAsync(Guid identityId, UserRole userRole, CancellationToken cancellationToken) 
+        {
+            var result = new ValueServiceResult<Guid>();
+
+            try 
+            {
+                _logger.LogInformation("AddRoleToIdentityAsync : {@Details}", new { Class = nameof(IdentityService), Method = nameof(AddRoleToIdentityAsync) });
+
+                var dbUserRoleId = await _userRoleRepository.GetRoleIdAsync(identityId, userRole, cancellationToken);
+
+                if (dbUserRoleId != Guid.Empty) 
+                {
+                    _logger.LogInformation("Specified identity role already exists. {@Details}", new { IdentityID = identityId, UserRole = userRole.ToString() });
+                    return result.WithBusinessError("Specified identity role already exists.");
+                }
+
+                var roleId = await _userRoleRepository.AddRoleToUserAsync(identityId, userRole, cancellationToken);
+
+                return result.WithValue(roleId);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return result.WithException(ex.Message);
+            }
+        }
+
+        public async Task<ValueServiceResult<Guid>> RemoveRoleIdentityAsync(Guid identityId, UserRole userRole, CancellationToken cancellationToken)
+        {
+            var result = new ValueServiceResult<Guid>();
+
+            try
+            {
+                _logger.LogInformation("RemoveRoleFromIdentityAsync : {@Details}", new { Class = nameof(IdentityService), Method = nameof(RemoveRoleIdentityAsync)});
+
+                var userRoleId = await _userRoleRepository.GetRoleIdAsync(identityId, userRole, cancellationToken);
+                var deletionStatus = await _userRoleRepository.DeleteUserRoleAsync(identityId, userRole, cancellationToken);
+
+                if (deletionStatus == DeletionStatus.NotExisted)
+                {
+                    _logger.LogInformation("Specified role for identity  does not exist. {@Details}", new { IdentityID = identityId, UserRole = userRole.ToString() });
+                    return result.WithBusinessError("Specified role for identity does not exist.");
+                }
+
+                return result.WithValue(userRoleId);
+
             }
             catch (Exception ex)
             {

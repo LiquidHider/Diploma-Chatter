@@ -1,4 +1,5 @@
-﻿using Chatter.Security.Core.Models;
+﻿using Chatter.Security.Common.Enums;
+using Chatter.Security.Core.Models;
 
 namespace Chatter.Security.Core.Interfaces
 {
@@ -17,5 +18,9 @@ namespace Chatter.Security.Core.Interfaces
         Task<ValueServiceResult<Identity>> FindByUserTagAsync(string userTag, CancellationToken cancellationToken);
 
         Task<ValueServiceResult<IList<string>>> GetRolesAsync(Guid identityId, CancellationToken cancellationToken);
+
+        Task<ValueServiceResult<Guid>> AddRoleToIdentityAsync(Guid identityId, UserRole userRole, CancellationToken cancellationToken);
+
+        Task<ValueServiceResult<Guid>> RemoveRoleIdentityAsync(Guid identityId, UserRole userRole, CancellationToken cancellationToken);
     }
 }
