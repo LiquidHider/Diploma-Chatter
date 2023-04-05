@@ -1,6 +1,4 @@
-﻿using Chatter.Security.Core.Enums;
-
-namespace Chatter.Security.Core.Models
+﻿namespace Chatter.Security.Common
 {
     public class ErrorModel
     {

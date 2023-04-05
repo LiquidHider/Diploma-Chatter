@@ -1,11 +1,12 @@
-﻿using Chatter.Security.Core.Extensions;
+﻿using Chatter.Security.Common;
+using Chatter.Security.Common.Extensions;
+using Chatter.Security.Core.Extensions;
 using Chatter.Security.Core.Interfaces;
 using Chatter.Security.Core.Models;
 using Chatter.Security.DataAccess.Interfaces;
 using Chatter.Security.DataAccess.Models;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace Chatter.Security.Core.Services

@@ -1,4 +1,4 @@
-﻿namespace Chatter.Security.Core.Models
+﻿namespace Chatter.Security.Common
 {
 
     public class ValueServiceResult<T> : ServiceResult

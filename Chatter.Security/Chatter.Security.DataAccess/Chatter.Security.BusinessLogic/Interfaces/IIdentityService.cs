@@ -1,4 +1,5 @@
 ﻿using Chatter.Security.Common.Enums;
+using Chatter.Security.Common;
 using Chatter.Security.Core.Models;
 
 namespace Chatter.Security.Core.Interfaces

@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
-using Chatter.Security.Core.Extensions;
+using Chatter.Security.Common;
+using Chatter.Security.Common.Extensions;
 using Chatter.Security.Core.Interfaces;
 using Chatter.Security.Core.Models;
 using Chatter.Security.Core.Services;

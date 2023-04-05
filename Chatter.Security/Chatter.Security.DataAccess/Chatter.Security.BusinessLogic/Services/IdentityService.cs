@@ -5,10 +5,12 @@ using Chatter.Security.Core.Models;
 using AutoMapper;
 using Chatter.Security.Core.Mapping.Configuration;
 using Chatter.Security.DataAccess.Models;
-using Chatter.Security.Core.Extensions;
 using Chatter.Security.Core.Interfaces;
 using Microsoft.Extensions.Logging;
 using Chatter.Security.Common.Enums;
+using Chatter.Security.Common;
+using Chatter.Security.Common.Extensions;
+
 
 namespace Chatter.Security.Core.Services
 {

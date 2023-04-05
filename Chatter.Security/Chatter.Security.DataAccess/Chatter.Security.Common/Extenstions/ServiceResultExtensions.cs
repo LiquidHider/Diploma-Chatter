@@ -1,7 +1,6 @@
-﻿using Chatter.Security.Core.Enums;
-using Chatter.Security.Core.Models;
+﻿using Chatter.Security.Common.Enums;
 
-namespace Chatter.Security.Core.Extensions
+namespace Chatter.Security.Common.Extensions
 {
     public static class ServiceResultExtensions
     {

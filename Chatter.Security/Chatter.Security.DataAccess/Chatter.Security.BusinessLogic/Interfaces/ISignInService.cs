@@ -1,4 +1,5 @@
-﻿using Chatter.Security.Core.Models;
+﻿using Chatter.Security.Common;
+using Chatter.Security.Core.Models;
 using System.Security.Claims;
 
 namespace Chatter.Security.Core.Interfaces

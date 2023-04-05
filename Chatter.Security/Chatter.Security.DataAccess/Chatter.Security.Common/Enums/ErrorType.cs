@@ -1,4 +1,4 @@
-﻿namespace Chatter.Security.Core.Enums
+﻿namespace Chatter.Security.Common
 {
     public enum ErrorType
     {
