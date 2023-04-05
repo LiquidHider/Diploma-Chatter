@@ -313,5 +313,36 @@ namespace Chatter.Security.Core.Services
                 return result.WithException(ex.Message);
             }
         }
+
+        public async Task<ValueServiceResult<Identity>> FindByEmailOrUserTagAsync(string? email, string? userTag, CancellationToken cancellationToken)
+        {
+            var result = new ValueServiceResult<Identity>();
+            try
+            {
+                _logger.LogInformation("FindByEmailAsync : {@Details}", new { Class = nameof(IdentityService), Method = nameof(FindByEmailAsync) });
+                var searchModel = new EmailOrUserTagSearchModel()
+                {
+                    Email = email,
+                    UserTag = userTag
+                };
+
+                var identity = await _identityRepository.GetByEmailOrUserTagAsync(searchModel, cancellationToken);
+
+                if (identity == null)
+                {
+                    _logger.LogInformation("Identity with specific email does not exist. {@Details}", new { Email = searchModel.Email });
+                    return result.WithBusinessError("Identity does not exist.");
+                }
+
+                var mappedIdentity = _mapper.Map<Identity>(identity);
+
+                return result.WithValue(mappedIdentity);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return result.WithException(ex.Message);
+            }
+        }
     }
 }

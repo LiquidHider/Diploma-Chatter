@@ -18,6 +18,8 @@ namespace Chatter.Security.Core.Interfaces
 
         Task<ValueServiceResult<Identity>> FindByUserTagAsync(string userTag, CancellationToken cancellationToken);
 
+        Task<ValueServiceResult<Identity>> FindByEmailOrUserTagAsync(string? email, string? userTag, CancellationToken cancellationToken);
+
         Task<ValueServiceResult<IList<string>>> GetRolesAsync(Guid identityId, CancellationToken cancellationToken);
 
         Task<ValueServiceResult<Guid>> AddRoleToIdentityAsync(Guid identityId, UserRole userRole, CancellationToken cancellationToken);
