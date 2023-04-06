@@ -71,7 +71,7 @@ namespace Chatter.Security.API.Services
             {
                 var identity = await _identityService.FindByEmailOrUserTagAsync(signUpRequest.Email, signUpRequest.UserTag, cancellationToken);
 
-                if (identity != null) 
+                if (identity.Value != null) 
                 {
                     _logger.LogInformation("Identity already exists. {@Details}", new { UserTag = signUpRequest.UserTag, Email = signUpRequest.Email });
                     return result.WithBusinessError("Identity already exists.");
@@ -87,11 +87,11 @@ namespace Chatter.Security.API.Services
                 createModel.Roles.Add(UserRole.DefaultUser);
 
                 await _identityService.CreateAsync(createModel, cancellationToken);
-
+                var createdIdentity = await _identityService.FindByEmailOrUserTagAsync(signUpRequest.Email, signUpRequest.UserTag, cancellationToken);
                 var response = new SignUpResponse()
                 {
                     UserID = signUpRequest.UserId,
-                    Token = await _tokenService.CreateTokenAsync(identity.Value, cancellationToken)
+                    Token = await _tokenService.CreateTokenAsync(createdIdentity.Value, cancellationToken)
                 };
 
                 return result.WithValue(response);

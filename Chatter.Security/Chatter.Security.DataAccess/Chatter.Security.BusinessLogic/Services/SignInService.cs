@@ -42,11 +42,10 @@ namespace Chatter.Security.Core.Services
             }
 
             var passwordKey = Encoding.UTF8.GetBytes(user.PasswordKey);
-            var encryptedPassword = _encryptor.EncryptPassword(signInModel.Password, passwordKey);
 
             bool isPasswordValid = _encryptor.Verify
             (
-               decryptedValue: encryptedPassword,
+               decryptedValue: signInModel.Password,
                encryptedValue: user.PasswordHash,
                key: passwordKey
             );
