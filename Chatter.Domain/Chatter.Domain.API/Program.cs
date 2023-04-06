@@ -1,5 +1,6 @@
 using Chatter.Domain.API;
 using Chatter.Domain.API.AssemblyMarker;
+using Chatter.Domain.API.Extensions;
 using Chatter.Domain.API.Mapping;
 using Chatter.Domain.BusinessLogic.Extensions;
 using FluentValidation;
@@ -17,6 +18,7 @@ builder.Services.AddFluentValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<IAssemblyMarker>();
 builder.Services.AddAutoMapper(typeof(DomainToResponseProfile));
 builder.Services.AddBusinessLogic(builder.Configuration);
+builder.Services.AddChatterAuth(builder.Configuration);
 
 var app = builder.Build();
 
