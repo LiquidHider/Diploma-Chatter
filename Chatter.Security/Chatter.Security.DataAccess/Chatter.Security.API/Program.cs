@@ -1,4 +1,5 @@
 using Chatter.Security.API.AssemblyMarker;
+using Chatter.Security.API.Extensions;
 using Chatter.Security.API.Interfaces;
 using Chatter.Security.API.Mapping;
 using Chatter.Security.API.Services;
@@ -18,6 +19,7 @@ builder.Services.AddFluentValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<IAssemblyMarker>();
 builder.Services.AddAutoMapper(typeof(CoreToResponseProfile));
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddChatterCors(builder.Configuration);
 builder.Services.AddSecurityCore(builder.Configuration);
 
 var app = builder.Build();
