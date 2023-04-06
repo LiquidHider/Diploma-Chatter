@@ -4,9 +4,9 @@ using Chatter.Security.Core.Models;
 
 namespace Chatter.Security.API.Mapping
 {
-    public class CoreToReponseProfile : Profile
+    public class CoreToResponseProfile : Profile
     {
-        public CoreToReponseProfile()
+        public CoreToResponseProfile()
         {
             //Requests
             CreateMap<SignInRequest, SignInModel>();
