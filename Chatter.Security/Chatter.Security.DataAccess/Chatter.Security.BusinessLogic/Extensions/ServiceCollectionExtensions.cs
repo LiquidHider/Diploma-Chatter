@@ -1,4 +1,5 @@
-﻿using Chatter.Security.Core.Interfaces;
+﻿using Chatter.Security.Core.Encryptors;
+using Chatter.Security.Core.Interfaces;
 using Chatter.Security.Core.Services;
 using Chatter.Security.DataAccess.Extensions;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +16,7 @@ namespace Chatter.Security.Core.Extensions
             services.AddScoped<IIdentityService, IdentityService>();
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<ISignInService, SignInService>();
+            services.AddTransient<IHMACEncryptor, HMACSHA256Encryptor>();
 
             return services;
         }

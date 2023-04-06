@@ -1,6 +1,5 @@
 ﻿using Chatter.Security.Core.Interfaces;
 using Chatter.Security.Core.Models;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -12,13 +11,11 @@ namespace Chatter.Security.Core.Services
     public class TokenService : ITokenService
     {
         private const int TOKEN_EXPIRATION_DATE_HOURS = 7;
-        private readonly SymmetricSecurityKey key; 
         private readonly ILogger<TokenService> _logger;
         private readonly IIdentityService _identityService;
 
-        public TokenService(IConfiguration config, IIdentityService identityService, ILogger<TokenService> logger)
+        public TokenService(IIdentityService identityService, ILogger<TokenService> logger)
         {
-            key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
             _logger = logger;
             _identityService = identityService;
         }
@@ -41,6 +38,7 @@ namespace Chatter.Security.Core.Services
                 return string.Empty;
             }
 
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(identity.PasswordKey));
             var serviceResult = await _identityService.GetRolesAsync(identity.ID, cancellationToken);
 
             var roles = serviceResult.Value;
