@@ -1,3 +1,4 @@
+using Chatter.Domain.API;
 using Chatter.Domain.API.AssemblyMarker;
 using Chatter.Domain.API.Mapping;
 using Chatter.Domain.BusinessLogic.Extensions;
@@ -28,8 +29,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapControllers().RequireAuthorization(AuthOptions.DefaultAuthPolicy);
 
 app.Run();
