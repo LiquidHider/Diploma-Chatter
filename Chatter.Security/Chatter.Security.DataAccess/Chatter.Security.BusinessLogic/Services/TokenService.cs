@@ -1,5 +1,6 @@
 ﻿using Chatter.Security.Core.Interfaces;
 using Chatter.Security.Core.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -13,10 +14,12 @@ namespace Chatter.Security.Core.Services
         private const int TOKEN_EXPIRATION_DATE_HOURS = 7;
         private readonly ILogger<TokenService> _logger;
         private readonly IIdentityService _identityService;
+        private readonly IConfiguration _configuration;
 
-        public TokenService(IIdentityService identityService, ILogger<TokenService> logger)
+        public TokenService(IIdentityService identityService, IConfiguration configuration, ILogger<TokenService> logger)
         {
             _logger = logger;
+            _configuration = configuration;
             _identityService = identityService;
         }
 
@@ -26,8 +29,7 @@ namespace Chatter.Security.Core.Services
 
             var claims = new List<Claim>()
             {
-                new Claim(JwtRegisteredClaimNames.NameId, identity.ID.ToString()),
-                new Claim(JwtRegisteredClaimNames.UniqueName, identity.UserTag),
+                new Claim(JwtRegisteredClaimNames.NameId, identity.UserID.ToString()),
             };
 
             var identityFromDb = await _identityService.FindByIdAsync(identity.ID, cancellationToken);
@@ -38,7 +40,7 @@ namespace Chatter.Security.Core.Services
                 return string.Empty;
             }
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(identity.PasswordKey));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtTokenKey"]));
             var serviceResult = await _identityService.GetRolesAsync(identity.ID, cancellationToken);
 
             var roles = serviceResult.Value;
