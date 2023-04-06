@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Chatter.Domain.API.Helpers;
 using Chatter.Domain.API.Models;
 using Chatter.Domain.API.Models.ChatUser;
 using Chatter.Domain.BusinessLogic.Interfaces;
 using Chatter.Domain.BusinessLogic.Models;
 using Chatter.Domain.BusinessLogic.Models.Create;
 using Chatter.Domain.BusinessLogic.Models.Update;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -77,6 +79,7 @@ namespace Chatter.Domain.API.Controllers
 
         [HttpPut]
         [Route("block")]
+        [Authorize(Roles = UserRoles.Administrator)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdatedResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -96,6 +99,7 @@ namespace Chatter.Domain.API.Controllers
 
         [HttpPut]
         [Route("unblock")]
+        [Authorize(Roles = UserRoles.Administrator)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdatedResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

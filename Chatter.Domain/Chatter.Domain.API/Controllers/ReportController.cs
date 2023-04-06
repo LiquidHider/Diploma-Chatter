@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
+using Chatter.Domain.API.Helpers;
 using Chatter.Domain.API.Models;
 using Chatter.Domain.API.Models.Reports;
 using Chatter.Domain.BusinessLogic.Interfaces;
 using Chatter.Domain.BusinessLogic.Models.Create;
 using Chatter.Domain.Common.Enums;
 using Chatter.Domain.DataAccess.Models.Parameters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace Chatter.Domain.API.Controllers
@@ -42,6 +45,7 @@ namespace Chatter.Domain.API.Controllers
 
         [HttpPost]
         [Route("list")]
+        [Authorize(Roles = UserRoles.Administrator)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedResponse<ReportResponse,ReportSort>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
