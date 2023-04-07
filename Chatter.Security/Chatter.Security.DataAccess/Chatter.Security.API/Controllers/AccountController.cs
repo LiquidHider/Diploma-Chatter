@@ -9,10 +9,12 @@ namespace Chatter.Security.API.Controllers
     public class AccountController : BaseAPIController
     {
         private readonly IAccountService _accountService;
+        private readonly IEmailService _emailService;
 
-        public AccountController(IMapper mapper, IAccountService accountService) : base(mapper)
+        public AccountController(IMapper mapper, IAccountService accountService, IEmailService emailService) : base(mapper)
         {
             _accountService = accountService;
+            _emailService = emailService;
         }
 
 
@@ -47,6 +49,8 @@ namespace Chatter.Security.API.Controllers
             {
                 return Unauthorized(result.Error.Message);
             }
+
+            _emailService.SendCongratulationsMessageToNewUser(requestModel.Email);
 
             return Ok(result.Value);
         }

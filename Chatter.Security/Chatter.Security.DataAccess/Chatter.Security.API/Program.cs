@@ -19,6 +19,7 @@ builder.Services.AddFluentValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<IAssemblyMarker>();
 builder.Services.AddAutoMapper(typeof(CoreToResponseProfile));
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddChatterCors(builder.Configuration);
 builder.Services.AddSecurityCore(builder.Configuration);
 
