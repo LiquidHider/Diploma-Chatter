@@ -1,0 +1,7 @@
+{
+  "SmtpAddress": "smtp.gmail.com",
+  "PortNumber": 587,
+  "EnableSSL": true,
+  "FromAddress": "chatter.messenger.noreply@gmail.com",
+  "FromPassword": "bawrwakumqmdvlgb"
+}
