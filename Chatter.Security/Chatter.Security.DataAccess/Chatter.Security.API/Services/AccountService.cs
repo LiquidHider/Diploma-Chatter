@@ -80,7 +80,7 @@ namespace Chatter.Security.API.Services
                 var createModel = new CreateIdentity()
                 {
                     Email = signUpRequest.Email,
-                    UserTag = signUpRequest.UserTag,
+                    UserTag = signUpRequest.UserTag ?? Guid.NewGuid().ToString().Substring(0,20),
                     Password = signUpRequest.Password,
                     UserID = signUpRequest.UserId,
                 };
