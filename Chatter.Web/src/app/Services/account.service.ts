@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ReplaySubject, map } from 'rxjs';
 import { environment } from 'src/Environments/environment';
 import { User } from '../Models/user';
+import { RegistrationRequest } from '../Models/registrationRequest';
 
 @Injectable({
     providedIn: 'root'
@@ -27,7 +28,18 @@ export class AccountService
                 }
               })
         );
-    } 
+    }
+
+    register(model: RegistrationRequest){
+      return this.http.post<User>(this.securityApiBaseUrl + 'signUp', model).pipe(
+        map((user : User) => {
+          
+            if(user){
+              this.setCurrentUser(user);
+            }
+        })
+      );
+    }
     
     isUserLoggedIn = this.currentUser.pipe( 
       map(
