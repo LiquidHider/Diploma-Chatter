@@ -13,6 +13,7 @@ import { RegistrationRequest } from '../Models/registrationRequest';
 export class AccountService
 {
     securityApiBaseUrl = environment.securityApiUrl;
+    domainApiBaseUrl = environment.domainApiUrl;
     userSourceBufferSize = 1;
     private currentUserSource = new ReplaySubject<User | null>(this.userSourceBufferSize);
     currentUser = this.currentUserSource.asObservable();
@@ -37,13 +38,34 @@ export class AccountService
     }
 
     register(model: RegistrationRequest){
-      return this.http.post<User>(this.securityApiBaseUrl + 'signUp', model).pipe(
-        map((user : User) => {
-            if(user){
-              this.setCurrentUser(user);
-            }
+      const domainApiRequest = {
+        LastName: model.lastName,
+        FirstName: model.firstName,
+        Patronymic: model.patronymic,
+        UniversityName: model.universityName,
+        UniversityFaculty: model.universityFaculty
+      };
+      var securityApiRequest = {};
+
+      this.http.post(this.domainApiBaseUrl + 'new', domainApiRequest).pipe(
+        map((response : any) => {
+          if(response){
+            securityApiRequest = { 
+              Email: model.email,
+              UserTag: model.userTag,
+              Password: model.password,
+              UserId: response.CreatedId
+            };
+          }
         })
       );
+
+      return this.http.post<User>(this.securityApiBaseUrl + 'signup', securityApiRequest).pipe(
+        map((response : User) => {
+          if(response){
+            this.setCurrentUser(response);
+          }
+      }));
     }
 
     isEmailValue(email: string): boolean {
