@@ -1,0 +1,3 @@
+
+<app-login *ngIf="!(accountService.isUserLoggedIn | async)"></app-login>
+<app-chats *ngIf="(accountService.isUserLoggedIn | async)"></app-chats>

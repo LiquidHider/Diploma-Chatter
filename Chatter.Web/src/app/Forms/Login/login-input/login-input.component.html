@@ -1,0 +1,33 @@
+<div>
+    <h1>Sign In</h1>
+    <form (ngSubmit)="login()" autocomplete="off">
+        <a>UserTag or Email</a>
+        <div>
+            <input name="usernameOrEmail" 
+            [(ngModel)]="loginModel.emailOrUserTag"
+            type="text"
+            placeholder="Email or Usertag">
+        </div>
+
+        <a>Password</a>
+        <div>
+            <input name="password"
+            [(ngModel)]="loginModel.password"
+            type="password"
+            placeholder="Password"
+            >
+        </div>
+
+        <div class="validation-error invalid-feedback"> 
+            Wrong login or password.
+        </div>
+
+        <button type="submit">Sign In</button>
+    </form>
+    <div>
+    <h2>New in Chatter?</h2>
+        
+    <button routerLink="/signup">Sign Up</button>
+
+    </div>
+</div>
