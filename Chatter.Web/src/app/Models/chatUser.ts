@@ -1,4 +1,4 @@
-import { Photo } from "./photo";
+import { Contact } from "./contact";
 
 export interface ChatUser
 {
@@ -9,8 +9,7 @@ export interface ChatUser
     patronymic: string;
     universityName: string;
     universityFaculty: string;
-    photos: Photo[];
-    mainPhotoUrl: string;
     joined: Date;
     lastActive: Date;
+    contacts: Contact[];
 }
