@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ReplaySubject, map } from 'rxjs';
+import { ReplaySubject, empty, map } from 'rxjs';
 import { environment } from 'src/Environments/environment';
 import { User } from '../Models/user';
-import { LoginRequest } from '../Models/loginRequest';
+import { Login } from '../Models/login';
 import { RegistrationRequest } from '../Models/registrationRequest';
 
 @Injectable({
@@ -19,8 +19,7 @@ export class AccountService
 
     constructor(private http: HttpClient) {}
 
-    login(model: LoginRequest){
-
+    login(model: Login){
       const mappedRequest = {
         Email: this.isEmailValue(model.emailOrUserTag) === true ? model.emailOrUserTag : null,
         UserTag: this.isEmailValue(model.emailOrUserTag) === false ? model.emailOrUserTag : null,

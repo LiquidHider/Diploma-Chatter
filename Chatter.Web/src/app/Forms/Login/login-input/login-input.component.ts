@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginRequest } from 'src/app/Models/loginRequest';
+import { Login } from 'src/app/Models/login';
 import { AccountService } from 'src/app/Services/account.service';
 
 @Component({
@@ -14,7 +14,7 @@ export class LoginInputComponent {
   
   }
 
- loginModel: LoginRequest = new LoginRequest;
+ loginModel: Login = new Login;
 
  
   login() {
