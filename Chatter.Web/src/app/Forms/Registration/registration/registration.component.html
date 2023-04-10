@@ -1,1 +1,120 @@
-<p>registration works!</p>
+<h1>Sign Up</h1>
+
+<form (ngSubmit)="register()">
+    <div>
+        <a>User tag</a>
+        <div>
+            <input name="userTag"
+            [(ngModel)]="model.userTag"
+            type="text"
+            placeholder="User tag">
+        </div>
+
+        <div class="validation-error invalid-feedback"> 
+            User tag validation error.
+        </div>
+
+        <a>Email</a>
+        <div>
+            <input name="email"
+            [(ngModel)]="model.email"
+            type="text"
+            placeholder="Email">
+        </div>
+
+        <div class="validation-error invalid-feedback"> 
+            Email validation error.
+        </div>
+
+        <a>Univerity name</a>
+        <div>
+            <input name="universityName"
+            [(ngModel)]="model.universityName"
+            type="text"
+            placeholder="University name">
+        </div>
+
+        <div class="validation-error invalid-feedback"> 
+            University name validation error.
+        </div>
+
+        <a>Univerity faculty</a>
+        <div>
+            <input name="universityName"
+            [(ngModel)]="model.universityFaculty"
+            type="text"
+            placeholder="University faculty">
+        </div>
+
+        <div class="validation-error invalid-feedback"> 
+            University faculty validation error.
+        </div>
+    </div>
+
+    <div>
+        <a>Last name</a>
+        <div>
+            <input name="lastName"
+            [(ngModel)]="model.lastName"
+            type="text"
+            placeholder="Last Name">
+        </div>
+
+        <div class="validation-error invalid-feedback"> 
+            Last name validation error.
+        </div>
+
+        <a>First name</a>
+        <div>
+            <input name="firstName"
+            [(ngModel)]="model.firstName"
+            type="text"
+            placeholder="First Name">
+        </div>
+
+        <div class="validation-error invalid-feedback"> 
+            First name validation error.
+        </div>
+
+        <a>Patronymic</a>
+        <div>
+            <input name="patronymic"
+            [(ngModel)]="model.patronymic"
+            type="text"
+            placeholder="Patronymic">
+        </div>
+
+        <div class="validation-error invalid-feedback"> 
+            Patronymic validation error.
+        </div>
+
+        <a>Password</a>
+        <div>
+            <input name="password"
+            [(ngModel)]="model.password"
+            type="password"
+            placeholder="Password">
+        </div>
+
+        <div class="validation-error invalid-feedback"> 
+            Password validation error.
+        </div>
+
+        <a>Confirm password</a>
+        <div>
+            <input name="confirmPassword"
+            [(ngModel)]="model.confirmPassword"
+            type="password"
+            placeholder="Confirm password">
+        </div>
+
+        <div class="validation-error invalid-feedback"> 
+            Passwords do not match.
+        </div>
+    </div>
+    <div>
+        <button type="submit">Sign Up</button>
+        <button routerLink="/">Cancel</button>
+    </div>
+</form>
+    
