@@ -24,6 +24,7 @@ namespace Chatter.Domain.API.Controllers
 
         [HttpPost]
         [Route("new")]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CreatedResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
