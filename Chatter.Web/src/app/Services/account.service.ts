@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject, empty, map, switchMap } from 'rxjs';
+import { ReplaySubject,  map, switchMap } from 'rxjs';
 import { environment } from 'src/Environments/environment';
 import { User } from '../Models/user';
 import { Login } from '../Models/login';
@@ -18,7 +18,13 @@ export class AccountService
     private currentUserSource = new ReplaySubject<User | null>(this.userSourceBufferSize);
     currentUser = this.currentUserSource.asObservable();
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {
+      var userFromLocalStorage = localStorage.getItem('user');
+      if(userFromLocalStorage){
+        this.setCurrentUser(JSON.parse(userFromLocalStorage!));
+      }
+    }
+
 
     login(model: Login){
       const mappedRequest = {
@@ -66,15 +72,17 @@ export class AccountService
       return regexp.test(email);
     }
     
-    isUserLoggedIn = this.currentUser.pipe( 
+    isUserLoggedIn()
+    { 
+      return this.currentUser.pipe( 
       map(
         (user: User | null) => {
-        return (user !== null)
-      }) 
-    );
+        return (user != null)
+      }));
+    }
 
     getDecodedToken(token: string){
-        return JSON.parse(token.split('.')[1]);
+        return JSON.parse(atob(token.split('.')[1]));
       }
     
 

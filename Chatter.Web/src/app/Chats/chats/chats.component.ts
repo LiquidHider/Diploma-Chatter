@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AccountService } from 'src/app/Services/account.service';
 
 @Component({
   selector: 'app-chats',
@@ -7,4 +8,11 @@ import { Component } from '@angular/core';
 })
 export class ChatsComponent {
 
+  constructor(public accountService: AccountService) {
+    
+  }
+
+  logOut(){
+    this.accountService.logout();
+  }
 }

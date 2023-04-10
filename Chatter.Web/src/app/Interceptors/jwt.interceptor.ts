@@ -8,7 +8,6 @@ import {
 import { Observable } from 'rxjs';
 import { AccountService } from '../Services/account.service';
 import { switchMap, take } from 'rxjs/operators';
-import { Login } from '../Models/login';
 import { User } from '../Models/user';
 
 @Injectable()
