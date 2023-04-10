@@ -2,6 +2,7 @@ using Chatter.Security.API.AssemblyMarker;
 using Chatter.Security.API.Extensions;
 using Chatter.Security.API.Interfaces;
 using Chatter.Security.API.Mapping;
+using Chatter.Security.API.Options;
 using Chatter.Security.API.Services;
 using Chatter.Security.Core.Extensions;
 using FluentValidation;
@@ -33,7 +34,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors(CorsOptions.PolicyName);
 app.UseAuthorization();
 
 app.MapControllers();
