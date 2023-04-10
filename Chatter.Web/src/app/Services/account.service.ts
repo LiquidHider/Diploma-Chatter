@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ReplaySubject, empty, map } from 'rxjs';
+import { Observable, ReplaySubject, empty, map, switchMap } from 'rxjs';
 import { environment } from 'src/Environments/environment';
 import { User } from '../Models/user';
 import { Login } from '../Models/login';
@@ -39,33 +39,26 @@ export class AccountService
 
     register(model: RegistrationRequest){
       const domainApiRequest = {
-        LastName: model.lastName,
-        FirstName: model.firstName,
-        Patronymic: model.patronymic,
-        UniversityName: model.universityName,
-        UniversityFaculty: model.universityFaculty
+        lastName: model.lastName,
+        firstName: model.firstName,
+        patronymic: model.patronymic,
+        universityName: model.universityName,
+        universityFaculty: model.universityFaculty
       };
-      var securityApiRequest = {};
-
-      this.http.post(this.domainApiBaseUrl + 'new', domainApiRequest).pipe(
-        map((response : any) => {
-          if(response){
-            securityApiRequest = { 
+      return this.http.post(this.domainApiBaseUrl + 'user/new', domainApiRequest).pipe(
+        switchMap((domainResponse: any) => {
+          var securityApiRequest = {};
+          if (domainResponse) {
+            securityApiRequest = {
               Email: model.email,
               UserTag: model.userTag,
               Password: model.password,
-              UserId: response.CreatedId
+              UserId: domainResponse.createdId
             };
           }
+          return this.http.post<User>(this.securityApiBaseUrl + 'signup', securityApiRequest);
         })
       );
-
-      return this.http.post<User>(this.securityApiBaseUrl + 'signup', securityApiRequest).pipe(
-        map((response : User) => {
-          if(response){
-            this.setCurrentUser(response);
-          }
-      }));
     }
 
     isEmailValue(email: string): boolean {
