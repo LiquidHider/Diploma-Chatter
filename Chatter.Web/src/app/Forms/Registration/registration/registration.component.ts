@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { RegistrationRequest } from 'src/app/Models/registrationRequest';
+import { User } from 'src/app/Models/user';
 import { AccountService } from 'src/app/Services/account.service';
 
 @Component({
@@ -16,7 +17,7 @@ export class RegistrationComponent {
 
   register()
   {
-    this.accountService.register(this.model).subscribe(response => {
+    this.accountService.register(this.model).subscribe((response: Object | User) => {
       this.router.navigateByUrl('/');
     });
   }

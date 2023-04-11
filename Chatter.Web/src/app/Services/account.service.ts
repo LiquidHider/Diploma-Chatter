@@ -44,14 +44,8 @@ export class AccountService
     }
 
     register(model: RegistrationRequest){
-      var identityExistsRequest = this.http.post(this.securityApiBaseUrl + 'exists',
-       {email: model.email, userTag: model.userTag});
-
-       var isIdentityExists = identityExistsRequest.pipe(map(request => request));
-       if(isIdentityExists){
-        return identityExistsRequest;
-       }
-
+      var userTag = model.userTag !== undefined ? model.userTag : '';
+      var identityExistsResponse = this.http.post(this.securityApiBaseUrl + 'exists/?email=' + model.email! + '&userTag=' + userTag, {});
       const domainApiRequest = {
         lastName: model.lastName,
         firstName: model.firstName,
@@ -59,7 +53,17 @@ export class AccountService
         universityName: model.universityName,
         universityFaculty: model.universityFaculty
       };
-      return this.http.post(this.domainApiBaseUrl + 'user/new', domainApiRequest).pipe(
+      var isIdentityExists: Boolean; 
+      identityExistsResponse.subscribe(val => isIdentityExists = Boolean(val));
+
+      return identityExistsResponse.pipe(response => {
+      
+
+       if(isIdentityExists === true){
+          return identityExistsResponse;
+       }
+
+       return this.http.post(this.domainApiBaseUrl + 'user/new', domainApiRequest).pipe(
         switchMap((domainResponse: any) => {
           var securityApiRequest = {};
           if (domainResponse) {
@@ -71,8 +75,8 @@ export class AccountService
             };
           }
           return this.http.post<User>(this.securityApiBaseUrl + 'signup', securityApiRequest);
-        })
-      );
+        }));
+      });
     }
 
     isEmailValue(email: string): boolean {
@@ -80,8 +84,7 @@ export class AccountService
       return regexp.test(email);
     }
     
-    isUserLoggedIn()
-    { 
+    isUserLoggedIn(){ 
       return this.currentUser.pipe( 
       map(
         (user: User | null) => {
