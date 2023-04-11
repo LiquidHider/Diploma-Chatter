@@ -44,6 +44,14 @@ export class AccountService
     }
 
     register(model: RegistrationRequest){
+      var identityExistsRequest = this.http.post(this.securityApiBaseUrl + 'exists',
+       {email: model.email, userTag: model.userTag});
+
+       var isIdentityExists = identityExistsRequest.pipe(map(request => request));
+       if(isIdentityExists){
+        return identityExistsRequest;
+       }
+
       const domainApiRequest = {
         lastName: model.lastName,
         firstName: model.firstName,
