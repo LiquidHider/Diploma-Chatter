@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { RegistrationRequest } from 'src/app/Models/registrationRequest';
 import { AccountService } from 'src/app/Services/account.service';
 
@@ -11,12 +12,12 @@ export class RegistrationComponent {
 
   model: RegistrationRequest = new RegistrationRequest;
 
-  constructor(public accountService: AccountService) {}
+  constructor(public accountService: AccountService, private router: Router) {}
 
   register()
   {
     this.accountService.register(this.model).subscribe(response => {
-      
+      this.router.navigateByUrl('/');
     });
   }
 }

@@ -1,6 +1,6 @@
 <h1>Sign Up</h1>
 
-<form (ngSubmit)="register()">
+<form (ngSubmit)="register()" autocomplete="off">
     <div>
         <a>User tag</a>
         <div>
@@ -113,7 +113,7 @@
         </div>
     </div>
     <div>
-        <button routerLink="/" type="submit">Sign Up</button>
+        <button type="submit">Sign Up</button>
         <button routerLink="/">Cancel</button>
     </div>
 </form>
