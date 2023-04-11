@@ -29,7 +29,7 @@ namespace Chatter.Security.API.Controllers
             
             if (!result.IsSuccessful)
             {
-                return Unauthorized(result.Error.Message);
+                return MapErrorResponse(result);
             }
 
             return Ok(result.Value);
@@ -47,7 +47,7 @@ namespace Chatter.Security.API.Controllers
 
             if (!result.IsSuccessful)
             {
-                return Unauthorized(result.Error.Message);
+                return MapErrorResponse(result);
             }
 
             _emailService.SendCongratulationsMessageToNewUser(requestModel.Email);
