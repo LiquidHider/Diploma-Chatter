@@ -1,6 +1,10 @@
 <div>
     <h1>Sign In</h1>
+    
     <form (ngSubmit)="login()" autocomplete="off">
+        <div *ngIf="wrongCreds">
+            Wrong credentials.
+        </div>
         <a>UserTag or Email</a>
         <div>
             <input name="usernameOrEmail" 

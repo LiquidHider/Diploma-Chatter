@@ -14,12 +14,15 @@ export class LoginInputComponent {
   
   }
 
- loginModel: Login = new Login;
-
+  loginModel: Login = new Login;
+  wrongCreds = false;
  
   login() {
+    this.wrongCreds = false;
     this.accountService.login(this.loginModel).subscribe(response => {
-      
+      if(response === 400){
+        this.wrongCreds = true;
+      }
     });
   }
 

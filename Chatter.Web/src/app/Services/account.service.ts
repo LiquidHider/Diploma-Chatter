@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ReplaySubject,  map, switchMap } from 'rxjs';
+import { Observable, ReplaySubject,  catchError,  map, switchMap, throwError } from 'rxjs';
 import { environment } from 'src/Environments/environment';
 import { User } from '../Models/user';
 import { Login } from '../Models/login';
@@ -39,6 +39,13 @@ export class AccountService
                 if(user){
                   this.setCurrentUser(user);
                 }
+              }),
+              catchError(error => {
+                if(error){
+                    return new Observable<number>(subscriber => subscriber.next(error.status as number));
+                }
+                const err = new Error(error.message); 
+                return throwError(() => err);
               })
         );
     }
