@@ -61,6 +61,10 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
   }
+ 
+  clearWrongCredsMessage(){
+    this.userAlreadyRegitered = false;
+  }
 
   matchValues(matchTo: string) {
   return (control: AbstractControl) => {

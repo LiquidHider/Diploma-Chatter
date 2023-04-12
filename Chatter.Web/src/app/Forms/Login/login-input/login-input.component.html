@@ -2,13 +2,11 @@
     <h1>Sign In</h1>
     
     <form (ngSubmit)="login()" autocomplete="off">
-        <div *ngIf="wrongCreds">
-            Wrong credentials.
-        </div>
         <a>UserTag or Email</a>
         <div>
             <input name="usernameOrEmail" 
             [(ngModel)]="loginModel.emailOrUserTag"
+            (click)="clearWrongCredsMessage()"
             type="text"
             placeholder="Email or Usertag">
         </div>
@@ -17,12 +15,13 @@
         <div>
             <input name="password"
             [(ngModel)]="loginModel.password"
+            (click)="clearWrongCredsMessage()"
             type="password"
             placeholder="Password"
             >
         </div>
 
-        <div class="validation-error invalid-feedback"> 
+        <div *ngIf="wrongCreds" class="validation-error invalid-feedback"> 
             Wrong login or password.
         </div>
 

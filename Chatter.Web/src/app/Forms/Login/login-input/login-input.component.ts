@@ -17,8 +17,11 @@ export class LoginInputComponent {
   loginModel: Login = new Login;
   wrongCreds = false;
  
-  login() {
+  clearWrongCredsMessage(){
     this.wrongCreds = false;
+  }
+
+  login() {
     this.accountService.login(this.loginModel).subscribe(response => {
       if(response === 400){
         this.wrongCreds = true;
