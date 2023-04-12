@@ -9,7 +9,7 @@ import { LoginComponent } from './Forms/Login/login-window/login/login.component
 import { HomeComponent } from './Home/home/home.component';
 import { ChatsComponent } from './Chats/chats/chats.component';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,6 +22,8 @@ import { FormsModule } from '@angular/forms';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule

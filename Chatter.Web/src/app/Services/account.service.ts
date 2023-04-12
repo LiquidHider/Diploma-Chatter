@@ -43,9 +43,13 @@ export class AccountService
         );
     }
 
+    userAlreadyExists(email: string, userTag: string){
+      return this.http.post(this.securityApiBaseUrl + 'exists/?email=' + email + '&userTag=' + userTag, {});
+    }
+
     register(model: RegistrationRequest){
       var userTag = model.userTag !== undefined ? model.userTag : '';
-      var identityExistsResponse = this.http.post(this.securityApiBaseUrl + 'exists/?email=' + model.email! + '&userTag=' + userTag, {});
+      var registrationResponse = this.userAlreadyExists(model.email, userTag);
       const domainApiRequest = {
         lastName: model.lastName,
         firstName: model.firstName,
@@ -53,14 +57,13 @@ export class AccountService
         universityName: model.universityName,
         universityFaculty: model.universityFaculty
       };
-      var isIdentityExists: Boolean; 
-      identityExistsResponse.subscribe(val => isIdentityExists = Boolean(val));
-
-      return identityExistsResponse.pipe(response => {
+      
       
 
-       if(isIdentityExists === true){
-          return identityExistsResponse;
+      return registrationResponse.pipe(response => {
+
+       if(Boolean(response)  === true){
+          return registrationResponse;
        }
 
        return this.http.post(this.domainApiBaseUrl + 'user/new', domainApiRequest).pipe(

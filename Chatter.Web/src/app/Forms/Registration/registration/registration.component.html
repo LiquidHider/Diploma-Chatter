@@ -1,119 +1,138 @@
 <h1>Sign Up</h1>
 
-<form (ngSubmit)="register()" autocomplete="off">
+<form [formGroup]="registrationForm" (ngSubmit)="registrationForm.valid && register()" autocomplete="off">
+    <div *ngIf="userAlreadyRegitered === true">User with specified User tag or Email already registered.</div>
     <div>
         <a>User tag</a>
         <div>
-            <input name="userTag"
-            [(ngModel)]="model.userTag"
+            <input formControlName="userTag"
+            [(ngModel)]='model.userTag'
             type="text"
-            placeholder="User tag">
+            placeholder="User tag"/>
         </div>
 
-        <div class="validation-error invalid-feedback"> 
-            User tag validation error.
+        <div *ngIf="userTag.invalid && userTag.touched" class="validation-error invalid-feedback"> 
+            <small *ngFor="let error of userTag.errors | keyvalue">
+                {{ validationOptions.userTagErrorMessages[error?.key?.toString() ?? ''] }}
+              </small>
         </div>
 
         <a>Email</a>
         <div>
-            <input name="email"
+            <input formControlName="email"
             [(ngModel)]="model.email"
             type="text"
             placeholder="Email">
         </div>
 
-        <div class="validation-error invalid-feedback"> 
-            Email validation error.
+        <div *ngIf="email.invalid && email.touched" class="validation-error invalid-feedback"> 
+            <small *ngFor="let error of email.errors | keyvalue">
+                {{ validationOptions.emailErrorMessages[error?.key?.toString() ?? ''] }}
+              </small>
         </div>
 
         <a>Univerity name</a>
         <div>
-            <input name="universityName"
+            <input formControlName="universityName"
             [(ngModel)]="model.universityName"
             type="text"
             placeholder="University name">
         </div>
 
-        <div class="validation-error invalid-feedback"> 
-            University name validation error.
+        <div *ngIf="universityName.invalid && universityName.touched" class="validation-error invalid-feedback"> 
+            <small *ngFor="let error of universityName.errors | keyvalue">
+                {{ validationOptions.universityNameErrorMessages[error?.key?.toString() ?? ''] }}
+              </small>
         </div>
 
         <a>Univerity faculty</a>
         <div>
-            <input name="universityName"
+            <input formControlName="universityFaculty"
             [(ngModel)]="model.universityFaculty"
             type="text"
             placeholder="University faculty">
         </div>
 
-        <div class="validation-error invalid-feedback"> 
-            University faculty validation error.
+        <div *ngIf="universityFaculty.invalid && universityFaculty.touched" class="validation-error invalid-feedback"> 
+            <small *ngFor="let error of universityFaculty.errors | keyvalue">
+                {{ validationOptions.universityFacultyErrorMessages[error?.key?.toString() ?? ''] }}
+              </small>
         </div>
     </div>
 
     <div>
         <a>Last name</a>
         <div>
-            <input name="lastName"
+            <input formControlName="lastName"
             [(ngModel)]="model.lastName"
             type="text"
             placeholder="Last Name">
         </div>
 
-        <div class="validation-error invalid-feedback"> 
-            Last name validation error.
+        <div *ngIf="lastName.invalid && lastName.touched" class="validation-error invalid-feedback"> 
+            <small *ngFor="let error of lastName.errors | keyvalue">
+                {{ validationOptions.lastNameErrorMessages[error?.key?.toString() ?? ''] }}
+              </small>
         </div>
 
         <a>First name</a>
         <div>
-            <input name="firstName"
+            <input formControlName="firstName"
             [(ngModel)]="model.firstName"
             type="text"
             placeholder="First Name">
         </div>
 
-        <div class="validation-error invalid-feedback"> 
-            First name validation error.
+        <div *ngIf="firstName.invalid && firstName.touched" class="validation-error invalid-feedback"> 
+            <small *ngFor="let error of firstName.errors | keyvalue">
+                {{ validationOptions.firstNameErrorMessages[error?.key?.toString() ?? ''] }}
+              </small>
         </div>
 
         <a>Patronymic</a>
         <div>
-            <input name="patronymic"
+            <input formControlName="patronymic"
             [(ngModel)]="model.patronymic"
             type="text"
             placeholder="Patronymic">
         </div>
 
-        <div class="validation-error invalid-feedback"> 
-            Patronymic validation error.
+        <div *ngIf="patronymic.invalid && patronymic.touched" class="validation-error invalid-feedback"> 
+            <small *ngFor="let error of patronymic.errors | keyvalue">
+                {{ validationOptions.patronymicErrorMessages[error?.key?.toString() ?? ''] }}
+              </small>
         </div>
 
         <a>Password</a>
         <div>
-            <input name="password"
+            <input formControlName="password"
             [(ngModel)]="model.password"
             type="password"
             placeholder="Password">
         </div>
 
-        <div class="validation-error invalid-feedback"> 
-            Password validation error.
+        <div *ngIf="password.invalid && password.touched" class="validation-error invalid-feedback"> 
+            <small *ngFor="let error of password.errors | keyvalue">
+                {{ validationOptions.passwordErrorMessages[error?.key?.toString() ?? ''] }}
+              </small>
         </div>
 
         <a>Confirm password</a>
         <div>
-            <input name="confirmPassword"
+            <input formControlName="confirmPassword"
             [(ngModel)]="model.confirmPassword"
             type="password"
             placeholder="Confirm password">
         </div>
 
-        <div class="validation-error invalid-feedback"> 
-            Passwords do not match.
+        <div *ngIf="confirmPassword.invalid && confirmPassword.touched" class="validation-error invalid-feedback"> 
+            <small *ngFor="let error of confirmPassword.errors | keyvalue">
+                {{ validationOptions.confirmPasswordErrorMessages[error?.key?.toString() ?? ''] }}
+              </small>
         </div>
     </div>
     <div>
-        <button type="submit">Sign Up</button>
+        <button type="submit" [disabled]='!registrationForm.valid'>Sign Up</button>
         <button routerLink="/">Cancel</button>
     </div>
 </form>
