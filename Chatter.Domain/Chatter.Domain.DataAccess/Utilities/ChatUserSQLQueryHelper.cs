@@ -26,13 +26,14 @@
             FROM [dbo].[ChatUsers]
             {0}";
 
-        public const string GetUserContacts = @"SELECT DISTINCT [RecipientUser]  
-            FROM [dbo].[Messages]
-            WHERE [RecipientUser] != @ID
+        public const string GetUserContacts = @"
+          SELECT DISTINCT [RecipientUser]
+            FROM [dbo].[Messages] 
+            WHERE [Sender] = @ID AND [RecipientUser] IS NOT NULL
             UNION
-            SELECT DISTINCT [Sender]  
+            SELECT DISTINCT [Sender]
             FROM [dbo].[Messages]
-            WHERE [Sender] !=  @ID";
+            WHERE [RecipientUser] = @ID";
 
         public const string ListQuery = @"
             SELECT *
