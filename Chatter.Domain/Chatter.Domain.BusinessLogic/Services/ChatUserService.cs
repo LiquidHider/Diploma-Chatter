@@ -5,6 +5,7 @@ using Chatter.Domain.BusinessLogic.Mapping.Configuration;
 using Chatter.Domain.BusinessLogic.MessagesContainers;
 using Chatter.Domain.BusinessLogic.Models;
 using Chatter.Domain.BusinessLogic.Models.Create;
+using Chatter.Domain.BusinessLogic.Models.Parameters;
 using Chatter.Domain.BusinessLogic.Models.Update;
 using Chatter.Domain.Common.Enums;
 using Chatter.Domain.DataAccess.Interfaces;
@@ -244,6 +245,34 @@ namespace Chatter.Domain.BusinessLogic.Services
 
                 return result.WithValue(id);
 
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return result.WithException(ex.Message);
+            }
+        }
+
+        public async Task<ValueServiceResult<PaginatedResult<ChatUser, ChatUserSort>>> ListAsync(ChatUserListParameters listParameters, CancellationToken token)
+        {
+            var result = new ValueServiceResult<PaginatedResult<ChatUser, ChatUserSort>>();
+            try
+            {
+                _logger.LogInformation("ListAsync : {@Details}", new { Class = nameof(ChatUserService), Method = nameof(ListAsync) });
+                var mappedParameters = _mapper.Map<DataAccess.Models.Parameters.ChatUserListParameters>(listParameters);
+                var dbReponse = await _chatUserRepository.ListAsync(mappedParameters, token);
+                var mappedResponse = new PaginatedResult<ChatUser, ChatUserSort>()
+                {
+                    TotalCount = dbReponse.TotalCount,
+                    TotalPages = dbReponse.TotalPages,
+                    PageNumber = dbReponse.PageNumber,
+                    PageSize = dbReponse.PageSize,
+                    SortBy = dbReponse.SortBy,
+                    SortOrder = dbReponse.SortOrder,
+                    Value = dbReponse.Entities.Select(x => _mapper.Map<ChatUser>(x)).ToList()
+                };
+
+                return result.WithValue(mappedResponse);
             }
             catch (Exception ex)
             {

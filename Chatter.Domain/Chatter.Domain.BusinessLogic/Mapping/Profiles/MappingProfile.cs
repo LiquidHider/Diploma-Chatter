@@ -2,6 +2,7 @@
 using Chatter.Domain.BusinessLogic.Models;
 using Chatter.Domain.BusinessLogic.Models.ChatMessages;
 using Chatter.Domain.BusinessLogic.Models.Update;
+using Chatter.Domain.Common.Enums;
 using Chatter.Domain.DataAccess.Models;
 
 namespace Chatter.Domain.BusinessLogic.Mapping.Profiles
@@ -31,6 +32,8 @@ namespace Chatter.Domain.BusinessLogic.Mapping.Profiles
 
             CreateMap<UpdateChatUserModel, UpdateChatUser>()
                  .ForMember(dest => dest.UserID, opt => opt.MapFrom(src => src.ID));
+
+            CreateMap<BusinessLogic.Models.Parameters.ChatUserListParameters, DataAccess.Models.Parameters.ChatUserListParameters>();
         }
     }
 
