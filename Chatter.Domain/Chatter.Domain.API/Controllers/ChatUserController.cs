@@ -5,7 +5,9 @@ using Chatter.Domain.API.Models.ChatUser;
 using Chatter.Domain.BusinessLogic.Interfaces;
 using Chatter.Domain.BusinessLogic.Models;
 using Chatter.Domain.BusinessLogic.Models.Create;
+using Chatter.Domain.BusinessLogic.Models.Parameters;
 using Chatter.Domain.BusinessLogic.Models.Update;
+using Chatter.Domain.Common.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,10 +18,12 @@ namespace Chatter.Domain.API.Controllers
     public class ChatUserController : BaseAPIController
     {
         private readonly IChatUserService _chatUserService;
+        private readonly IPrivateChatService _privateChatService;
 
-        public ChatUserController(IChatUserService chatUserService, IMapper mapper) : base(mapper)
+        public ChatUserController(IChatUserService chatUserService, IPrivateChatService privateChatService, IMapper mapper) : base(mapper)
         {
             _chatUserService = chatUserService;
+            _privateChatService = privateChatService;
         }
 
         [HttpPost]
@@ -58,6 +62,22 @@ namespace Chatter.Domain.API.Controllers
             return Ok(mappedResponse);
         }
 
+        [HttpPost]
+        [Route("contacts")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedResponse<ChatUser, ChatUserSort>))]
+        public async Task<IActionResult> GetUserContacts(Guid userId, CancellationToken token) 
+        {
+            var contacts = await _privateChatService.LoadUserContactsAsync(userId, token);
+            var chatUsersListRequest = new ChatUserListParameters() {
+                PageNumber = 1,
+                PageSize = contacts.Value.Count,
+                SortOrder = SortOrder.Asc,
+                SortBy = ChatUserSort.LastName,
+                Users = contacts.Value.Select(x => x.Member2ID).ToList()
+            };
+            var result = await _chatUserService.ListAsync(chatUsersListRequest,token);
+            return Ok(result);
+        }
 
         [HttpPut]
         [Route("update")]
