@@ -1,3 +1,14 @@
-<p>chats works!</p>
+<div>
+    <div> 
+        <input type="text" placeholder="Search">
+    </div>
+    <div *ngFor="let user of contacts">
+        <button (click)="openChat(user.id.toString())">
+            <img src="{{defaultUserIcon}}" width="50" height="50">
+            {{user.lastName}} {{user.firstName}}
+        </button>
+    </div>
+</div>
+
 
 <button (click)="logOut()" routerLink="/">Log out</button>

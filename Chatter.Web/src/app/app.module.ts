@@ -8,8 +8,9 @@ import { RegistrationComponent } from './Forms/Registration/registration/registr
 import { LoginComponent } from './Forms/Login/login-window/login/login.component';
 import { HomeComponent } from './Home/home/home.component';
 import { ChatsComponent } from './Chats/chats/chats.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { JwtInterceptor } from './Interceptors/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
