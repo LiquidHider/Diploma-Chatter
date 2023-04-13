@@ -78,7 +78,7 @@ namespace Chatter.Domain.DataAccess.Repositories
             parameters.Add("@Sender", listParameters.Sender);
             var targetTable = listParameters.RecipientIsGroup ? "RecipientGroup" : "RecipientUser";
 
-            var filter = _queryHelper.Where($"{targetTable} = @Recipient", $"{targetTable} = @Sender");
+            var filter = _queryHelper.Where($"{targetTable} = @Recipient AND Sender = @Sender", $"{targetTable} = @Sender AND Sender = @Recipient");
 
             var sortOrder = _queryHelper.OrderBy(listParameters.SortOrder.ToString(), listParameters.SortBy.ToString());
 
