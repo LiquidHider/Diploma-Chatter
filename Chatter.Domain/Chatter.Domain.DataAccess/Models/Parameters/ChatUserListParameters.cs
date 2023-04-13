@@ -12,6 +12,8 @@ namespace Chatter.Domain.DataAccess.Models.Parameters
 
         public ChatUserSort SortBy { get; set; }
 
+        public List<Guid>? Users { get; set; }
+
         public List<string>? UniversitiesNames { get; set; }
 
         public List<string>? UniversitiesFaculties { get; set; }

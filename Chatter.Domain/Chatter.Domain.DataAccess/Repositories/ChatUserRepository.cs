@@ -95,6 +95,10 @@ namespace Chatter.Domain.DataAccess.Repositories
             parameters.Add("@PageNumber", listParameters.PageNumber);
 
             var filtersList = new List<string>();
+            if (listParameters.Users != null)
+            {
+                filtersList = filtersList.Concat(listParameters.Users.Select(x => $"[ID] = '{x}'")).ToList();
+            }
             if (listParameters.UniversitiesNames != null) 
             {
                 filtersList = filtersList.Concat(listParameters.UniversitiesNames.Select(x => $"[UniversityName] = '{x}'")).ToList();
