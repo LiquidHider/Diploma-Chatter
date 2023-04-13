@@ -64,10 +64,16 @@ namespace Chatter.Domain.API.Controllers
 
         [HttpPost]
         [Route("contacts")]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedResponse<ChatUser, ChatUserSort>))]
         public async Task<IActionResult> GetUserContacts(Guid userId, CancellationToken token) 
         {
             var contacts = await _privateChatService.LoadUserContactsAsync(userId, token);
+            if (contacts.Value.Count == 0) 
+            {
+                return Ok(new PaginatedResponse<ChatUser, ChatUserSort>());
+            }
+
             var chatUsersListRequest = new ChatUserListParameters() {
                 PageNumber = 1,
                 PageSize = contacts.Value.Count,
@@ -75,8 +81,19 @@ namespace Chatter.Domain.API.Controllers
                 SortBy = ChatUserSort.LastName,
                 Users = contacts.Value.Select(x => x.Member2ID).ToList()
             };
-            var result = await _chatUserService.ListAsync(chatUsersListRequest,token);
-            return Ok(result);
+            var dbResponse = await _chatUserService.ListAsync(chatUsersListRequest,token);
+
+            var mappedResponse = new PaginatedResponse<ChatUser, ChatUserSort>()
+            {
+                PageNumber = dbResponse.Value.PageNumber,
+                PageSize = dbResponse.Value.PageSize,
+                SortOrder = dbResponse.Value.SortOrder,
+                SortBy = dbResponse.Value.SortBy,
+                TotalCount = dbResponse.Value.TotalCount,
+                TotalPages = dbResponse.Value.TotalPages,
+                Items = dbResponse.Value.Value
+            };
+            return Ok(mappedResponse);
         }
 
         [HttpPut]
