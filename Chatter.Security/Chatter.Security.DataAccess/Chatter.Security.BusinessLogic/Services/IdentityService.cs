@@ -319,7 +319,7 @@ namespace Chatter.Security.Core.Services
             var result = new ValueServiceResult<Identity>();
             try
             {
-                _logger.LogInformation("FindByEmailAsync : {@Details}", new { Class = nameof(IdentityService), Method = nameof(FindByEmailAsync) });
+                _logger.LogInformation("FindByEmailOrUserAsync : {@Details}", new { Class = nameof(IdentityService), Method = nameof(FindByEmailAsync) });
                 var searchModel = new EmailOrUserTagSearchModel()
                 {
                     Email = email,
@@ -330,7 +330,7 @@ namespace Chatter.Security.Core.Services
 
                 if (identity == null)
                 {
-                    _logger.LogInformation("Identity with specific email does not exist. {@Details}", new { Email = searchModel.Email });
+                    _logger.LogInformation("Identity with specific email or user tag does not exist. {@Details}", new { Email = searchModel.Email, UserTag = searchModel.UserTag });
                     return result.WithBusinessError("Identity does not exist.");
                 }
 
