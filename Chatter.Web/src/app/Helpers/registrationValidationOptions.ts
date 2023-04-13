@@ -36,27 +36,32 @@ export class RegistrationValidationOptions{
         'required': "Last name is required field.",
         'minlength': "Last name length should be at least " + this.lastNameMinLength + " characters.",
         'maxlength': "Last name length should be less than " + this.lastNameMaxLength + " characters.",
+        'nodigits' : "Last name can`t have digits."
     };
 
     firstNameErrorMessages: Dictionary<string> = {
         'required': "First name is required field.",
         'minlength': "First name length should be at least " + this.firstNameMinLength + " characters.",
         'maxlength': "First name length should be less than " + this.firstNameMaxLength + " characters.",
+        'nodigits' : "First name can`t have digits."
     };
 
     patronymicErrorMessages: Dictionary<string> = {
         'minlength': "Patronymic length should be at least " + this.patronymicMinLength + " characters.",
         'maxlength': "Patronymic length should be less than " + this.patronymicMaxLength + " characters.",
+        'nodigits' : "Patronymic can`t have digits."
     };
 
     universityNameErrorMessages: Dictionary<string> = {
         'minlength': "University name length should be at least " + this.universityNameMinLength + " characters.",
         'maxlength': "University name length should be less than " + this.universityNameMaxLength + " characters.",
+        'nodigits' : "University name can`t have digits."
     };
 
     universityFacultyErrorMessages: Dictionary<string> = {
         'minlength': "University faculty length should be at least " + this.universityFacultyMinLength + " characters.",
         'maxlength': "University faculty length should be less than " + this.universityFacultyMaxLength + " characters.",
+        'nodigits' : "University faculty can`t have digits."
     };
 
     passwordErrorMessages: Dictionary<string> = {
@@ -67,6 +72,6 @@ export class RegistrationValidationOptions{
 
     confirmPasswordErrorMessages: Dictionary<string> = {
         'required': "Password confirmation is required.",
-        'isMatching': "Passwords do not match."
+        'ismatching': "Passwords do not match."
     };
 }
