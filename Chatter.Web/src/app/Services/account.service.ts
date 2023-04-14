@@ -19,10 +19,7 @@ export class AccountService
     currentUser = this.currentUserSource.asObservable();
 
     constructor(private http: HttpClient) {
-      var userFromLocalStorage = localStorage.getItem('user');
-      if(userFromLocalStorage){
-        this.setCurrentUser(JSON.parse(userFromLocalStorage!));
-      }
+   
     }
 
 

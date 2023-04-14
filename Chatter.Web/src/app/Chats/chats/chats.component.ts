@@ -13,13 +13,26 @@ import { ChatUserService } from 'src/app/Services/chatUser.service';
 })
 export class ChatsComponent implements OnInit {
   defaultUserIcon: string = environment.userDefaultIcon;
+  currentInterlocutor: ChatUser | null = null;
   contacts: any = [];
+  messages: any = null;
+  
 
   constructor(public accountService: AccountService, 
     private chatUserService: ChatUserService, 
-    private chatService: ChatService) {
+    public chatService: ChatService) {
     
   } 
+
+  isSenderCurrentUser(senderId: string): boolean {
+    return senderId === this.currentInterlocutor?.id
+  }
+
+  findContact(id:string): ChatUser {
+    var user = this.contacts.find((user: ChatUser) => user.id === id); 
+    return user;
+  }
+
   ngOnInit(): void {
     this.chatUserService.loadContacts().subscribe(
       (object: PaginatedResult<ChatUser>) => {
@@ -27,13 +40,12 @@ export class ChatsComponent implements OnInit {
       });
   }
   openChat(interlocutorId: string){
-    //TODO: make messages display on screen
-    console.log(interlocutorId);
     this.chatUserService.currentUser.subscribe((chatUser: ChatUser) => {
       var userID: string = chatUser.id.toString();
-      this.chatService.openChat(userID, interlocutorId).subscribe(response => console.log(response));
+      this.chatService.openChat(userID, interlocutorId).subscribe(response => this.messages = response);
+      this.currentInterlocutor = this.findContact(interlocutorId);
     });
-
+   
   }
   logOut(){
     this.accountService.logout();

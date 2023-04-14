@@ -9,7 +9,10 @@ import { environment } from "src/Environments/environment";
 
 export class ChatService{
     domainApiBaseUrl = environment.domainApiUrl;
-    
+    messageSent = environment.messageSent;
+    messageSeen = environment.messageSeen;
+    sendMessage = environment.sendMessage;
+
     constructor(private http: HttpClient) {
         
     }

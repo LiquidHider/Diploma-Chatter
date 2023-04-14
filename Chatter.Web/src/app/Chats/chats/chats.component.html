@@ -2,6 +2,7 @@
     <div> 
         <input type="text" placeholder="Search">
     </div>
+    <h2> Contacts</h2>
     <div *ngFor="let user of contacts">
         <button (click)="openChat(user.id.toString())">
             <img src="{{defaultUserIcon}}" width="50" height="50">
@@ -9,6 +10,30 @@
         </button>
     </div>
 </div>
+<div *ngIf="messages === null">
+   <h3> Select a contact to start conversation.</h3>
+</div>
+<div *ngIf="messages != null">
+   <h2> Chat</h2>
+    <div *ngFor="let message of messages">
+        <div>
+            <div>
+                <strong *ngIf="!isSenderCurrentUser(message.sender)">{{currentInterlocutor?.lastName}} {{currentInterlocutor?.firstName}}</strong>
+                <strong *ngIf="isSenderCurrentUser(message.sender)">You</strong>
+            </div>
+            <button>
+                <div><img src="{{defaultUserIcon}}" width="50" height="50"></div>
+            
+                <div> {{message.body}} </div> 
+                <small>{{message.sent}} </small> 
+                <img src="{{message.isRead ? chatService.messageSeen : chatService.messageSent}}" alt="{{message.isRead}}" width="20" height="20"> 
+            </button>
+        </div>
+    </div>
+    <input type="text" placeholder="Write a message..."><button><img src="{{chatService.sendMessage}}" alt="Send" width="30" height="30"></button>
+</div>
+<div>
+    <h2> Sidebar</h2>
+    <button (click)="logOut()" routerLink="/">Log out</button>
+</div>
 
-
-<button (click)="logOut()" routerLink="/">Log out</button>

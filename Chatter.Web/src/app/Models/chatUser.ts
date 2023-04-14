@@ -2,7 +2,7 @@ import { Contact } from "./contact";
 
 export interface ChatUser
 {
-    id: number;
+    id: string;
     userName: string;
     lastName: string;
     firstName: string;
