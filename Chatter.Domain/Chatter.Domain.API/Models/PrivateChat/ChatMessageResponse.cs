@@ -13,7 +13,7 @@ namespace Chatter.Domain.API.Models.PrivateChat
 
         public DateTime Sent { get; set; }
 
-        public Guid Sender { get; set; }
+        public Guid SenderId { get; set; }
 
         public Guid RecipientID { get; set; }
     }
