@@ -17,7 +17,7 @@ namespace Chatter.Domain.API.Mapping
         {
             //Responses
             CreateMap<ChatMessage, ChatMessageResponse>();
-            CreateMap<PrivateChatMessage, ChatMessageResponse>();
+            CreateMap<PrivateChatMessage, ChatMessageResponse>().ForMember(dest => dest.SenderId, opt => opt.MapFrom(src => src.Sender));
             CreateMap<PrivateChat, PrivateChatReponse>();
             CreateMap<Report, ReportResponse>();
             CreateMap<ChatUser, ChatUserResponse>()
