@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chatter.Web", "Chatter.Web\Chatter.Web.csproj", "{56F2E051-D2A0-4844-B72E-A0AA624B66DB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{56F2E051-D2A0-4844-B72E-A0AA624B66DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56F2E051-D2A0-4844-B72E-A0AA624B66DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56F2E051-D2A0-4844-B72E-A0AA624B66DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56F2E051-D2A0-4844-B72E-A0AA624B66DB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F3FD3530-1462-48F2-A527-C7342C3317C9}
+	EndGlobalSection
+EndGlobal
