@@ -37,7 +37,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapHub<ChatsHub>("/chat");
+app.MapHub<ChatsHub>("/chatHub");
 
 app.MapControllers().RequireAuthorization(AuthOptions.DefaultAuthPolicy);
 
