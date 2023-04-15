@@ -8,8 +8,6 @@ namespace Chatter.Domain.BusinessLogic.Models.Create
 
         public Guid RecipientID { get; set; }
 
-        public DateTime Sent { get; set; }
-
         public string Body { get; set; }
     }
 }
