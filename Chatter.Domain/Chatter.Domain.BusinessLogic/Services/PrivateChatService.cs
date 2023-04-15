@@ -46,7 +46,7 @@ namespace Chatter.Domain.BusinessLogic.Services
 
                 if (chatMember1 is null || chatMember2 is null) 
                 {
-                    _logger.LogInformation("One or both chat members does not exist. Taken from db: {@Details}", new { Member1 = chatMember1, Member2 = chatMember2 });
+                    _logger.LogInformation("One or both chat members does not exist. Taken from db: {@Details}", new { Member1 = member1ID, Member2 = member2ID });
                     return result.WithBusinessError(PrivateChatServiceMessagesContainer.OneOrBothMembersDoesNotExist);
                 }
 
@@ -136,7 +136,7 @@ namespace Chatter.Domain.BusinessLogic.Services
 
                 if (chatMember1 is null || chatMember2 is null)
                 {
-                    _logger.LogInformation("One or both chat members does not exist. Taken from db: {@Details}", new { Member1 = chatMember1, Member2 = chatMember2 });
+                    _logger.LogInformation("One or both chat members does not exist. Taken from db: {@Details}", new { Member1 = chat.Member1ID, Member2 = chat.Member2ID });
                     return result.WithBusinessError(PrivateChatServiceMessagesContainer.OneOrBothMembersDoesNotExist);
                 }
 
@@ -229,9 +229,9 @@ namespace Chatter.Domain.BusinessLogic.Services
             }
         }
 
-        public async Task<ValueServiceResult<Guid>> SendMessageAsync(CreateChatMessage createModel, CancellationToken token)
+        public async Task<ValueServiceResult<PrivateChatMessage>> SendMessageAsync(CreateChatMessage createModel, CancellationToken token)
         {
-            var result = new ValueServiceResult<Guid>();
+            var result = new ValueServiceResult<PrivateChatMessage>();
             try
             {
                 var member1 = await _chatUserRepository.GetAsync(createModel.SenderID, token);
@@ -239,7 +239,7 @@ namespace Chatter.Domain.BusinessLogic.Services
 
                 if (member1 is null || member2 is null) 
                 {
-                    _logger.LogInformation("One or both declared members does not exist. Taken from db: {@Details}", new { Member1 = member1, Member2 = member2 });
+                    _logger.LogInformation("One or both declared members does not exist. Taken from db: {@Details}", new { Sender = createModel.SenderID, Recipient = createModel.RecipientID });
                     return result.WithBusinessError(PrivateChatServiceMessagesContainer.OneOrBothMembersDoesNotExist);
                 }
                 var formatedSendTime = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.ff");
@@ -255,8 +255,8 @@ namespace Chatter.Domain.BusinessLogic.Services
                 };
 
                 await _chatMessageRepository.CreateAsync(messageModel, token);
-
-                return result.WithValue(messageModel.ID);
+                var response = await _chatMessageRepository.GetAsync(messageModel.ID, token);
+                return result.WithValue(_mapper.Map<PrivateChatMessage>(response));
             }
             catch (Exception ex)
             {
