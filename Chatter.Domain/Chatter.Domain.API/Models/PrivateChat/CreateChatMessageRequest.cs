@@ -2,6 +2,8 @@
 {
     public class CreateChatMessageRequest
     {
+        public string ConnectionID { get; set; }
+
         public Guid SenderID { get; set; }
 
         public Guid RecipientID { get; set; }
