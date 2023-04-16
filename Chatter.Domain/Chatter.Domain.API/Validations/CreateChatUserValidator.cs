@@ -17,15 +17,18 @@ namespace Chatter.Domain.API.Validations
 
             RuleFor(x => x.Patronymic)
                 .Must(x => !x.Any(char.IsDigit)).WithMessage("Patronymic cannot contain digits.")
-                .Length(2,20);
+                .Length(2,20)
+                .When(x => !string.IsNullOrEmpty(x.Patronymic));
 
             RuleFor(x => x.UniversityName)
                 .Must(x => !x.Any(char.IsDigit)).WithMessage("University name cannot contain digits.")
-                .Length(2,50);
+                .Length(2,50)
+                .When(x => !string.IsNullOrEmpty(x.UniversityName));
 
             RuleFor(x => x.UniversityFaculty)
                 .Must(x => !x.Any(char.IsDigit))
-                .WithMessage("University faculty cannot contain digits.").Length(2,50);
+                .WithMessage("University faculty cannot contain digits.").Length(2,50)
+                .When(x => !string.IsNullOrEmpty(x.UniversityFaculty));
         }
     }
 }
