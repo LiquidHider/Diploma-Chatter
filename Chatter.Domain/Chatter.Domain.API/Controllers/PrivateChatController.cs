@@ -39,7 +39,7 @@ namespace Chatter.Domain.API.Controllers
 
         [HttpPost]
         [Route("send-message")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CreatedResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> SendPrivateMessage(CreateChatMessageRequest requestModel, CancellationToken cancellationToken)
@@ -53,7 +53,7 @@ namespace Chatter.Domain.API.Controllers
                 return MapErrorResponse(result);
             }
 
-            return Ok(new CreatedResponse(result.Value));
+            return Ok(result.Value);
         }
 
         [HttpPut]
