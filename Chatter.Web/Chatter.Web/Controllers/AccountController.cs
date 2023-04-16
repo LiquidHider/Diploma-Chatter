@@ -1,8 +1,6 @@
 ﻿using Chatter.Web.Interfaces;
 using Chatter.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Reflection.Metadata.Ecma335;
 
 namespace Chatter.Web.Controllers
 {
@@ -47,6 +45,19 @@ namespace Chatter.Web.Controllers
         public async Task<IActionResult> SignUpPage() 
         {
             return View(signUpPagePath);
+        }
+
+        public async Task<IActionResult> SignUp(SignUpModel signUpModel) 
+        {
+
+            var response = await _accountService.SignUp(signUpModel);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.BadRequest || !ModelState.IsValid)
+            {
+                return View(signUpPagePath, signUpModel);
+            }
+
+            return RedirectToAction("");
         }
     }
 }

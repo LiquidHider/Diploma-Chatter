@@ -1,16 +1,18 @@
 ﻿@model SignUpModel
-
+@{
+    ViewData["Title"] = "Sign Up";
+}
 <div>
     <h1>Sign up</h1>
 </div>
 
 <div>
 
-    <form type="submit" asp-action="SignIn">
+    <form type="submit" id="registrationForm" asp-action="SignIn">
         <div>
-            <label>User Tag</label>
+            <label for="UserTag">User Tag</label>
             <div>
-                <input type="text" placeholder="User Tag" />
+                <input id="userTagField" asp-for="UserTag" type="text" placeholder="User Tag" />
             </div>
             @if (Model != null)
             {
@@ -19,9 +21,9 @@
         </div>
 
          <div>
-            <label>Email</label>
+            <label for="Email">Email</label>
             <div>
-                <input type="text" placeholder="Email" />
+                <input id="emailField" asp-for="Email" type="text" placeholder="Email" />
             </div>
             @if (Model != null)
             {
@@ -30,9 +32,9 @@
         </div>
 
         <div>
-            <label>Last name</label>
+            <label for="LastName">Last name</label>
             <div>
-                <input type="text" placeholder="Last name" />
+                <input id="lastNameField" asp-for="LastName" type="text" placeholder="Last name" />
             </div>
             @if (Model != null)
             {
@@ -41,9 +43,9 @@
         </div>
 
           <div>
-            <label>First name</label>
+            <label for="FirstName">First name</label>
             <div>
-                <input type="text" placeholder="First name" />
+                <input id="firstNameField" asp-for="FirstName" type="text" placeholder="First name" />
             </div>
             @if (Model != null)
             {
@@ -52,9 +54,9 @@
         </div>
 
         <div>
-            <label>Patronymic</label>
+            <label for="Patronymic">Patronymic</label>
             <div>
-                <input type="text" placeholder="Patronymic" />
+                <input id="patronymicField" asp-for="Patronymic" type="text" placeholder="Patronymic" />
             </div>
             @if (Model != null)
             {
@@ -64,9 +66,9 @@
 
         
         <div>
-            <label>University name</label>
+            <label for="UniversityName">University name</label>
             <div>
-                <input type="text" placeholder="Patronymic" />
+                <input id="universityNameField" asp-for="UniversityName" type="text" placeholder="Patronymic" />
             </div>
             @if (Model != null)
             {
@@ -75,9 +77,9 @@
         </div>
 
           <div>
-            <label>University faculty</label>
+            <label for="UniversityFaculty">University faculty</label>
             <div>
-                <input type="text" placeholder="Patronymic" />
+                <input id="universityFacultyField" asp-for="UniversityFaculty" type="text" placeholder="Patronymic" />
             </div>
             @if (Model != null)
             {
@@ -86,9 +88,9 @@
         </div>
 
         <div>
-            <label>Password</label>
+            <label for ="Password">Password</label>
             <div>
-                <input  type="password" placeholder="Password" />
+                <input id="passwordField" asp-for="Password" type="password" placeholder="Password" />
             </div>
             @if (Model != null)
             {
@@ -97,9 +99,9 @@
         </div>
 
           <div>
-            <label>Confirm password</label>
+            <label for="ConfirmPassword">Confirm password</label>
             <div>
-                <input  type="password" placeholder="Confirm password" />
+                <input id="confirmPasswordField" asp-for="ConfirmPassword" type="password" placeholder="Confirm password" />
             </div>
             @if (Model != null)
             {
@@ -107,6 +109,9 @@
             }
         </div>
 
-        <button type="submit">Sign Up</button>
+        <button id="registerButton" asp-controller="Account" asp-action="signUp" type="submit">
+            Sign Up</button>
+        <button onclick="window.location.href='/'">Cancel</button>
     </form>
 </div>
+<script src="~/js/registrationvalidation.js"></script>
