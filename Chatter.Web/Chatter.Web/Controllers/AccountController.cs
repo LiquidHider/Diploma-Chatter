@@ -1,12 +1,15 @@
 ﻿using Chatter.Web.Interfaces;
 using Chatter.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Chatter.Web.Controllers
 {
     public class AccountController : Controller
     {
         private const string signInPagePath = "~/Views/Account/SignIn.cshtml";
+        private const string signUpPagePath = "~/Views/Account/SignUp.cshtml";
 
         private readonly IAccountService _accountService;
 
@@ -19,16 +22,8 @@ namespace Chatter.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> SignInPage()
         {
-            var currentUser = Request.Cookies["User"];
-
-            if (currentUser != null)
-            {
-                return RedirectToAction("", "Chat");
-            }
-
             return View(signInPagePath);
         }
-
 
         [Route("signIn")]
         [HttpPost]
@@ -41,12 +36,17 @@ namespace Chatter.Web.Controllers
                 signInModel.WrongCreds = true;
                 return View(signInPagePath, signInModel);
             }
-            var userJson = await response.Content.ReadAsStringAsync();
-
-            Response.Cookies.Append("User", userJson);
-
+            var responeContent = await response.Content.ReadAsStringAsync();
+            Response.Cookies.Append("User", responeContent);
+            
             return RedirectToAction("", "Chat");
         }
 
+        [Route("signUp")]
+        [HttpGet]
+        public async Task<IActionResult> SignUpPage() 
+        {
+            return View(signUpPagePath);
+        }
     }
 }

@@ -1,17 +1,19 @@
 ﻿using Chatter.Web.Interfaces;
 using Chatter.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace Chatter.Web.Controllers
 {
     [Route("Chat")]
-    public class HomeController : Controller
+    [Authorize]
+    public class ChatController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<ChatController> _logger;
         private readonly IAccountService _accountService;
 
-        public HomeController(ILogger<HomeController> logger, IAccountService accountService)
+        public ChatController(ILogger<ChatController> logger, IAccountService accountService)
         {
             _logger = logger;
             _accountService = accountService;
@@ -20,12 +22,6 @@ namespace Chatter.Web.Controllers
         [Route("")]
         public async Task<IActionResult> Index()
         {
-            var currentUser = Request.Cookies["User"];
-
-            if (currentUser == null)
-            {
-                return RedirectToAction("");
-            }
             return View();
         }
 

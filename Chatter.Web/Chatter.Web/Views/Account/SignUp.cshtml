@@ -1,0 +1,112 @@
+﻿@model SignUpModel
+
+<div>
+    <h1>Sign up</h1>
+</div>
+
+<div>
+
+    <form type="submit" asp-action="SignIn">
+        <div>
+            <label>User Tag</label>
+            <div>
+                <input type="text" placeholder="User Tag" />
+            </div>
+            @if (Model != null)
+            {
+                <small>Wrong login or password.</small>
+            }
+        </div>
+
+         <div>
+            <label>Email</label>
+            <div>
+                <input type="text" placeholder="Email" />
+            </div>
+            @if (Model != null)
+            {
+                <small>Wrong login or password.</small>
+            }
+        </div>
+
+        <div>
+            <label>Last name</label>
+            <div>
+                <input type="text" placeholder="Last name" />
+            </div>
+            @if (Model != null)
+            {
+                <small>Wrong login or password.</small>
+            }
+        </div>
+
+          <div>
+            <label>First name</label>
+            <div>
+                <input type="text" placeholder="First name" />
+            </div>
+            @if (Model != null)
+            {
+                <small>Wrong login or password.</small>
+            }
+        </div>
+
+        <div>
+            <label>Patronymic</label>
+            <div>
+                <input type="text" placeholder="Patronymic" />
+            </div>
+            @if (Model != null)
+            {
+                <small>Wrong login or password.</small>
+            }
+        </div>
+
+        
+        <div>
+            <label>University name</label>
+            <div>
+                <input type="text" placeholder="Patronymic" />
+            </div>
+            @if (Model != null)
+            {
+                <small>Wrong login or password.</small>
+            }
+        </div>
+
+          <div>
+            <label>University faculty</label>
+            <div>
+                <input type="text" placeholder="Patronymic" />
+            </div>
+            @if (Model != null)
+            {
+                <small>Wrong login or password.</small>
+            }
+        </div>
+
+        <div>
+            <label>Password</label>
+            <div>
+                <input  type="password" placeholder="Password" />
+            </div>
+            @if (Model != null)
+            {
+                <small>Wrong login or password.</small>
+            }
+        </div>
+
+          <div>
+            <label>Confirm password</label>
+            <div>
+                <input  type="password" placeholder="Confirm password" />
+            </div>
+            @if (Model != null)
+            {
+                <small>Wrong login or password.</small>
+            }
+        </div>
+
+        <button type="submit">Sign Up</button>
+    </form>
+</div>

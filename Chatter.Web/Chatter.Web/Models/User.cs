@@ -2,9 +2,8 @@
 {
     public class User
     {
-        public Guid UserId { get; set; }
+        public Guid ID { get; set; }
 
-        public string Token { get; set; }
-
+        public List<string> Roles { get; set; }
     }
 }
