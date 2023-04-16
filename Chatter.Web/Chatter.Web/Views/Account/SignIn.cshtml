@@ -1,0 +1,35 @@
+﻿@model SignInModel
+@{
+    ViewData["Title"] = "Sign In";
+}
+<div>
+    <h1>Welcome to Chatter!</h1>
+
+    <div>Simple messenger for communication between students and teachers around the world!</div>
+</div>
+
+<div>
+
+    <form type="submit" asp-action="SignIn">
+        <div>
+            <label>User Tag or Email</label>
+            <div>
+                <input asp-for="EmailOrUserTag" type="text" placeholder="User Tag or Email" />
+            </div>
+            
+        </div>
+        <div>
+            <label>Password</label>
+            <div>
+                <input asp-for="Password" type="password" placeholder="Password" />
+            </div>
+        </div>
+        @if (Model != null && Model.WrongCreds) {
+            <div>
+                <small>Wrong login or password.</small>
+        </div>
+        }
+        <button type="submit">Sign In</button>
+    </form>
+    <div>New on Chatter? <button type="reset" asp-controller="Account" asp-action="SignUp">Sign Up</button></div>
+</div>

@@ -1,11 +1,11 @@
 using Chatter.Web.Extensions;
+using Microsoft.AspNetCore.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddChatterServices();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -21,6 +21,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

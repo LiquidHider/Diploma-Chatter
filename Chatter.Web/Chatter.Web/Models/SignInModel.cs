@@ -6,5 +6,7 @@ namespace Chatter.Web.Models
 
         public string Password { get; set; }
 
+        public bool WrongCreds { get; set; } = false;
+
     }
 }

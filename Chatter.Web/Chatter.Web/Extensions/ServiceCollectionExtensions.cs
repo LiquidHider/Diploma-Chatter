@@ -7,7 +7,7 @@ namespace Chatter.Web.Extensions
     {
         public static IServiceCollection AddChatterServices(this IServiceCollection services) 
         {
-            services.AddTransient<IAccountService, AccountService>();
+            services.AddScoped<IAccountService, AccountService>();
 
             return services;
         }

@@ -1,5 +1,7 @@
 ﻿using Chatter.Web.Interfaces;
 using Chatter.Web.Models;
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using Newtonsoft.Json;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -8,7 +10,10 @@ namespace Chatter.Web.Services
 {
     public class AccountService : IAccountService
     {
+        private const string _localStorageUserKey = "User";
+
         private readonly IConfiguration _configuration;
+        private readonly IJSRuntime _js;
         private readonly Uri _securityUri;
         private readonly Uri _domainUri;
 
@@ -21,7 +26,7 @@ namespace Chatter.Web.Services
 
         public async Task<HttpResponseMessage> SignIn(SignInModel signInModel)
         {
-            using (var http = new HttpClient()) 
+            using (var http = new HttpClient())
             {
                 http.BaseAddress = _securityUri;
 
@@ -30,8 +35,8 @@ namespace Chatter.Web.Services
                 string email = isLoginEmail ? signInModel.EmailOrUserTag : null;
                 string userTag = !isLoginEmail ? signInModel.EmailOrUserTag : null;
 
-                var request = 
-                    new { UserTag =  userTag,
+                var request =
+                    new { UserTag = userTag,
                         Email = email,
                         Password = signInModel.Password };
 
@@ -39,7 +44,7 @@ namespace Chatter.Web.Services
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await http.PostAsync("signIn",content);
+                var response = await http.PostAsync("signIn", content);
 
                 return response;
             }
@@ -48,7 +53,7 @@ namespace Chatter.Web.Services
         public async Task<HttpResponseMessage> SignUp(SignUpModel signUpModel)
         {
             HttpResponseMessage securityResponse = null;
-           
+
             using (var securityHttp = new HttpClient())
             {
                 securityHttp.BaseAddress = _securityUri;
@@ -58,7 +63,7 @@ namespace Chatter.Web.Services
 
                 var isUserExists = JsonConvert.DeserializeObject<bool>(userExistsResponseContent);
 
-                if (isUserExists) 
+                if (isUserExists)
                 {
                     return userExistsResponse;
                 }
@@ -105,10 +110,13 @@ namespace Chatter.Web.Services
 
                 securityResponse = await securityHttp.PostAsync("signUp", securityContent);
 
+              
+                
+
                 return securityResponse;
 
             }
-          
+
         }
 
         private bool IsValueEmail(string email)
@@ -124,5 +132,7 @@ namespace Chatter.Web.Services
                 return Regex.IsMatch(email, pattern);
             }
         }
+
     }
 }
+
