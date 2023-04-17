@@ -1,19 +1,34 @@
 ﻿const submitButton = document.getElementById("registerButton");
 submitButton.disabled = true;
 
-const emailField = document.getElementById("emailField");//
+const emailField = document.getElementById("emailField");
+const emailFieldErrorMessage = document.getElementById("emailFieldError");
 
 const userTagField = document.getElementById("userTagField");
+const userTagFieldErrorMessage = document.getElementById("userTagFieldError");
 
 const lastNameField = document.getElementById("lastNameField");
+const lastNameFieldErrorMessage = document.getElementById("lastNameFieldError");
+
 
 const firstNameField = document.getElementById("firstNameField");
+const firstNameFieldErrorMessage = document.getElementById("firstNameFieldError");
+
 
 const patronymicField = document.getElementById("patronymicField");
+const patronymicFieldErrorMessage = document.getElementById("patronymicFieldError");
+
+const universityNameField = document.getElementById("universityNameField");
+const universityNameFieldErrorMessage = document.getElementById("universityNameFieldError");
+
+const universityFacultyField = document.getElementById("universityFacultyField");
+const universityFacultyFieldErrorMessage = document.getElementById("universityFacultyFieldError");
 
 const passwordField = document.getElementById("passwordField");
+const passwordFieldErrorMessage = document.getElementById("passwordFieldError");
 
 const confirmPasswordField = document.getElementById("confirmPasswordField");
+const confirmPasswordFieldErrorMessage = document.getElementById("confirmPasswordFieldError");
 
 
 const errorMessages = {
@@ -37,10 +52,9 @@ const validators = [
                     errors.push(errorMessages.userTag.invalid);
                 }
             }
-            if (errors.length > 0) {
-                console.log("userTag");
-                console.log(errors);
-            }
+
+            userTagFieldErrorMessage.innerHTML = errors.length > 0 ? errors[0] : "";
+
             return errors.length === 0;
         },
     },
@@ -59,10 +73,8 @@ const validators = [
                 errors.push(errorMessages.email.invalid);
             }
 
-            if (errors.length > 0) {
-                console.log("email");
-                console.log(errors);
-            }
+            emailFieldErrorMessage.innerHTML = errors.length > 0 ? errors[0] : "";
+
 
             return errors.length === 0;
         },
@@ -85,10 +97,7 @@ const validators = [
                 errors.push("Поле 'Прізвище' не повинно містити цифри");
             }
 
-            if (errors.length > 0) {
-                console.log("lastName");
-                console.log(errors);
-            }
+            lastNameFieldErrorMessage.innerHTML = errors.length > 0 ? errors[0] : "";
 
             return errors.length === 0;
         },
@@ -111,10 +120,7 @@ const validators = [
                 errors.push("Поле 'Ім'я' не повинно містити цифри");
             }
 
-            if (errors.length > 0) {
-                console.log("firstName");
-                console.log(errors);
-            }
+            firstNameFieldErrorMessage.innerHTML = errors.length > 0 ? errors[0] : "";
 
             return errors.length === 0;
         },
@@ -135,10 +141,7 @@ const validators = [
                 errors.push("Поле 'По-батькові' не повинно містити цифри");
             }
 
-            if (errors.length > 0) {
-                console.log("patronymic");
-                console.log(errors);
-            }
+            patronymicFieldErrorMessage.innerHTML = errors.length > 0 ? errors[0] : "";
 
             return errors.length === 0;
         },
@@ -160,10 +163,7 @@ const validators = [
                 errors.push("Поле 'Назва університету' не повинно містити цифри");
             }
 
-            if (errors.length > 0) {
-                console.log("universityName");
-                console.log(errors);
-            }
+            universityNameFieldErrorMessage.innerHTML = errors.length > 0 ? errors[0] : "";
 
             return errors.length === 0;
         },
@@ -185,10 +185,7 @@ const validators = [
                 errors.push("Поле 'Факультет' не повинно містити цифри");
             }
 
-            if (errors.length > 0) {
-                console.log("universityFaculty");
-                console.log(errors);
-            }
+            universityFacultyFieldErrorMessage.innerHTML = errors.length > 0 ? errors[0] : "";
 
             return errors.length === 0;
         },
@@ -212,10 +209,7 @@ const validators = [
                 errors.push("Поле 'Пароль' не повинно містити цифри");
             }
 
-            if (errors.length > 0) {
-                console.log("password");
-                console.log(errors);
-            }
+            passwordFieldErrorMessage.innerHTML = errors.length > 0 ? errors[0] : "";
 
             return errors.length === 0;
         },
@@ -231,10 +225,7 @@ const validators = [
             }
 
 
-            if (errors.length > 0) {
-                console.log("password");
-                console.log(errors);
-            }
+            confirmPasswordFieldErrorMessage.innerHTML = errors.length > 0 ? errors[0] : "";
 
             return errors.length === 0;
         },

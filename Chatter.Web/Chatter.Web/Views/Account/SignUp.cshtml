@@ -14,10 +14,9 @@
             <div>
                 <input id="userTagField" asp-for="UserTag" type="text" placeholder="User Tag" />
             </div>
-            @if (Model != null)
-            {
-                <small>Wrong login or password.</small>
-            }
+           <div>
+                <small id ="userTagFieldError"></small>
+           </div>
         </div>
 
          <div>
@@ -25,10 +24,9 @@
             <div>
                 <input id="emailField" asp-for="Email" type="text" placeholder="Email" />
             </div>
-            @if (Model != null)
-            {
-                <small>Wrong login or password.</small>
-            }
+            <div>
+                <small id="emailFieldError"></small>
+            </div>
         </div>
 
         <div>
@@ -36,10 +34,9 @@
             <div>
                 <input id="lastNameField" asp-for="LastName" type="text" placeholder="Last name" />
             </div>
-            @if (Model != null)
-            {
-                <small>Wrong login or password.</small>
-            }
+            <div>
+                <small id="lastNameFieldError"></small>
+            </div>
         </div>
 
           <div>
@@ -47,10 +44,9 @@
             <div>
                 <input id="firstNameField" asp-for="FirstName" type="text" placeholder="First name" />
             </div>
-            @if (Model != null)
-            {
-                <small>Wrong login or password.</small>
-            }
+            <div>
+                <small id="firstNameFieldError"></small>
+            </div>
         </div>
 
         <div>
@@ -58,10 +54,9 @@
             <div>
                 <input id="patronymicField" asp-for="Patronymic" type="text" placeholder="Patronymic" />
             </div>
-            @if (Model != null)
-            {
-                <small>Wrong login or password.</small>
-            }
+            <div>
+                <small id="patronymicFieldError"></small>
+            </div>
         </div>
 
         
@@ -70,10 +65,9 @@
             <div>
                 <input id="universityNameField" asp-for="UniversityName" type="text" placeholder="Patronymic" />
             </div>
-            @if (Model != null)
-            {
-                <small>Wrong login or password.</small>
-            }
+            <div>
+                <small id="universityNameFieldError"></small>
+            </div>
         </div>
 
           <div>
@@ -81,10 +75,9 @@
             <div>
                 <input id="universityFacultyField" asp-for="UniversityFaculty" type="text" placeholder="Patronymic" />
             </div>
-            @if (Model != null)
-            {
-                <small>Wrong login or password.</small>
-            }
+            <div>
+                <small id="universityFacultyFieldError"></small>
+            </div>
         </div>
 
         <div>
@@ -92,10 +85,9 @@
             <div>
                 <input id="passwordField" asp-for="Password" type="password" placeholder="Password" />
             </div>
-            @if (Model != null)
-            {
-                <small>Wrong login or password.</small>
-            }
+            <div>
+                <small id="passwordFieldError"></small>
+            </div>
         </div>
 
           <div>
@@ -103,10 +95,9 @@
             <div>
                 <input id="confirmPasswordField" asp-for="ConfirmPassword" type="password" placeholder="Confirm password" />
             </div>
-            @if (Model != null)
-            {
-                <small>Wrong login or password.</small>
-            }
+            <div>
+                <small id="confirmPasswordFieldError"></small>
+            </div>
         </div>
 
         <button id="registerButton" asp-controller="Account" asp-action="signUp" type="submit">
