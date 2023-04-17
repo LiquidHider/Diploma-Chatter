@@ -14,22 +14,31 @@
         <div>
             <label>User Tag or Email</label>
             <div>
-                <input asp-for="EmailOrUserTag" type="text" placeholder="User Tag or Email" />
+                <input id="loginField" asp-for="EmailOrUserTag" type="text" placeholder="User Tag or Email" />
             </div>
+            <small id="loginFieldErrorMessage"></small>
             
         </div>
         <div>
             <label>Password</label>
             <div>
-                <input asp-for="Password" type="password" placeholder="Password" />
+                <input id="passwordField" asp-for="Password" type="password" placeholder="Password" />
             </div>
         </div>
-        @if (Model != null && Model.WrongCreds) {
-            <div>
-                <small>Wrong login or password.</small>
+        <div>
+            <small id="passwordFieldErrorMessage"></small>
+        </div>
+           
+        @if (Model != null && Model.WrongCreds)
+        {
+        <div>
+            <small>Wrong login or password.</small>
         </div>
         }
+          
+
         <button type="submit">Sign In</button>
     </form>
     <div>New on Chatter? <button onclick="window.location.href='/signUp'">Sign Up</button></div>
 </div>
+<script src="~/js/signinvalidation.js"></script>
