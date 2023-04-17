@@ -8,6 +8,7 @@
 
 <div>
 
+    <small>* - required field</small>
     <form type="submit" id="registrationForm" asp-action="SignIn">
         <div>
             <label for="UserTag">User Tag</label>
@@ -20,7 +21,7 @@
         </div>
 
          <div>
-            <label for="Email">Email</label>
+            <label for="Email">Email*</label>
             <div>
                 <input id="emailField" asp-for="Email" type="text" placeholder="Email" />
             </div>
@@ -30,7 +31,7 @@
         </div>
 
         <div>
-            <label for="LastName">Last name</label>
+            <label for="LastName">Last name*</label>
             <div>
                 <input id="lastNameField" asp-for="LastName" type="text" placeholder="Last name" />
             </div>
@@ -40,7 +41,7 @@
         </div>
 
           <div>
-            <label for="FirstName">First name</label>
+            <label for="FirstName">First name*</label>
             <div>
                 <input id="firstNameField" asp-for="FirstName" type="text" placeholder="First name" />
             </div>
@@ -81,7 +82,7 @@
         </div>
 
         <div>
-            <label for ="Password">Password</label>
+            <label for ="Password">Password*</label>
             <div>
                 <input id="passwordField" asp-for="Password" type="password" placeholder="Password" />
             </div>
@@ -91,7 +92,7 @@
         </div>
 
           <div>
-            <label for="ConfirmPassword">Confirm password</label>
+            <label for="ConfirmPassword">Confirm password*</label>
             <div>
                 <input id="confirmPasswordField" asp-for="ConfirmPassword" type="password" placeholder="Confirm password" />
             </div>

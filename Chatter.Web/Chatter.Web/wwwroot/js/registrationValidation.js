@@ -33,12 +33,37 @@ const confirmPasswordFieldErrorMessage = document.getElementById("confirmPasswor
 
 const errorMessages = {
     email: {
-        required: "Поле електронної адреси обов'язкове для заповнення",
-        invalid: "Введена електронна адреса не є дійсною"
+        required: "Email is required.",
+        invalid: "Email address is invalid."
     },
-    userTag: {
-        invalid: "Неприпустимий користувацький тег",
-    }
+    lastName: {
+        required: "Last name is required.",
+        noDigits: "Last name can`t contain digits."
+    },
+    firstName: {
+        required: "First name is required.",
+        noDigits: "First name can`t contain digits."
+    },
+    patronymic: {
+        noDigits: "Patronymic can`t contain digits."
+    },
+    universityName: {
+        noDigits: "University name can`t contain digits."
+    },
+    universityFaculty: {
+        noDigits: "University faculty can`t contain digits."
+    },
+    password: {
+        required: "Password is required."
+    },
+    confirmPassword: {
+        dontMatch: "Passwords do not match."
+    },
+    common: {
+        minLength: "Try something longer.",
+        maxLength: "Try something shorter"
+    },
+
 };
 
 const validators = [
@@ -48,8 +73,11 @@ const validators = [
             const userTag = userTagField.value.trim();
             const errors = [];
             if (userTag.length > 0) {
-                if (userTag.length < 2 || userTag.length > 20) {
-                    errors.push(errorMessages.userTag.invalid);
+                if (userTag.length < 2) {
+                    errors.push(errorMessages.common.minLength);
+                }
+                else if (userTag.length > 20) {
+                    errors.push(errorMessages.common.maxLength);
                 }
             }
 
@@ -65,7 +93,7 @@ const validators = [
             const email = emailField.value.trim();
             const errors = [];
          
-            if (email === "" ) {
+            if (email === "") {
                 errors.push(errorMessages.email.required);
             }
 
@@ -86,15 +114,19 @@ const validators = [
             const errors = [];
 
             if (lastName === "") {
-                errors.push("Поле 'Прізвище' є обов'язковим для заповнення");
+                errors.push(errorMessages.lastName.required);
             }
 
-            if (lastName.length < 2 || lastName.length > 20) {
-                errors.push("Довжина 'Прізвище' повинна бути від 2 до 20 символів");
+            if (lastName.length < 2) {
+                errors.push(errorMessages.common.minLength);
+            }
+            else if (lastName.length > 20)
+            {
+                errors.push(errorMessages.common.maxLength);
             }
 
             if (/\d/.test(lastName)) {
-                errors.push("Поле 'Прізвище' не повинно містити цифри");
+                errors.push(errorMessages.lastName.noDigits);
             }
 
             lastNameFieldErrorMessage.innerHTML = errors.length > 0 ? errors[0] : "";
@@ -109,15 +141,18 @@ const validators = [
             const errors = [];
 
             if (firstName === "") {
-                errors.push("Поле 'Ім'я' є обов'язковим для заповнення");
+                errors.push(errorMessages.firstName.required);
             }
 
-            if (firstName.length < 2 || firstName.length > 20) {
-                errors.push("Довжина 'Ім'я' повинна бути від 2 до 20 символів");
+            if (firstName.length < 2){
+                errors.push(errorMessages.common.minLength);
+            }
+            else if (firstName.length > 20) {
+                errors.push(errorMessages.common.maxLength);
             }
 
             if (/\d/.test(firstName)) {
-                errors.push("Поле 'Ім'я' не повинно містити цифри");
+                errors.push(errorMessages.firstName.noDigits);
             }
 
             firstNameFieldErrorMessage.innerHTML = errors.length > 0 ? errors[0] : "";
@@ -132,13 +167,16 @@ const validators = [
             const errors = [];
 
             if (patronymic.length > 0) {
-                if (patronymic.length < 2 || patronymic.length > 20) {
-                    errors.push("Довжина 'По-батькові' повинна бути від 2 до 20 символів");
+                if (patronymic.length < 2 ) {
+                    errors.push(errorMessages.common.minLength);
+                }
+                else if (patronymic.length > 20) {
+                    errors.push(errorMessages.common.maxLength);
                 }
             }
 
             if (/\d/.test(patronymic)) {
-                errors.push("Поле 'По-батькові' не повинно містити цифри");
+                errors.push(errorMessages.patronymic.noDigits);
             }
 
             patronymicFieldErrorMessage.innerHTML = errors.length > 0 ? errors[0] : "";
@@ -154,13 +192,16 @@ const validators = [
             const errors = [];
 
             if (universityName.length > 0) {
-                if (universityName.length < 2 || universityName.length > 20) {
-                    errors.push("Довжина 'Назва університету' повинна бути від 2 до 20 символів");
+                if (universityName.length < 2) {
+                    errors.push(errorMessages.common.minLength);
+                }
+                else if (universityName.length > 20) {
+                    errors.push(errorMessages.common.maxLength);
                 }
             }
 
             if (/\d/.test(universityName)) {
-                errors.push("Поле 'Назва університету' не повинно містити цифри");
+                errors.push(errorMessages.universityName.noDigits);
             }
 
             universityNameFieldErrorMessage.innerHTML = errors.length > 0 ? errors[0] : "";
@@ -176,13 +217,16 @@ const validators = [
             const errors = [];
 
             if (universityFaculty.length > 0) {
-                if (universityFaculty.length < 2 || universityFaculty.length > 20) {
-                    errors.push("Довжина 'Факультет' повинна бути від 2 до 20 символів");
+                if (universityFaculty.length < 2) {
+                    errors.push(errorMessages.common.minLength);
+                }
+                else if (universityFaculty.length > 20) {
+                    errors.push(errorMessages.common.maxLength);
                 }
             }
 
             if (/\d/.test(universityFaculty)) {
-                errors.push("Поле 'Факультет' не повинно містити цифри");
+                errors.push(errorMessages.universityFaculty.noDigits);
             }
 
             universityFacultyFieldErrorMessage.innerHTML = errors.length > 0 ? errors[0] : "";
@@ -198,15 +242,16 @@ const validators = [
             const errors = [];
 
             if (password === "") {
-                errors.push("Поле 'Пароль' є обов'язковим для заповнення");
+                errors.push(errorMessages.password.required);
             }
 
-            if (password.length < 8 || password.length > 20) {
-                errors.push("Довжина 'Пароль' повинна бути від 8 до 20 символів");
-            }
-
-            if (/\d/.test(password)) {
-                errors.push("Поле 'Пароль' не повинно містити цифри");
+            if (password.length > 0) {
+                if (password.length < 2) {
+                    errors.push(errorMessages.common.minLength);
+                }
+                else if (password.length > 20) {
+                    errors.push(errorMessages.common.maxLength);
+                }
             }
 
             passwordFieldErrorMessage.innerHTML = errors.length > 0 ? errors[0] : "";
@@ -221,9 +266,8 @@ const validators = [
             const errors = [];
 
             if (confirmPassword != passwordField.value) {
-                errors.push("Паролі не співпадають.");
+                errors.push(errorMessages.confirmPassword.dontMatch);
             }
-
 
             confirmPasswordFieldErrorMessage.innerHTML = errors.length > 0 ? errors[0] : "";
 
@@ -234,7 +278,13 @@ const validators = [
 
 validators.forEach(({ field, validate }) => {
     field.addEventListener("input", () => {
-        const allValid = validators.every(({ validate }) => validate());
+        let allValid = true;
+        for (let i = 0; i < validators.length; i++) {
+            if (!validators[i].validate()) {
+                allValid = false;
+            }
+        }
+        console.log(allValid);
         submitButton.disabled = !allValid;
     });
 });
