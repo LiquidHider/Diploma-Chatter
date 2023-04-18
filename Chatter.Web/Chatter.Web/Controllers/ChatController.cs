@@ -44,13 +44,17 @@ namespace Chatter.Web.Controllers
                 contacts = userContactsMapped
             };
 
+
+
             return View(chatWindowVM);
         }
 
-        [Route("Privacy")]
-        public IActionResult Privacy()
+        [HttpGet]
+        [Route("Logout")]
+        public IActionResult Logout()
         {
-            return View();
+            HttpContext.Response.Cookies.Delete("User");
+            return RedirectToAction("/");
         }
 
         [Route("Error")]
