@@ -6,6 +6,6 @@ namespace Chatter.Web.Interfaces
     {
         Task<HttpResponseMessage> GetChatUser(Guid id, string authToken);
 
-        Task<HttpResponseMessage> GetChatUsers(IEnumerable<Guid> ids, string authToken);
+        Task<HttpResponseMessage> GetChatUserContacts(Guid id, string authToken);
     }
 }

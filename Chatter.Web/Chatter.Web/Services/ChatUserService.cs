@@ -30,9 +30,19 @@ namespace Chatter.Web.Services
             }
         }
 
-        public Task<HttpResponseMessage> GetChatUsers(IEnumerable<Guid> ids, string authToken)
+        public async Task<HttpResponseMessage> GetChatUserContacts(Guid id, string authToken)
         {
-            throw new NotImplementedException();
+            using (HttpClient http = new HttpClient())
+            {
+                http.BaseAddress = _domainBaseUri;
+                http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
+
+                var getUserEndpoint = $"/user/contacts/?userId={id}";
+
+                var response = await http.PostAsync(getUserEndpoint,null);
+
+                return response;
+            }
         }
     }
 }
