@@ -13,10 +13,7 @@ namespace Chatter.Web.Services
 {
     public class AccountService : IAccountService
     {
-        private const string _localStorageUserKey = "User";
-
         private readonly IConfiguration _configuration;
-        private readonly IJSRuntime _js;
         private readonly Uri _securityUri;
         private readonly Uri _domainUri;
 
