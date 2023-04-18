@@ -1,8 +1,27 @@
-﻿@{
+﻿@model ChatWindowViewModel
+
+@{
     ViewData["Title"] = "Chats";
 }
 
 <div class="text-center">
     <h1 class="display-4">Logged in!</h1>
-
+    <div>
+        <label> @Model.currentUser.LastName @Model.currentUser.FirstName</label>
+    </div>
+   
+    <div>
+        <label>Contacts</label>
+        @foreach (var contact in Model.contacts)
+        {
+            <div>
+                <button>
+                <img src="~/img/chat-user/usericon.jpg" width="5%" height="5%" />
+            
+                    @contact.LastName @contact.FirstName
+           
+                </button>
+            </div>
+        }
+    </div>
 </div>
