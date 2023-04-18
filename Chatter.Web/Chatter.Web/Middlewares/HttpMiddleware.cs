@@ -46,12 +46,14 @@ namespace Chatter.Web.Middlewares
 
                 request.Headers.Add("Authorization", $"Bearer {token}");
 
-                if (context.Request.Path == "/" || context.Request.Path == "/signUp")
+                if (request.Path == "/" || request.Path == "/signUp")
                 {
                     context.Response.Redirect("/Chat");
                 }
-
-
+            }
+            else if (request.Path == "/Chat") 
+            {
+                context.Response.Redirect("/");
             }
             await _next(context);
         }
