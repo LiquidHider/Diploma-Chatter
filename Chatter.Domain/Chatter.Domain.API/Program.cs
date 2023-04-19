@@ -25,7 +25,6 @@ builder.Services.AddChatterCors(builder.Configuration);
 builder.Services.AddChatterAuth(builder.Configuration);
 builder.Services.AddSignalR(cfg => { 
     cfg.EnableDetailedErrors = true;
-     cfg.KeepAliveInterval = TimeSpan.FromMinutes(1);
 });
 
 var app = builder.Build();
