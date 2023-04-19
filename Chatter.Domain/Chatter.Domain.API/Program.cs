@@ -7,6 +7,7 @@ using Chatter.Domain.API.SignalR;
 using Chatter.Domain.BusinessLogic.Extensions;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +23,10 @@ builder.Services.AddAutoMapper(typeof(DomainToResponseProfile));
 builder.Services.AddBusinessLogic(builder.Configuration);
 builder.Services.AddChatterCors(builder.Configuration);
 builder.Services.AddChatterAuth(builder.Configuration);
-builder.Services.AddSignalR(cfg => cfg.EnableDetailedErrors = true);
+builder.Services.AddSignalR(cfg => { 
+    cfg.EnableDetailedErrors = true;
+     cfg.KeepAliveInterval = TimeSpan.FromMinutes(1);
+});
 
 var app = builder.Build();
 
