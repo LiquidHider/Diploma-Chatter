@@ -25,6 +25,7 @@ namespace Chatter.Domain.API.SignalR
 
             var message = await _privateChatService.SendMessageAsync(createModel, default);
             await Clients.All.SendAsync($"NewMessg-{createRequest.RecipientID}", message);
+            await Clients.All.SendAsync($"SentMessg-{createRequest.SenderID}", message);
         }
     }
 }
