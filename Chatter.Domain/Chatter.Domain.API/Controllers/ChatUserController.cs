@@ -63,6 +63,34 @@ namespace Chatter.Domain.API.Controllers
         }
 
         [HttpPost]
+        [Route("all")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedResponse<ChatUser, ChatUserSort>))]
+        public async Task<IActionResult> GetUsersList(AllUsersListRequest parametersRequest,
+            CancellationToken token) 
+        {
+            var mappedParameters = new ChatUserListParameters() { 
+                PageNumber = parametersRequest.PageNumber,
+                PageSize = parametersRequest.PageSize,
+                SortOrder = parametersRequest.SortOrder,
+                SortBy = parametersRequest.SortBy
+            };
+
+            var dbResponse = await _chatUserService.ListAsync(mappedParameters, token);
+
+            var mappedResponse = new PaginatedResponse<ChatUser, ChatUserSort>()
+            {
+                PageNumber = dbResponse.Value.PageNumber,
+                PageSize = dbResponse.Value.PageSize,
+                SortOrder = dbResponse.Value.SortOrder,
+                SortBy = dbResponse.Value.SortBy,
+                TotalCount = dbResponse.Value.TotalCount,
+                TotalPages = dbResponse.Value.TotalPages,
+                Items = dbResponse.Value.Value
+            };
+            return Ok(mappedResponse);
+        }
+
+        [HttpPost]
         [Route("contacts")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedResponse<ChatUser, ChatUserSort>))]
