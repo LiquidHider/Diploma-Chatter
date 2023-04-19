@@ -42,7 +42,6 @@ const validators = [
 
 validators.forEach(({ field, validate }) => {
     field.addEventListener("input", () => {
-        const allValid = validators.every(({ validate }) => validate());
-        submitButton.disabled = !allValid;
+        validators.every(({ validate }) => validate());
     });
 });

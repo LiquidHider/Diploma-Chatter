@@ -41,13 +41,14 @@ function openPrivateChat(member1Id, member2Id) {
         .catch(error => console.log('Error opening private chat.', error));
 }
 
+
 function displayMessage(mes, chatBodyElement) {
     var chatMessage = document.createElement("div");
     var chatMessageBody = document.createElement("div");
     var chatMessageSender = document.createElement("div");
     var chatMessageTime = document.createElement("div");
-
-    chatMessageSender.innerHTML += isSenderCurrentUser(mes.senderId) ? "You" : mes.senderId;
+    
+    chatMessageSender.innerHTML += isSenderCurrentUser(mes) == true ? "You" : mes.senderId;
     chatMessageBody.innerHTML += mes.body;
     chatMessageTime.innerHTML += mes.sent;
 
@@ -59,7 +60,7 @@ function displayMessage(mes, chatBodyElement) {
 }
 
 function isSenderCurrentUser(message) {
-    return message.senderId === currentUserId;
+    return message.senderId == currentUserId;
 }
 
 function clearPrivateChat(){
