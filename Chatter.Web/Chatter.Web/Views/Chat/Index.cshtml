@@ -14,6 +14,7 @@
    
     <div>
         <label>Contacts</label>
+        @if(Model.contacts != null){
         @foreach (var contact in Model.contacts)
         {
             <div>
@@ -25,6 +26,7 @@
                 </button>
             </div>
         }
+        }
         <div id="selectChatMessage">Select a chat to start conversation.</div>
         <div id="chatBody">
             <div id="chatMessages">
@@ -32,12 +34,13 @@
             </div>
 
             <div id="chatInput">
-                <input /> <button>Send</button>
+                <input id="messageInput" placeholder="Write message here..."/> <button onclick="sendMessage()">Send</button>
             </div>
         </div>
 
     </div>
     <button onclick="logOut()">Log Out</button>
 </div>
+<script src="~/signalr/dist/browser/signalr.min.js"></script>
 <script src="~/js/privatechat.js"></script>
 <script src="~/js/accountservice.js"></script>

@@ -1,6 +1,7 @@
 ﻿const chatBody = document.getElementById("chatBody");
 
 const chatMessages = document.getElementById("chatMessages");
+const chatMessageInput = document.getElementById("messageInput");
 
 const selectChatMessage = document.getElementById("selectChatMessage");
 
@@ -10,9 +11,65 @@ const domainBaseUrl = 'https://localhost:7258/';
 
 const currentUserId = parsedCookie.userID;
 
+var currentInterlocutorId = "";
+
 const userJwtToken = parsedCookie.token;
 
+var connection = new signalR.HubConnectionBuilder()
+    .withUrl(domainBaseUrl + "chatHub", {
+        transport: signalR.HttpTransportType.WebSockets
+    })
+    .build();
+
+
+connection.on("NewMessg-" + currentUserId, function (mesgResult) {
+    if (currentInterlocutorId = mesgResult.value.sender) {
+        var messageModel = {
+            body: mesgResult.value.body,
+            id: mesgResult.value.id,
+            isEdited: mesgResult.value.isEdited,
+            isRead: mesgResult.value.isRead,
+            recipientID: mesgResult.value.recipientID,
+            senderId: mesgResult.value.sender,
+            sent: mesgResult.value.sent
+        };
+        displayMessage(messageModel, chatMessages);
+    }
+
+});
+
+connection.on("SentMessg-" + currentUserId, function (mesgResult) {
+    if (currentInterlocutorId = mesgResult.value.sender) {
+        var messageModel = {
+            body: mesgResult.value.body,
+            id: mesgResult.value.id,
+            isEdited: mesgResult.value.isEdited,
+            isRead: mesgResult.value.isRead,
+            recipientID: mesgResult.value.recipientID,
+            senderId: mesgResult.value.sender,
+            sent: mesgResult.value.sent
+        };
+    }
+
+    displayMessage(messageModel, chatMessages);
+
+});
+
+connection.start();
+
+
 chatBody.hidden = true;
+
+function sendMessage() {
+    let message = {
+        SenderID: currentUserId,
+        RecipientID: currentInterlocutorId,
+        Body: chatMessageInput.value
+    };
+    connection.invoke("SendChatMessage", message);
+    chatMessageInput.value = "";
+    console.log("sent!");
+}
 
 function openPrivateChat(member1Id, member2Id) {
     selectChatMessage.hidden = true;
@@ -32,7 +89,7 @@ function openPrivateChat(member1Id, member2Id) {
         .then(response => {
             clearPrivateChat();
             response.json().then(messages => {
-                console.log(messages)
+                currentInterlocutorId = member2Id;
                 for (var i = 0; i < messages.length; i++) { 
                     displayMessage(messages[i], chatMessages);
                 }
