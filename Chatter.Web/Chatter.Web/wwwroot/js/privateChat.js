@@ -12,6 +12,7 @@ const domainBaseUrl = 'https://localhost:7258/';
 const currentUserId = parsedCookie.userID;
 
 var currentInterlocutorId = "";
+var currentInterlocutor = null;
 
 const userJwtToken = parsedCookie.token;
 
@@ -68,7 +69,6 @@ function sendMessage() {
     };
     connection.invoke("SendChatMessage", message);
     chatMessageInput.value = "";
-    console.log("sent!");
 }
 
 function openPrivateChat(member1Id, member2Id) {
@@ -78,21 +78,36 @@ function openPrivateChat(member1Id, member2Id) {
         Member1ID: member1Id,
         Member2ID: member2Id
     };
+
     fetch(domainBaseUrl + 'chat', {
         method: 'POST',
         body: JSON.stringify(requestModel),
         headers: {
             'Content-Type': 'application/json',
-            'Authorization' : 'Bearer ' + userJwtToken
+            'Authorization': 'Bearer ' + userJwtToken
         }
     })
         .then(response => {
             clearPrivateChat();
             response.json().then(messages => {
                 currentInterlocutorId = member2Id;
-                for (var i = 0; i < messages.length; i++) { 
-                    displayMessage(messages[i], chatMessages);
-                }
+
+                fetch(domainBaseUrl + 'user/?id=' + currentInterlocutorId, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + userJwtToken
+                    }
+                })
+                    .then(response => {
+                        response.json().then(user => {
+                            currentInterlocutor = user
+                            for (var i = 0; i < messages.length; i++) {
+                                displayMessage(messages[i], chatMessages);
+                            }
+                        })
+                    })
+                    .catch(error => console.log('Error finding current interlocutor.', error));
             })
         })
         .catch(error => console.log('Error opening private chat.', error));
@@ -105,7 +120,7 @@ function displayMessage(mes, chatBodyElement) {
     var chatMessageSender = document.createElement("div");
     var chatMessageTime = document.createElement("div");
     
-    chatMessageSender.innerHTML += isSenderCurrentUser(mes) == true ? "You" : mes.senderId;
+    chatMessageSender.innerHTML += isSenderCurrentUser(mes) == true ? "You" : currentInterlocutor.firstName;
     chatMessageBody.innerHTML += mes.body;
     chatMessageTime.innerHTML += mes.sent;
 
