@@ -2,43 +2,55 @@
 @{
     ViewData["Title"] = "Sign In";
 }
-<div>
-    <h1>Welcome to Chatter!</h1>
+<div class="d-flex justify-content-between"
+style="height: 90vh;">
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <div class="card" style="height: 140px; justify-content: center;">
+            <h1>Welcome to Chatter!</h1>
 
-    <div>Simple messenger for communication between students and teachers around the world!</div>
-</div>
+            <div>Simple messenger for communication between students and teachers around the world!</div>
+        </div>
+    </div>
 
-<div>
-
-    <form type="submit" asp-action="SignIn">
-        <div>
-            <label>User Tag or Email</label>
-            <div>
-                <input id="loginField" asp-for="EmailOrUserTag" type="text" placeholder="User Tag or Email" />
-            </div>
-            <small id="loginFieldErrorMessage"></small>
+    <div style= "display: flex; justify-content: center; align-items: center;">
+        <div style="width: 400px">
+            <h2>Sign In</h2>
+            <form class="form-group" type="submit" asp-action="SignIn">
+                <div style="margin-bottom: 10px;">
+                    <label>User Tag or Email</label>
+                    <div>
+                        <input class="form-control" id="loginField" asp-for="EmailOrUserTag" type="text" placeholder="User Tag or Email" autocomplete="off" />
+                    </div>
+                    <small class="text-danger" id="loginFieldErrorMessage"></small>
             
-        </div>
-        <div>
-            <label>Password</label>
-            <div>
-                <input id="passwordField" asp-for="Password" type="password" placeholder="Password" />
-            </div>
-        </div>
-        <div>
-            <small id="passwordFieldErrorMessage"></small>
-        </div>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <label>Password</label>
+                    <div>
+                        <input class="form-control" id="passwordField" asp-for="Password" type="password" placeholder="Password" />
+                    </div>
+                    <small class="text-danger" id="passwordFieldErrorMessage"></small>
+                </div>
            
-        @if (Model != null && Model.WrongCreds)
-        {
-        <div>
-            <small>Wrong login or password.</small>
-        </div>
-        }
+                @if (Model != null && Model.WrongCreds)
+                {
+                    <div style="margin-bottom: 10px;">
+                        <small class="text-danger">Wrong login or password.</small>
+                    </div>
+                }
           
-
-        <button type="submit">Sign In</button>
-    </form>
-    <div>New on Chatter? <button onclick="window.location.href='/signUp'">Sign Up</button></div>
+                <div style ="margin-bottom: 20px;">
+                    <button class="btn btn-primary" type="submit">Sign In</button>
+                </div>
+                
+            </form>
+            <div class="d-flex justify-content-between">
+                <div>
+                    New on Chatter?
+                </div>
+                <button class="btn btn-primary" onclick="window.location.href='/signUp'">Sign Up</button></div>
+            </div>
+    </div>
 </div>
+
 <script src="~/js/signinvalidation.js"></script>

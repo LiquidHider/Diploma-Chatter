@@ -8,6 +8,13 @@ html {
   }
 }
 
+.chatter-bg {
+    background-image: url('../img/bg/chatter-logo.png');
+    background-position: left;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
 html {
   position: relative;
   min-height: 100%;
