@@ -7,25 +7,26 @@
 
 
 <div class="text-center">
-    <h1 class="display-4">Logged in!</h1>
     <div>
         <label> @Model.currentUser.LastName @Model.currentUser.FirstName</label>
     </div>
-   
+   <div>
+       <button onclick="redirectToUsersAll(1, 10)">Users</button>
+   </div>
     <div>
         <label>Contacts</label>
         @if(Model.contacts != null){
-        @foreach (var contact in Model.contacts)
-        {
-            <div>
-                <button onclick="openPrivateChat( '@currentUserId', '@contact.ID' )">
+            @foreach (var contact in Model.contacts)
+            {
+                <div>
+                    <button onclick="openPrivateChat( '@currentUserId', '@contact.ID' )">
                     
-                    <img src="~/img/chat-user/usericon.jpg" width="5%" height="5%" />
-                    @contact.LastName @contact.FirstName
+                        <img src="~/img/chat-user/usericon.jpg" width="5%" height="5%" />
+                        @contact.LastName @contact.FirstName
            
-                </button>
-            </div>
-        }
+                    </button>
+                </div>
+            }
         }
         <div id="selectChatMessage">Select a chat to start conversation.</div>
         <div id="chatBody">
@@ -41,6 +42,11 @@
     </div>
     <button onclick="logOut()">Log Out</button>
 </div>
+<script>
+  function   redirectToUsersAll(pageNumber, pageSize) {
+      window.location.href = `/users/all?pagenumber=${pageNumber}&pagesize=${pageSize}`;
+  }
+</script>
 <script src="~/signalr/dist/browser/signalr.min.js"></script>
 <script src="~/js/privatechat.js"></script>
 <script src="~/js/accountservice.js"></script>
