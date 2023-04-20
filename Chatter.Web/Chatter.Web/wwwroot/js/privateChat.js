@@ -2,6 +2,7 @@
 
 const chatMessages = document.getElementById("chatMessages");
 const chatMessageInput = document.getElementById("messageInput");
+const currentInterlocutorLabel = document.getElementById("currentInterlocutor");
 
 const selectChatMessage = document.getElementById("selectChatMessage");
 
@@ -61,6 +62,24 @@ connection.start();
 
 chatBody.hidden = true;
 
+window.onload = function () {
+    console.log("onLoad");
+    var queryString = window.location.search;
+
+    var params = new URLSearchParams(queryString);
+
+    if (params.has('newContact')) {
+        console.log("newContact");
+        var newContact = params.get('newContact');
+        params.delete('newContact');
+
+        var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+        window.history.replaceState(null, null, newUrl);
+        console.log(newContact);
+        openPrivateChat(currentUserId, newContact);
+    }
+};
+
 function sendMessage() {
     let message = {
         SenderID: currentUserId,
@@ -102,6 +121,7 @@ function openPrivateChat(member1Id, member2Id) {
                     .then(response => {
                         response.json().then(user => {
                             currentInterlocutor = user
+                            currentInterlocutorLabel.innerHTML = currentInterlocutor.lastName + " " + currentInterlocutor.firstName;
                             for (var i = 0; i < messages.length; i++) {
                                 displayMessage(messages[i], chatMessages);
                             }
@@ -112,6 +132,7 @@ function openPrivateChat(member1Id, member2Id) {
         })
         .catch(error => console.log('Error opening private chat.', error));
 }
+
 
 
 function displayMessage(mes, chatBodyElement) {

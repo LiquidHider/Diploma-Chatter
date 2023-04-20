@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Chats";
     var currentUserId = Model.currentUser.ID.ToString();
+    var pageSize = 10;
 }
 
 
@@ -11,7 +12,7 @@
         <label> @Model.currentUser.LastName @Model.currentUser.FirstName</label>
     </div>
    <div>
-       <button onclick="redirectToUsersAll(1, 10)">Users</button>
+       <button onclick="redirectToUsersList(1, @pageSize)">Users</button>
    </div>
     <div>
         <label>Contacts</label>
@@ -30,6 +31,11 @@
         }
         <div id="selectChatMessage">Select a chat to start conversation.</div>
         <div id="chatBody">
+            <div>
+                <h3 id="currentInterlocutor">
+                    current interlocutor
+                </h3>
+            </div>
             <div id="chatMessages">
 
             </div>
@@ -43,7 +49,7 @@
     <button onclick="logOut()">Log Out</button>
 </div>
 <script>
-  function   redirectToUsersAll(pageNumber, pageSize) {
+  function redirectToUsersList(pageNumber, pageSize) {
       window.location.href = `/users/all?pagenumber=${pageNumber}&pagesize=${pageSize}`;
   }
 </script>

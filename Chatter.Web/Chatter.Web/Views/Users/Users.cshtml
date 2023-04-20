@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Users";
     var usersListWithoutCurrentUser = Model.PaginatedContactsList.Items.Where(x => x.ID != Model.CurrentChatUser.ID);
+    var currentUserId = Model.CurrentChatUser.ID;
 }
 <div class="text-center">
     <h1>Users</h1>
@@ -11,7 +12,7 @@
             @foreach (var user in usersListWithoutCurrentUser)
             {
                 <div>
-                    <button>
+                    <button onclick="openChatWithNewUser( '@user.ID' )">
                         <img src="~/img/chat-user/usericon.jpg" width="5%" height="5%" />
                         @user.LastName @user.FirstName
                     </button>
@@ -19,18 +20,23 @@
             }
         }
     </div>
-    <div id="pagination">
 
-			@for (int i = 1; i <= Model.PaginatedContactsList.TotalPages; i++)
-			{
-				<button><a href="#" onclick="getPage(@i); return false;">@i</a></button>
-			}
+    <div id="pagination">
+	    @for (int i = 1; i <= Model.PaginatedContactsList.TotalPages; i++)
+	    {
+	    	<button><a href="#" onclick="getPage(@i); return false;">@i</a></button>
+	    }
 	</div>
+
     <button onclick="window.location.href='/Chat/'">Back</button>
 </div>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>
-		function getPage(pageNumber) {
+    function getPage(pageNumber) {
         window.location.href = `/users/all?pagenumber=${pageNumber}&pagesize=${@Model.PaginatedContactsList.PageSize}`;
-		}
-	</script>
+    }
+
+    function openChatWithNewUser(userId){
+        window.location.href = "/Chat?newContact=" + userId;
+    } 
+</script>
