@@ -2,108 +2,107 @@
 @{
     ViewData["Title"] = "Sign Up";
 }
-<div>
-    <h1>Sign up</h1>
-</div>
+<div style="display: flex; justify-content: center;">
+    <div class="card" style="width: 400px">
+        <h1>Sign up</h1>
+        <small>* - required field</small>
+        <form type="submit" id="registrationForm" asp-action="SignIn">
+            <div style="margin-bottom: 10px;">
+                <label for="UserTag">User Tag</label>
+                <div>
+                    <input class="form-control" id="userTagField" asp-for="UserTag" type="text" placeholder="User Tag" />
+                </div>
+               <div>
+                    <small class="text-danger" id="userTagFieldError"></small>
+               </div>
+            </div>
 
-<div>
+            <div style="margin-bottom: 10px;">
+                <label for="Email">Email*</label>
+                <div>
+                    <input class="form-control"  id="emailField" asp-for="Email" type="text" placeholder="Email" />
+                </div>
+                <div>
+                    <small class="text-danger" id="emailFieldError"></small>
+                </div>
+            </div>
 
-    <small>* - required field</small>
-    <form type="submit" id="registrationForm" asp-action="SignIn">
-        <div>
-            <label for="UserTag">User Tag</label>
-            <div>
-                <input id="userTagField" asp-for="UserTag" type="text" placeholder="User Tag" />
+            <div style="margin-bottom: 10px;">
+                <label for="LastName">Last name*</label>
+                <div>
+                    <input class="form-control" id="lastNameField" asp-for="LastName" type="text" placeholder="Last name" />
+                </div>
+                <div>
+                    <small class="text-danger" id="lastNameFieldError"></small>
+                </div>
             </div>
-           <div>
-                <small id ="userTagFieldError"></small>
-           </div>
-        </div>
 
-         <div>
-            <label for="Email">Email*</label>
-            <div>
-                <input id="emailField" asp-for="Email" type="text" placeholder="Email" />
+            <div style="margin-bottom: 10px;">
+                <label for="FirstName">First name*</label>
+                <div>
+                    <input class ="form-control" id="firstNameField" asp-for="FirstName" type="text" placeholder="First name" />
+                </div>
+                <div>
+                    <small class="text-danger" id="firstNameFieldError"></small>
+                </div>
             </div>
-            <div>
-                <small id="emailFieldError"></small>
-            </div>
-        </div>
 
-        <div>
-            <label for="LastName">Last name*</label>
-            <div>
-                <input id="lastNameField" asp-for="LastName" type="text" placeholder="Last name" />
+            <div style="margin-bottom: 10px;">
+                <label for="Patronymic">Patronymic</label>
+                <div>
+                    <input class="form-control" id="patronymicField" asp-for="Patronymic" type="text" placeholder="Patronymic" />
+                </div>
+                <div>
+                    <small class="text-danger" id="patronymicFieldError"></small>
+                </div>
             </div>
-            <div>
-                <small id="lastNameFieldError"></small>
-            </div>
-        </div>
-
-          <div>
-            <label for="FirstName">First name*</label>
-            <div>
-                <input id="firstNameField" asp-for="FirstName" type="text" placeholder="First name" />
-            </div>
-            <div>
-                <small id="firstNameFieldError"></small>
-            </div>
-        </div>
-
-        <div>
-            <label for="Patronymic">Patronymic</label>
-            <div>
-                <input id="patronymicField" asp-for="Patronymic" type="text" placeholder="Patronymic" />
-            </div>
-            <div>
-                <small id="patronymicFieldError"></small>
-            </div>
-        </div>
 
         
-        <div>
-            <label for="UniversityName">University name</label>
-            <div>
-                <input id="universityNameField" asp-for="UniversityName" type="text" placeholder="Patronymic" />
+            <div style="margin-bottom: 10px;">
+                <label for="UniversityName">University name</label>
+                <div>
+                    <input class="form-control" id="universityNameField" asp-for="UniversityName" type="text" placeholder="Patronymic" />
+                </div>
+                <div>
+                    <small class="text-danger" id="universityNameFieldError"></small>
+                </div>
             </div>
-            <div>
-                <small id="universityNameFieldError"></small>
-            </div>
-        </div>
 
-          <div>
-            <label for="UniversityFaculty">University faculty</label>
-            <div>
-                <input id="universityFacultyField" asp-for="UniversityFaculty" type="text" placeholder="Patronymic" />
+            <div style="margin-bottom: 10px;">
+                <label for="UniversityFaculty">University faculty</label>
+                <div>
+                    <input class="form-control" id="universityFacultyField" asp-for="UniversityFaculty" type="text" placeholder="Patronymic" />
+                </div>
+                <div>
+                    <small class="text-danger" id="universityFacultyFieldError"></small>
+                </div>
             </div>
-            <div>
-                <small id="universityFacultyFieldError"></small>
-            </div>
-        </div>
 
-        <div>
-            <label for ="Password">Password*</label>
-            <div>
-                <input id="passwordField" asp-for="Password" type="password" placeholder="Password" />
+            <div style="margin-bottom: 10px;">
+                <label for ="Password">Password*</label>
+                <div>
+                    <input class="form-control" id="passwordField" asp-for="Password" type="password" placeholder="Password" />
+                </div>
+                <div>
+                    <small class="text-danger" id="passwordFieldError"></small>
+                </div>
             </div>
-            <div>
-                <small id="passwordFieldError"></small>
-            </div>
-        </div>
 
-          <div>
-            <label for="ConfirmPassword">Confirm password*</label>
-            <div>
-                <input id="confirmPasswordField" asp-for="ConfirmPassword" type="password" placeholder="Confirm password" />
+            <div style="margin-bottom: 10px;">
+                <label for="ConfirmPassword">Confirm password*</label>
+                <div>
+                    <input class="form-control" id="confirmPasswordField" asp-for="ConfirmPassword" type="password" placeholder="Confirm password" />
+                </div>
+                <div>
+                    <small class="text-danger" id="confirmPasswordFieldError"></small>
+                </div>
             </div>
-            <div>
-                <small id="confirmPasswordFieldError"></small>
+            <div style="display: flex; justify-content: center;">
+                <button class="btn btn-primary" id="registerButton" asp-controller="Account" asp-action="signUp" type="submit">
+                Sign Up</button>
+                <button class="btn btn-default" onclick="window.location.href='/'">Cancel</button>
             </div>
-        </div>
-
-        <button id="registerButton" asp-controller="Account" asp-action="signUp" type="submit">
-            Sign Up</button>
-        <button onclick="window.location.href='/'">Cancel</button>
-    </form>
+        </form>
+    </div>
 </div>
 <script src="~/js/registrationvalidation.js"></script>
