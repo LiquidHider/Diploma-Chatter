@@ -63,13 +63,11 @@ connection.start();
 chatBody.hidden = true;
 
 window.onload = function () {
-    console.log("onLoad");
     var queryString = window.location.search;
 
     var params = new URLSearchParams(queryString);
 
     if (params.has('newContact')) {
-        console.log("newContact");
         var newContact = params.get('newContact');
         params.delete('newContact');
 
@@ -81,12 +79,15 @@ window.onload = function () {
 };
 
 function sendMessage() {
-    let message = {
-        SenderID: currentUserId,
-        RecipientID: currentInterlocutorId,
-        Body: chatMessageInput.value
-    };
-    connection.invoke("SendChatMessage", message);
+    console.log(chatMessageInput.value);
+    if (chatMessageInput.value.trim() != '') {
+        let message = {
+            SenderID: currentUserId,
+            RecipientID: currentInterlocutorId,
+            Body: chatMessageInput.value
+        };
+        connection.invoke("SendChatMessage", message);
+    }
     chatMessageInput.value = "";
 }
 
@@ -125,6 +126,7 @@ function openPrivateChat(member1Id, member2Id) {
                             for (var i = 0; i < messages.length; i++) {
                                 displayMessage(messages[i], chatMessages);
                             }
+                            chatMessages.scrollTop = chatMessages.scrollHeight;
                         })
                     })
                     .catch(error => console.log('Error finding current interlocutor.', error));
@@ -143,13 +145,16 @@ function displayMessage(mes, chatBodyElement) {
     
     chatMessageSender.innerHTML += isSenderCurrentUser(mes) == true ? "You" : currentInterlocutor.firstName;
     chatMessageBody.innerHTML += mes.body;
-    chatMessageTime.innerHTML += mes.sent;
-
+    chatMessageTime.innerHTML += formatDateTime(mes.sent);
+    chatMessageTime.classList.add("chat-message-time"); 
     chatMessage.appendChild(chatMessageSender);
     chatMessage.appendChild(chatMessageBody);
     chatMessage.appendChild(chatMessageTime);
-  
+    var chatMessageClass = isSenderCurrentUser(mes) == true ? 'chat-message-you' : 'chat-message-intr';
+    chatMessage.classList.add(chatMessageClass); 
+
     chatBodyElement.appendChild(chatMessage);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
 function isSenderCurrentUser(message) {
@@ -168,4 +173,12 @@ function getCookie(name) {
 
 function decodeCookie(cookieValue) {
     return decodeURIComponent(cookieValue.replace(/\+/g, ' '));
+}
+
+function formatDateTime(dateTime) {
+    const date = new Date(dateTime);
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const formattedDateTime = `${hours}:${minutes}`;
+    return formattedDateTime;
 }

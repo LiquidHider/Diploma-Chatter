@@ -20,6 +20,56 @@ html {
   min-height: 100%;
 }
 
-body {
-  margin-bottom: 60px;
+.contact-btn {
+    background-color: aliceblue;
+    border: 1px solid black;
+    transition: all 0.5s ease;
+}
+
+    .contact-btn:hover, .element:hover * {
+        cursor: pointer;
+        background-color: dimgray;
+        color: white;
+    }
+
+
+.chat-message-time {
+    float:right;
+}
+.chat-message-intr > * {
+    color: white;
+}
+.chat-message-you {
+    background-color: gainsboro;
+    align-self: flex-end;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 300px;
+}
+
+.chat-message-intr {
+    background-color: dodgerblue;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    align-self: flex-start;
+    width: 300px;
+}
+.chatter-logo-center {
+    background-image: url('../img/bg/chatter-logo.png');
+    background-position: center;
+    opacity: 1;
+    background-repeat: no-repeat;
+    background-attachment: local;
+}
+
+.chat-message-list {
+    height: 84%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    margin-left: 7px;
+    padding: 15px;
+    margin-top: auto;
 }
