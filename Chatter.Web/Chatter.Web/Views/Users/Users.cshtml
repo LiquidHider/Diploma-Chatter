@@ -6,14 +6,14 @@
 }
 <div class="text-center">
     <h1>Users</h1>
-    <div>
+    <div class="all-users-list container ">
         @if (usersListWithoutCurrentUser.Count() > 0)
         {
             @foreach (var user in usersListWithoutCurrentUser)
             {
                 <div>
-                    <button onclick="openChatWithNewUser( '@user.ID' )">
-                        <img src="~/img/chat-user/usericon.jpg" width="5%" height="5%" />
+                    <button class="contact-btn" onclick="openChatWithNewUser( '@user.ID' )">
+                        <img class="rounded-circle" src="~/img/chat-user/usericon.jpg" width="5%" height="5%" />
                         @user.LastName @user.FirstName
                     </button>
                 </div>
@@ -21,14 +21,14 @@
         }
     </div>
 
-    <div id="pagination">
+    <div id="pagination" class="pagination">
 	    @for (int i = 1; i <= Model.PaginatedContactsList.TotalPages; i++)
 	    {
-	    	<button><a href="#" onclick="getPage(@i); return false;">@i</a></button>
+	    	<button onclick="getPage(@i); return false;"> @i</button>
 	    }
 	</div>
 
-    <button onclick="window.location.href='/Chat/'">Back</button>
+    <button class="btn btn-danger" onclick="window.location.href='/Chat/'">Back</button>
 </div>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>

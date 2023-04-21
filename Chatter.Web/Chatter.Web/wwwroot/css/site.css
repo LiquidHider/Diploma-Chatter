@@ -23,6 +23,7 @@ html {
 .contact-btn {
     background-color: aliceblue;
     border: 1px solid black;
+    width: 100%;
     transition: all 0.5s ease;
 }
 
@@ -72,4 +73,32 @@ html {
     margin-left: 7px;
     padding: 15px;
     margin-top: auto;
+}
+
+.all-users-list {
+    width: 100%;
+    justify-content: center;
+}
+
+
+.pagination {
+    justify-content: center;
+}
+
+
+    .pagination button {
+        border-radius: 50%;
+        background-color: royalblue;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        color: white;
+        font-weight: bold;
+        margin: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+.pagination button:hover {
+    background-color:blue; 
 }
