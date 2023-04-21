@@ -20,12 +20,14 @@ namespace Chatter.Security.API.Services
         public ServiceResult SendCongratulationsMessageToNewUser(string email)
         {
             var result = new ServiceResult();
+            string filePath = "EmailMessages/welcome.html";
+            string messageBody = File.ReadAllText(filePath);
             var messageModel = new SendEmailModel()
             {
                 To = email,
                 Subject = "Welcome to Chatter messenger!",
-                Body = "Welcome to chatter messenger!",
-                IsBodyHtml = false
+                Body = messageBody,
+                IsBodyHtml = true
             };
 
             SendMessageToEmailService(messageModel);
