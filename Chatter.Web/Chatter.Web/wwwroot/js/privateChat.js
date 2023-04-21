@@ -41,7 +41,7 @@ connection.on("NewMessg-" + currentUserId, function (mesgResult) {
 });
 
 connection.on("SentMessg-" + currentUserId, function (mesgResult) {
-    if (currentInterlocutorId = mesgResult.value.sender) {
+    if (currentInterlocutorId = mesgResult.value.recipientID) {
         var messageModel = {
             body: mesgResult.value.body,
             id: mesgResult.value.id,
@@ -73,21 +73,18 @@ window.onload = function () {
 
         var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
         window.history.replaceState(null, null, newUrl);
-        console.log(newContact);
         openPrivateChat(currentUserId, newContact);
     }
 };
 
 function sendMessage() {
-    console.log(chatMessageInput.value);
-    if (chatMessageInput.value.trim() != '') {
-        let message = {
-            SenderID: currentUserId,
-            RecipientID: currentInterlocutorId,
-            Body: chatMessageInput.value
-        };
-        connection.invoke("SendChatMessage", message);
-    }
+
+    let message = {
+        SenderID: currentUserId,
+        RecipientID: currentInterlocutorId,
+        Body: chatMessageInput.value
+    };
+    connection.invoke("SendChatMessage", message);
     chatMessageInput.value = "";
 }
 
@@ -111,7 +108,8 @@ function openPrivateChat(member1Id, member2Id) {
             clearPrivateChat();
             response.json().then(messages => {
                 currentInterlocutorId = member2Id;
-
+                console.log("currentinterlocutor changed");
+                console.log(currentInterlocutorId);
                 fetch(domainBaseUrl + 'user/?id=' + currentInterlocutorId, {
                     method: 'GET',
                     headers: {
