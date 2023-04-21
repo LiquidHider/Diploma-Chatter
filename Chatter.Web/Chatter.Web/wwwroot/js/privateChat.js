@@ -78,13 +78,15 @@ window.onload = function () {
 };
 
 function sendMessage() {
-
-    let message = {
-        SenderID: currentUserId,
-        RecipientID: currentInterlocutorId,
-        Body: chatMessageInput.value
-    };
-    connection.invoke("SendChatMessage", message);
+    const trimmedBody = chatMessageInput.value.toString().trim();
+    if (trimmedBody.length > 0) {
+        let message = {
+            SenderID: currentUserId,
+            RecipientID: currentInterlocutorId,
+            Body: chatMessageInput.value
+        };
+        connection.invoke("SendChatMessage", message);
+    }
     chatMessageInput.value = "";
 }
 
@@ -108,8 +110,6 @@ function openPrivateChat(member1Id, member2Id) {
             clearPrivateChat();
             response.json().then(messages => {
                 currentInterlocutorId = member2Id;
-                console.log("currentinterlocutor changed");
-                console.log(currentInterlocutorId);
                 fetch(domainBaseUrl + 'user/?id=' + currentInterlocutorId, {
                     method: 'GET',
                     headers: {
