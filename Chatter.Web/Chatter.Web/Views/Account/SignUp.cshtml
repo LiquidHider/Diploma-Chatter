@@ -3,14 +3,14 @@
     ViewData["Title"] = "Sign Up";
 }
 <div style="display: flex; justify-content: center;">
-    <div class="card" style="width: 400px">
+    <div class="container" style="width: 400px">
         <h1>Sign up</h1>
         <small>* - required field</small>
         <form type="submit" id="registrationForm" asp-action="SignIn">
             <div style="margin-bottom: 10px;">
                 <label for="UserTag">User Tag</label>
                 <div>
-                    <input class="form-control" id="userTagField" asp-for="UserTag" type="text" placeholder="User Tag" />
+                    <input class="form-control" id="userTagField" asp-for="UserTag" type="text" placeholder="User Tag" autocomplete="off" />
                 </div>
                <div>
                     <small class="text-danger" id="userTagFieldError"></small>
@@ -20,7 +20,7 @@
             <div style="margin-bottom: 10px;">
                 <label for="Email">Email*</label>
                 <div>
-                    <input class="form-control"  id="emailField" asp-for="Email" type="text" placeholder="Email" />
+                    <input class="form-control"  id="emailField" asp-for="Email" type="text" placeholder="Email" autocomplete="off"/>
                 </div>
                 <div>
                     <small class="text-danger" id="emailFieldError"></small>
@@ -30,7 +30,7 @@
             <div style="margin-bottom: 10px;">
                 <label for="LastName">Last name*</label>
                 <div>
-                    <input class="form-control" id="lastNameField" asp-for="LastName" type="text" placeholder="Last name" />
+                    <input class="form-control" id="lastNameField" asp-for="LastName" type="text" placeholder="Last name" autocomplete="off"/>
                 </div>
                 <div>
                     <small class="text-danger" id="lastNameFieldError"></small>
@@ -40,7 +40,7 @@
             <div style="margin-bottom: 10px;">
                 <label for="FirstName">First name*</label>
                 <div>
-                    <input class ="form-control" id="firstNameField" asp-for="FirstName" type="text" placeholder="First name" />
+                    <input class="form-control" id="firstNameField" asp-for="FirstName" type="text" placeholder="First name" autocomplete="off" />
                 </div>
                 <div>
                     <small class="text-danger" id="firstNameFieldError"></small>
@@ -50,7 +50,7 @@
             <div style="margin-bottom: 10px;">
                 <label for="Patronymic">Patronymic</label>
                 <div>
-                    <input class="form-control" id="patronymicField" asp-for="Patronymic" type="text" placeholder="Patronymic" />
+                    <input class="form-control" id="patronymicField" asp-for="Patronymic" type="text" placeholder="Patronymic" autocomplete="off" />
                 </div>
                 <div>
                     <small class="text-danger" id="patronymicFieldError"></small>
@@ -61,7 +61,7 @@
             <div style="margin-bottom: 10px;">
                 <label for="UniversityName">University name</label>
                 <div>
-                    <input class="form-control" id="universityNameField" asp-for="UniversityName" type="text" placeholder="Patronymic" />
+                    <input class="form-control" id="universityNameField" asp-for="UniversityName" type="text" placeholder="Patronymic" autocomplete="off" />
                 </div>
                 <div>
                     <small class="text-danger" id="universityNameFieldError"></small>
@@ -71,7 +71,7 @@
             <div style="margin-bottom: 10px;">
                 <label for="UniversityFaculty">University faculty</label>
                 <div>
-                    <input class="form-control" id="universityFacultyField" asp-for="UniversityFaculty" type="text" placeholder="Patronymic" />
+                    <input class="form-control" id="universityFacultyField" asp-for="UniversityFaculty" type="text" placeholder="Patronymic" autocomplete="off"/>
                 </div>
                 <div>
                     <small class="text-danger" id="universityFacultyFieldError"></small>
