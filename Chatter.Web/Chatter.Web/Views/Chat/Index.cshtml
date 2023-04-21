@@ -9,7 +9,7 @@
 
 <div class="row" style="flex:1; width: 100%; height:100%;">
     <div class="col-sm-4" style="height:100%; background-color:gainsboro; margin-left: 10px;">
-        <div class="mt-3 mb-5 contact-btn">
+        <div class="mt-3 mb-5 contact-btn" onclick="openUserInfo('@currentUserId');">
                 <img class="rounded-circle" src="~/img/chat-user/usericon.jpg" width="10%" height="10%" />
                  @Model.currentUser.LastName @Model.currentUser.FirstName
         </div>
@@ -40,8 +40,13 @@
        
         <div id="selectChatMessage" class="card" style="text-align: center; margin: auto;">Select a contact to start conversation.</div>
         <div id="chatBody"style="width:100%;">
-            <div  style="background-color:darkgray; padding:10px;">
-                <img class="rounded-circle" src="~/img/chat-user/usericon.jpg" width="5%" height="5%" />
+            <div style="background-color:darkgray; padding:10px;">
+                <img onclick="openCurrentInterlocutorInfo()" 
+                    class="rounded-circle" 
+                src="~/img/chat-user/usericon.jpg"
+                width="5%" height="5%"
+                     style=" cursor:pointer;" />
+
                 <label id="currentInterlocutor" style="color:aliceblue;">
                     current interlocutor
                 </label>
@@ -69,3 +74,4 @@
 <script src="~/signalr/dist/browser/signalr.min.js"></script>
 <script src="~/js/privatechat.js"></script>
 <script src="~/js/accountservice.js"></script>
+<script src="~/js/userinfo.js"></script>

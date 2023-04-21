@@ -1,0 +1,47 @@
+﻿@model UserInfoViewModel
+
+@{
+    var user = Model.User;
+}
+
+<div class="text-center" style="background-color:dimgray; padding:10px;">
+    <img class="rounded-circle"  src="~/img/chat-user/usericon.jpg" width="20%" height="20%" />
+    <h3 style="color:aliceblue;"> @user.LastName @user.FirstName </h3>
+    @if (!Model.IsCurrentUser)
+    {
+        <button class="btn btn-primary" onclick="openChatWithNewUser('@user.ID')">Send message</button>
+    }
+</div>
+<div class="container text-center shadow">
+    <div class="row">
+        <div class="col">
+            <div class="user-info-block">
+                <h3>Full name</h3>
+                @user.LastName @user.FirstName @user.Patronymic
+            </div>
+             
+        </div>
+        <div class="col">
+            @if (user.UniversityName != null)
+            {
+                <div class="user-info-block">
+                    <h3>University</h3>
+                    @user.UniversityName
+                </div>
+            }
+            @if (user.UniversityFaculty != null)
+            {
+                <div class="user-info-block">
+                    <h3>Faculty</h3>
+                @user.UniversityFaculty
+            </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+      function openChatWithNewUser(userId){
+        window.location.href = "/Chat?newContact=" + userId;
+    } 
+</script>

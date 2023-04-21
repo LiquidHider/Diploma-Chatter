@@ -12,7 +12,7 @@
             @foreach (var user in usersListWithoutCurrentUser)
             {
                 <div>
-                    <button class="contact-btn" onclick="openChatWithNewUser( '@user.ID' )">
+                    <button class="contact-btn" onclick="openUserInfo( '@user.ID' )">
                         <img class="rounded-circle" src="~/img/chat-user/usericon.jpg" width="5%" height="5%" />
                         @user.LastName @user.FirstName
                     </button>
@@ -35,8 +35,5 @@
     function getPage(pageNumber) {
         window.location.href = `/users/all?pagenumber=${pageNumber}&pagesize=${@Model.PaginatedContactsList.PageSize}`;
     }
-
-    function openChatWithNewUser(userId){
-        window.location.href = "/Chat?newContact=" + userId;
-    } 
 </script>
+<script src="~/js/userinfo.js"></script>

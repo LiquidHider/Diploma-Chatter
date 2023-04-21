@@ -11,11 +11,32 @@ namespace Chatter.Web.Controllers
     {
         private readonly IChatUserService _chatUserService;
         private const string usersListViewPath = "~/Views/Users/Users.cshtml";
+        private const string userInfoViewPath = "~/Views/Users/UserInfo.cshtml";
 
         public ContactsController(IChatUserService chatUserService)
         {
             _chatUserService = chatUserService;
         }
+        [Route("user")]
+        [HttpGet]
+        public async Task<IActionResult> OpenUserInfo([FromQuery]Guid id) {
+            var cookie = HttpContext.Request.Cookies["User"];
+            var currentUser = JsonConvert.DeserializeObject<SecurityUserResponse>(cookie);
+            var response = await _chatUserService.GetChatUser(id, currentUser.Token);
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var contentMapped = JsonConvert.DeserializeObject
+                 <ChatUser>(responseContent);
+
+            var viewModel = new UserInfoViewModel() 
+            {
+                User = contentMapped,
+                IsCurrentUser = currentUser.UserId == contentMapped.ID
+            };
+
+            return View(userInfoViewPath, viewModel);
+        }
+
 
         [Route("all")]
         [HttpGet]

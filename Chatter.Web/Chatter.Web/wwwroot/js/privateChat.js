@@ -1,8 +1,11 @@
-﻿const chatBody = document.getElementById("chatBody");
+﻿/// <reference path="userinfo.js" />
+
+const chatBody = document.getElementById("chatBody");
 
 const chatMessages = document.getElementById("chatMessages");
 const chatMessageInput = document.getElementById("messageInput");
 const currentInterlocutorLabel = document.getElementById("currentInterlocutor");
+const currentInterlocutorButton = document.getElementById("currentInterlocutorBtn");
 
 const selectChatMessage = document.getElementById("selectChatMessage");
 
@@ -25,7 +28,7 @@ var connection = new signalR.HubConnectionBuilder()
 
 
 connection.on("NewMessg-" + currentUserId, function (mesgResult) {
-    if (currentInterlocutorId = mesgResult.value.sender) {
+    if (currentInterlocutorId == mesgResult.value.sender) {
         var messageModel = {
             body: mesgResult.value.body,
             id: mesgResult.value.id,
@@ -36,12 +39,13 @@ connection.on("NewMessg-" + currentUserId, function (mesgResult) {
             sent: mesgResult.value.sent
         };
         displayMessage(messageModel, chatMessages);
+    } else {
+        sendNewMessageRecievedNotification(mesgResult.value.sender);
     }
-
 });
 
 connection.on("SentMessg-" + currentUserId, function (mesgResult) {
-    if (currentInterlocutorId = mesgResult.value.recipientID) {
+    if (currentInterlocutorId == mesgResult.value.recipientID) {
         var messageModel = {
             body: mesgResult.value.body,
             id: mesgResult.value.id,
@@ -76,6 +80,22 @@ window.onload = function () {
         openPrivateChat(currentUserId, newContact);
     }
 };
+
+function sendNewMessageRecievedNotification(userId) {
+    fetch(domainBaseUrl + 'user/?id=' + userId, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + userJwtToken
+        }
+    })
+        .then(response => {
+            response.json().then(user => {
+                alert(`${user.lastName} ${user.firstName} send you a message!`);
+            })
+        })
+        .catch(error => console.log('Error.', error));
+}
 
 function sendMessage() {
     const trimmedBody = chatMessageInput.value.toString().trim();
@@ -133,7 +153,9 @@ function openPrivateChat(member1Id, member2Id) {
         .catch(error => console.log('Error opening private chat.', error));
 }
 
-
+function openCurrentInterlocutorInfo() {
+    openUserInfo(currentInterlocutorId);
+}
 
 function displayMessage(mes, chatBodyElement) {
     var chatMessage = document.createElement("div");
