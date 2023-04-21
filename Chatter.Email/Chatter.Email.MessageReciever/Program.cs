@@ -6,45 +6,64 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
 using System.Text.Json;
+class Program {
+    static void Main() {
+        const string SenderFilename = @"..\..\..\..\Chatter.Email.MessageReciever\RabbitMQ.json";
 
-const string SenderFilename = @"..\..\..\..\Chatter.Email.MessageReciever\RabbitMQ.json";
+        IEmailService emailService = new SmtpEmailService();
 
-IEmailService emailService = new SmtpEmailService();
+        var rabbitMqInfo = JsonSerializer.Deserialize<RabbitMQInfo>(File.ReadAllText(SenderFilename));
 
-var rabbitMqInfo = JsonSerializer.Deserialize<RabbitMQInfo>(File.ReadAllText(SenderFilename));
+        ConnectionFactory factory = new();
 
-ConnectionFactory factory = new();
+        factory.Uri = new Uri(rabbitMqInfo.Uri);
+        factory.ClientProvidedName = rabbitMqInfo.ClientProvidedName;
 
-factory.Uri = new Uri(rabbitMqInfo.Uri);
-factory.ClientProvidedName = rabbitMqInfo.ClientProvidedName;
+        IConnection connection = factory.CreateConnection();
+        IModel channel = connection.CreateModel();
 
-IConnection connection = factory.CreateConnection();
-IModel channel = connection.CreateModel();
+        channel.ExchangeDeclare(rabbitMqInfo.ExchangeName, ExchangeType.Direct, false, false, null);
+        channel.QueueDeclare(rabbitMqInfo.QueueName, false, false, false, null);
+        channel.QueueBind(rabbitMqInfo.QueueName, rabbitMqInfo.ExchangeName, rabbitMqInfo.RoutingKey, null);
+        channel.BasicQos(0, 1, false);
 
-channel.ExchangeDeclare(rabbitMqInfo.ExchangeName, ExchangeType.Direct);
-channel.QueueDeclare(rabbitMqInfo.QueueName, false, false, false);
-channel.QueueBind(rabbitMqInfo.QueueName, rabbitMqInfo.ExchangeName, rabbitMqInfo.RoutingKey, null);
-channel.BasicQos(0, 1, false);
+        var consumer = new EventingBasicConsumer(channel);
 
-var consumer = new EventingBasicConsumer(channel);
+        Console.WriteLine("Ready.");
 
-Console.WriteLine("Ready.");
+        consumer.Received += (sender, args) =>
+        {
+            var body = args.Body.ToArray();
 
-consumer.Received += (sender, args) => 
-{
-    var body = args.Body.ToArray();
+            var messageModel = JsonSerializer.Deserialize<EmailMessageModel>(Encoding.UTF8.GetString(body));
 
-    var messageModel = JsonSerializer.Deserialize<EmailMessageModel>(Encoding.UTF8.GetString(body));
+            emailService.SendEmail(messageModel);
+            Console.WriteLine("Message sent. Message: {0}", messageModel.Body);
+            channel.BasicAck(args.DeliveryTag, false);
+        };
 
-    emailService.SendEmail(messageModel);
+    cancel:
+        string consumerTag = channel.BasicConsume(rabbitMqInfo.QueueName, false, consumer);
+        Console.ReadLine();
 
-    channel.BasicAck(args.DeliveryTag, false);
-};
+    askagain:
+        Console.Write("Shut down component? (y/n)");
+        var input = Console.ReadLine();
 
-Console.ReadLine();
+        if (input.ToLower() == "n")
+        {
+            goto cancel;
+        }
 
-string consumerTag = channel.BasicConsume(rabbitMqInfo.QueueName, false, consumer);
+        if (input.ToLower() != "y")
+        {
+            goto askagain;
+        }
 
-channel.Close();
+       
 
-connection.Close();
+        channel.Close();
+
+        connection.Close();
+    }
+}
