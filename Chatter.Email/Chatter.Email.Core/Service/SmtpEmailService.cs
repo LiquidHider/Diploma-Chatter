@@ -12,9 +12,9 @@ namespace Chatter.Email.Core.Service
     {
         private readonly Sender _sender;
 
-        public SmtpEmailService()
+        public SmtpEmailService(Sender sender)
         {
-            _sender = GetSender();
+            _sender = sender;
         }
 
         public ServiceResult SendEmail(EmailMessageModel model)
@@ -49,13 +49,6 @@ namespace Chatter.Email.Core.Service
             }
 
             return result;
-        }
-        public Sender GetSender()
-        {
-            const string SenderFilename = @"..\..\..\..\Chatter.Email.Core\Sender.json";
-
-            var json = File.ReadAllText(SenderFilename);
-            return JsonSerializer.Deserialize<Sender>(json);
         }
     }
 }

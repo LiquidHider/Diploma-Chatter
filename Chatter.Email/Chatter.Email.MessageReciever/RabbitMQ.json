@@ -1,7 +1,0 @@
-{
-  "Uri": "amqp://guest:guest@localhost:8081/",
-  "ClientProvidedName": "Chatter Email Service Reciever",
-  "ExchangeName" : "ChatterExchange",
-  "RoutingKey": "email",
-  "QueueName" : "EmailServiceQueue"
-}
