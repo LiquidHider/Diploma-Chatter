@@ -22,6 +22,7 @@ services:
     ports:
      - "8080:15672"
      - "8081:5672"
+
    chatter-domain:
     build: 'Chatter.Domain'
     container_name: 'chatter-domain'
@@ -30,6 +31,10 @@ services:
    chatter-email:
     build: 'Chatter.Email'
     container_name: 'chatter-email'
+    tty: true
+    stdin_open: true
+    restart: on-failure
     depends_on:
-     - "chatter-rabbitmq"
+      - chatter-rabbitmq
+
   

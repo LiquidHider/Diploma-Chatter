@@ -77,28 +77,8 @@ class Program {
             channel.BasicAck(args.DeliveryTag, false);
         };
 
-    cancel:
         string consumerTag = channel.BasicConsume(rabbitMqInfoModel.QueueName, false, consumer);
+
         Console.ReadLine();
-
-    askagain:
-        Console.Write("Shut down component? (y/n)");
-        var input = Console.ReadLine();
-
-        if (input.ToLower() == "n")
-        {
-            goto cancel;
-        }
-
-        if (input.ToLower() != "y")
-        {
-            goto askagain;
-        }
-
-       
-
-        channel.Close();
-
-        connection.Close();
     }
 }

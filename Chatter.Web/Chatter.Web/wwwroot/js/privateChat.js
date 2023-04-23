@@ -11,7 +11,7 @@ const selectChatMessage = document.getElementById("selectChatMessage");
 
 const parsedCookie = JSON.parse(decodeCookie(getCookie("User")));
 
-const domainBaseUrl = 'https://localhost:7258/';
+const domainBaseUrl = 'http://localhost:8082/';
 
 const currentUserId = parsedCookie.userID;
 
