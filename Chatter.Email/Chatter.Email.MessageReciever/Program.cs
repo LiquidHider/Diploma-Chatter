@@ -22,12 +22,16 @@ class Program {
 
         var rabbitMqInfoModel = new RabbitMQInfo() 
         { 
-            Uri = ClientConfig.GetSection("Uri").Value,
+            HostName = ClientConfig.GetSection("HostName").Value,
+            Port = int.Parse(ClientConfig.GetSection("Port").Value),
+            UserName = ClientConfig.GetSection("UserName").Value,
+            Password = ClientConfig.GetSection("Password").Value,
             ClientProvidedName = ClientConfig.GetSection("ClientProvidedName").Value,
             ExchangeName = ClientConfig.GetSection("ExchangeName").Value,
             RoutingKey = ClientConfig.GetSection("RoutingKey").Value,
             QueueName = ClientConfig.GetSection("QueueName").Value
         };
+
         var senderModel = new Sender()
         {
             SmtpAddress = SenderConfig.GetSection("SmtpAddress").Value,
@@ -41,9 +45,13 @@ class Program {
 
         IEmailService emailService = new SmtpEmailService(senderModel);
 
-        ConnectionFactory factory = new();
+        ConnectionFactory factory = new() { 
+            HostName = rabbitMqInfoModel.HostName,
+            Port = rabbitMqInfoModel.Port,
+            UserName = rabbitMqInfoModel.UserName,
+            Password = rabbitMqInfoModel.Password
+        };
 
-        factory.Uri = new Uri(rabbitMqInfoModel.Uri);
         factory.ClientProvidedName = rabbitMqInfoModel.ClientProvidedName;
 
         IConnection connection = factory.CreateConnection();

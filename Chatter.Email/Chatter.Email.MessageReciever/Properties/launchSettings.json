@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Chatter.Email.MessageReciever": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

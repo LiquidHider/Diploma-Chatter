@@ -52,7 +52,7 @@ namespace Chatter.Security.API.Controllers
                 return MapErrorResponse(result);
             }
 
-            _emailService.SendCongratulationsMessageToNewUser(requestModel.Email);
+            //_emailService.SendCongratulationsMessageToNewUser(requestModel.Email);
 
             return Ok(result.Value);
         }

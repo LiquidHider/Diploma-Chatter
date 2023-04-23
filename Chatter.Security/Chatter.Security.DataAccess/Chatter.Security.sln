@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chatter.Security.Core", "Ch
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chatter.Security.Tests.UnitTests", "Chatter.Security.Tests.UnitTests\Chatter.Security.Tests.UnitTests.csproj", "{EAE5B417-74BD-433C-B542-16B11BADAA93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chatter.Security.API", "Chatter.Security.API\Chatter.Security.API.csproj", "{2631C7D5-A198-40FA-A4F3-EABA768C9CAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chatter.Security.API", "Chatter.Security.API\Chatter.Security.API.csproj", "{2631C7D5-A198-40FA-A4F3-EABA768C9CAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
