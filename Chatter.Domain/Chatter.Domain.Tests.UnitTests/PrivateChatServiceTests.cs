@@ -278,7 +278,7 @@ namespace Chatter.Domain.Tests.UnitTests
 
             //Assert
             actual.IsSuccessful.Should().BeFalse();
-            actual.Value.Should().Be(Guid.Empty);
+            actual.Value.Should().BeNull();
             actual.Error.Type.Should().Be(ErrorType.BusinessError);
         }
 

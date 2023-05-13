@@ -25,7 +25,7 @@ namespace Chatter.Security.Tests.UnitTests
 
             _loggerMock = new Mock<ILogger<TokenService>>();
             _configurationMock = new Mock<IConfiguration>();
-            _configurationMock.Setup(x => x["TokenKey"]).Returns(_fixture.Create<string>());
+            _configurationMock.Setup(x => x["JwtTokenKey"]).Returns(_fixture.Create<string>());
             _identityServiceMock = new Mock<IIdentityService>();
 
             _tokenService = new TokenService(_identityServiceMock.Object, _configurationMock.Object,  _loggerMock.Object);
