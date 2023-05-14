@@ -1,6 +1,6 @@
-| Назва | Месенджер "Chatter" |
+| Назва | Месенджер для спілкування студентів вищого навчального закладу |
 |-------|-------|
-| Інші назви| Messenger "Chatter" |
+| Інші назви| Messenger for communication of students of a higher educational institution |
 | Автори | Сєлємєтов Д.Д. <br> Selemetov D. |
 | Ключові слова | месенджер, asp.net, c#, мікро-сервісна архітектура, rest api, docker, ms sql, асинхроний обмін повідомленнями |
 | Дата публікації | 2023 |
